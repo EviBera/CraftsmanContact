@@ -1,0 +1,6 @@
+@CraftsmanContact_HostAddress = http://localhost:5213
+
+GET {{CraftsmanContact_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
