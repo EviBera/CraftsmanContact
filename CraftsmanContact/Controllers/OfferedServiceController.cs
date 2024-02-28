@@ -33,4 +33,20 @@ public class OfferedServiceController : ControllerBase
             return NotFound($"Error getting offered services, {e.Message}");
         }
     }
+    
+    //POST
+    [HttpPost]
+    public async Task<ActionResult> RegisterNewOfferedServiceAsync([FromBody]OfferedService service)
+    {
+        try
+        {
+            await _offeredServiceRepository.RegisterAsync(service);
+            return Ok();
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "Error registering the offered service.");
+            return BadRequest($"Error registering the offered service, {e.Message}");
+        }
+    }
 }
