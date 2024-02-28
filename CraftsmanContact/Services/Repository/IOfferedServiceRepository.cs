@@ -4,5 +4,5 @@ namespace CraftsmanContact.Services;
 
 public interface IOfferedServiceRepository
 {
-    IEnumerable<OfferedService> GetAll();
+    Task<IEnumerable<OfferedService>> GetAllAsync();
 }

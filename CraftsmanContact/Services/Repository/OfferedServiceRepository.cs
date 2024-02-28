@@ -1,5 +1,6 @@
 using CraftsmanContact.Data;
 using CraftsmanContact.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace CraftsmanContact.Services;
 
@@ -11,8 +12,9 @@ public class OfferedServiceRepository : IOfferedServiceRepository
     {
         _dbContext = dbContext;
     }
-    public IEnumerable<OfferedService> GetAll()
+    public async Task<IEnumerable<OfferedService>> GetAllAsync()
     {
-        return _dbContext.OfferedServices.ToList();
+        var services = await _dbContext.OfferedServices.ToListAsync();
+        return services;
     }
 }

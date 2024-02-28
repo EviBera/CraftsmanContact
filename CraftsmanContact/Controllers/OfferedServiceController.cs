@@ -23,7 +23,7 @@ public class OfferedServiceController : ControllerBase
     {
         try
         {
-            var offeredServices = _offeredServiceRepository.GetAll();
+            var offeredServices = await _offeredServiceRepository.GetAllAsync();
             return Ok(offeredServices);
 
         }
