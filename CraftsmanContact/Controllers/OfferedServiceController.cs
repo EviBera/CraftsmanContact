@@ -54,7 +54,7 @@ public class OfferedServiceController : ControllerBase
         }
         catch (Exception e)
         {
-            _logger.LogError(e, "Error getting offered service id: {id}.");
+            _logger.LogError(e, "Error getting offered service id: " + id);
             return StatusCode(500, $"Error getting offered service, {e.Message}");
         }
     }
@@ -86,8 +86,24 @@ public class OfferedServiceController : ControllerBase
         }
         catch (Exception e)
         {
-            _logger.LogError(e, "Error updating the offered service.");
+            _logger.LogError(e, "Error updating the offered service id: " + id );
             return BadRequest($"Error updating the offered service, {e.Message}");
+        }
+    }
+    
+    //DELETE
+    [HttpDelete("Delete/{id}")]
+    public async Task<ActionResult> DeleteOfferedService([Required] int id)
+    {
+        try
+        {
+            await _offeredServiceRepository.DeleteAsync(id);
+            return Ok("Service deleted successfully");
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "Error deleting the offered service id: " + id);
+            return BadRequest($"Error deleting the offered service, {e.Message}");
         }
     }
 }

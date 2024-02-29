@@ -55,4 +55,19 @@ public class OfferedServiceRepository : IOfferedServiceRepository
         }
         
     }
+
+    public async Task DeleteAsync(int id)
+    {
+        var serviceToDelete = await _dbContext.OfferedServices.FindAsync(id);
+        
+        if (serviceToDelete == null)
+        {
+            throw new ArgumentException("Invalid Id");
+        }
+        else
+        {
+            await _dbContext.OfferedServices.Where(item => item.Id == id).ExecuteDeleteAsync();
+        }
+    }
+    
 }

@@ -8,4 +8,5 @@ public interface IOfferedServiceRepository
     Task RegisterAsync(OfferedService offeredService);
     Task<OfferedService?> GetByIdAsync(int id);
     Task UpdateAsync(int id, string? newName, string? newDescription);
+    Task DeleteAsync(int id);
 }
