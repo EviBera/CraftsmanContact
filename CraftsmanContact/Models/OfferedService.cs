@@ -1,17 +1,24 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace CraftsmanContact.Models;
 
 public class OfferedService
 {
-    private static uint _id;
-    public uint Id { get; init; }
-    public string Name { get; init; }
+    [Key]
+    public int Id { get; set; }
+    public string Name { get; set; }
     public string? Description { get; set; }
 
-    
+
+    public OfferedService()
+    {
+        
+    }
+    /*
     public OfferedService(string name, string description)
     {
-        Id = _id++;
         Name = name;
         Description = description;
     }
+*/
 }
