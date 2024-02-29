@@ -1,10 +1,8 @@
 using CraftsmanContact.Data;
 using CraftsmanContact.Models;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace CraftsmanContact.Services;
+namespace CraftsmanContact.Services.Repository;
 
 public class OfferedServiceRepository : IOfferedServiceRepository
 {
@@ -14,6 +12,7 @@ public class OfferedServiceRepository : IOfferedServiceRepository
     {
         _dbContext = dbContext;
     }
+    
     public async Task<IEnumerable<OfferedService>> GetAllAsync()
     {
         var services = await _dbContext.OfferedServices.ToListAsync();
@@ -24,5 +23,11 @@ public class OfferedServiceRepository : IOfferedServiceRepository
     {
         await _dbContext.AddAsync(offeredService);
         await _dbContext.SaveChangesAsync();
+    }
+
+    public async Task<OfferedService?> GetByIdAsync(int id)
+    {
+        var service = await _dbContext.OfferedServices.FindAsync(id);
+        return service;
     }
 }

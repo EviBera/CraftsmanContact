@@ -1,5 +1,7 @@
+using System.ComponentModel.DataAnnotations;
 using CraftsmanContact.Models;
 using CraftsmanContact.Services;
+using CraftsmanContact.Services.Repository;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CraftsmanContact.Controllers;
@@ -18,7 +20,7 @@ public class OfferedServiceController : ControllerBase
     }
     
     // GET
-    [HttpGet]
+    [HttpGet("Get")]
     public async Task<ActionResult<List<OfferedService>>> GetAllAsync()
     {
         try
@@ -33,9 +35,32 @@ public class OfferedServiceController : ControllerBase
             return NotFound($"Error getting offered services, {e.Message}");
         }
     }
+
+    [HttpGet("GetById/{id}")]
+    public async Task<ActionResult<OfferedService>> GetByIdAsync([Required]int id)
+    {
+        try
+        {
+            var offeredService = await _offeredServiceRepository.GetByIdAsync(id);
+            if (offeredService != null)
+            {
+                return Ok(offeredService);
+            }
+            else
+            {
+                return NotFound($"The searched offered service does not exist.");
+            }
+            
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "Error getting offered service id: {id}.");
+            return StatusCode(500, $"Error getting offered service, {e.Message}");
+        }
+    }
     
     //POST
-    [HttpPost]
+    [HttpPost("Post")]
     public async Task<ActionResult> RegisterNewOfferedServiceAsync([FromBody]OfferedService service)
     {
         try
