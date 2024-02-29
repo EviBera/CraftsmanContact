@@ -66,12 +66,28 @@ public class OfferedServiceController : ControllerBase
         try
         {
             await _offeredServiceRepository.RegisterAsync(service);
-            return Ok();
+            return Ok("New service registered successfully.");
         }
         catch (Exception e)
         {
             _logger.LogError(e, "Error registering the offered service.");
             return BadRequest($"Error registering the offered service, {e.Message}");
+        }
+    }
+    
+    //UPDATE
+    [HttpPatch("Update/{id}")]
+    public async Task<ActionResult> UpdateOfferedServiceAsync([Required]int id, string? newName, string? newDescription)
+    {
+        try
+        {
+            await _offeredServiceRepository.UpdateAsync(id, newName, newDescription);
+            return Ok("Service updated successfully.");
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "Error updating the offered service.");
+            return BadRequest($"Error updating the offered service, {e.Message}");
         }
     }
 }

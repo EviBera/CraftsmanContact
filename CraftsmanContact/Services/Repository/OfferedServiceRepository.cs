@@ -30,4 +30,29 @@ public class OfferedServiceRepository : IOfferedServiceRepository
         var service = await _dbContext.OfferedServices.FindAsync(id);
         return service;
     }
+
+    public async Task UpdateAsync(int id, string? newName, string? newDescription)
+    {
+        var serviceToUpdate = await _dbContext.OfferedServices.FindAsync(id);
+        
+        if (serviceToUpdate != null)
+        {
+            if (newName != null)
+            {
+                serviceToUpdate.Name = newName;
+            }
+    
+            if (newDescription != null)
+            {
+                serviceToUpdate.Description = newDescription;
+            }
+
+            await _dbContext.SaveChangesAsync();
+        }
+        else
+        {
+            throw new ArgumentException("Invalid Id");
+        }
+        
+    }
 }
