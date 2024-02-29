@@ -1,5 +1,6 @@
 using CraftsmanContact.Data;
 using CraftsmanContact.Services;
+using CraftsmanContact.Services.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
