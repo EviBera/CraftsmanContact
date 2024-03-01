@@ -1,4 +1,4 @@
-## Craftman Contact
+## Craftsman Contact
 
 #### Pet project
 
