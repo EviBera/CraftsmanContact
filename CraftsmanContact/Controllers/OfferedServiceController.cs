@@ -1,6 +1,5 @@
 using System.ComponentModel.DataAnnotations;
 using CraftsmanContact.Models;
-using CraftsmanContact.Services;
 using CraftsmanContact.Services.Repository;
 using Microsoft.AspNetCore.Mvc;
 
