@@ -1,6 +1,7 @@
 using CraftsmanContact.Data;
-using CraftsmanContact.Services;
+using CraftsmanContact.Models;
 using CraftsmanContact.Services.Repository;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,7 +11,15 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
 builder.Services.AddSingleton<IOfferedServiceRepository, OfferedServiceRepository>();
-builder.Services.AddSingleton<OfferedServiceContext, OfferedServiceContext>();
+builder.Services.AddSingleton<CraftsmanContactContext, CraftsmanContactContext>();
+
+builder.Services.AddAuthentication(IdentityConstants.ApplicationScheme)
+    .AddIdentityCookies();
+builder.Services.AddAuthorizationBuilder();
+builder.Services.AddDbContext<UsersContext>();
+builder.Services.AddIdentityCore<AppUser>()
+    .AddEntityFrameworkStores<UsersContext>()
+    .AddApiEndpoints();
 
 var app = builder.Build();
 
@@ -24,5 +33,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();   
+
+app.MapIdentityApi<AppUser>();
 
 app.Run();
