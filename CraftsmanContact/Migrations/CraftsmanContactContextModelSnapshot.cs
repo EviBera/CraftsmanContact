@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CraftsmanContact.Migrations
 {
-    [DbContext(typeof(OfferedServiceContext))]
-    partial class OfferedServiceContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(CraftsmanContactContext))]
+    partial class CraftsmanContactContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {

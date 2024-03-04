@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CraftsmanContact.Migrations
 {
-    [DbContext(typeof(OfferedServiceContext))]
-    [Migration("20240229091251_InitialCreate")]
+    [DbContext(typeof(CraftsmanContactContext))]
+    [Migration("20240304144815_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
