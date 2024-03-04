@@ -6,9 +6,9 @@ namespace CraftsmanContact.Services.Repository;
 
 public class OfferedServiceRepository : IOfferedServiceRepository
 {
-    private readonly OfferedServiceContext _dbContext;
+    private readonly CraftsmanContactContext _dbContext;
 
-    public OfferedServiceRepository(OfferedServiceContext dbContext)
+    public OfferedServiceRepository(CraftsmanContactContext dbContext)
     {
         _dbContext = dbContext;
     }

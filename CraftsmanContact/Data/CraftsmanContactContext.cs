@@ -3,12 +3,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CraftsmanContact.Data;
 
-public class OfferedServiceContext : DbContext
+public class CraftsmanContactContext : DbContext
 {
     public DbSet<OfferedService> OfferedServices { get; set; }
     private readonly IConfiguration _configuration;
 
-    public OfferedServiceContext(IConfiguration configuration)
+    public CraftsmanContactContext(IConfiguration configuration)
     {
         _configuration = configuration;
     }
