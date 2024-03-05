@@ -13,13 +13,11 @@ builder.Services.AddControllers();
 builder.Services.AddSingleton<IOfferedServiceRepository, OfferedServiceRepository>();
 builder.Services.AddSingleton<CraftsmanContactContext, CraftsmanContactContext>();
 
-builder.Services.AddAuthentication(IdentityConstants.ApplicationScheme)
-    .AddIdentityCookies();
-builder.Services.AddAuthorizationBuilder();
+//builder.Services.AddAuthentication(IdentityConstants.ApplicationScheme).AddIdentityCookies();
+//builder.Services.AddAuthorizationBuilder();
 builder.Services.AddDbContext<UsersContext>();
-builder.Services.AddIdentityCore<AppUser>()
-    .AddEntityFrameworkStores<UsersContext>()
-    .AddApiEndpoints();
+builder.Services.AddIdentityApiEndpoints<AppUser>()
+    .AddEntityFrameworkStores<UsersContext>();
 
 var app = builder.Build();
 
@@ -34,6 +32,6 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();   
 
-app.MapIdentityApi<AppUser>();
+app.MapGroup("/identity").MapIdentityApi<AppUser>();
 
 app.Run();
