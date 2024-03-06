@@ -1,10 +1,13 @@
+using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Identity;
 
 namespace CraftsmanContact.Models;
 
 public class AppUser : IdentityUser
 {
+        [StringLength(50), Required]
         public string FirstName { get; set; }
+        [StringLength(50), Required]
         public string LastName { get; set; }
         
         //Navigation property for the offered services
