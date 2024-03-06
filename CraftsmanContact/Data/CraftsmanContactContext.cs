@@ -6,6 +6,7 @@ namespace CraftsmanContact.Data;
 public class CraftsmanContactContext : DbContext
 {
     public DbSet<OfferedService> OfferedServices { get; set; }
+    public DbSet<Deal> Deals { get; set; }
     private readonly IConfiguration _configuration;
 
     public CraftsmanContactContext(IConfiguration configuration)
