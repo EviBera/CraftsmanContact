@@ -36,7 +36,7 @@ public class OfferedServiceController : ControllerBase
     }
 
     [HttpGet("GetById/{id}")]
-    public async Task<ActionResult<OfferedService>> GetByIdAsync([Required]int id)
+    public async Task<ActionResult<OfferedService>> GetByIdAsync([Required, FromRoute]int id)
     {
         try
         {
@@ -76,7 +76,7 @@ public class OfferedServiceController : ControllerBase
     
     //UPDATE
     [HttpPatch("Update/{id}")]
-    public async Task<ActionResult> UpdateOfferedServiceAsync([Required]int id, string? newName, string? newDescription)
+    public async Task<ActionResult> UpdateOfferedServiceAsync(string? newName, string? newDescription, [Required, FromRoute]int id)
     {
         try
         {
@@ -92,7 +92,7 @@ public class OfferedServiceController : ControllerBase
     
     //DELETE
     [HttpDelete("Delete/{id}")]
-    public async Task<ActionResult> DeleteOfferedService([Required] int id)
+    public async Task<ActionResult> DeleteOfferedService([Required, FromRoute] int id)
     {
         try
         {

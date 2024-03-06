@@ -21,7 +21,7 @@ public class OfferedServiceRepository : IOfferedServiceRepository
 
     public async Task RegisterAsync(OfferedService offeredService)
     {
-        await _dbContext.AddAsync(offeredService);
+        await _dbContext.OfferedServices.AddAsync(offeredService);
         await _dbContext.SaveChangesAsync();
     }
 

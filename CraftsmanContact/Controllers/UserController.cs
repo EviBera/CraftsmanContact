@@ -35,7 +35,6 @@ public class UserController : ControllerBase
             if (!result.Succeeded)
             {
                 return BadRequest(result);
-                
             }
 
             return Ok("Successful registration");
@@ -43,7 +42,7 @@ public class UserController : ControllerBase
         }
         catch (Exception e)
         {
-            return StatusCode(500, $"Registration failed, {e.Message}");
+            return StatusCode(500, $"Something went wrong., {e.Message}");
         }
     }
 
