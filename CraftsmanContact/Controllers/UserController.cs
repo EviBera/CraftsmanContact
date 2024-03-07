@@ -10,14 +10,16 @@ public class UserController : ControllerBase
 {
     private readonly UserManager<AppUser> _userManager;
     private readonly SignInManager<AppUser> _signInManager;
+    private readonly ILogger<UserController> _logger;
 
-    public UserController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
+    public UserController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, ILogger<UserController> logger)
     {
         _userManager = userManager;
         _signInManager = signInManager;
+        _logger = logger;
     }
 
-    [HttpPost("register")]
+    [HttpPost("Register")]
     public async Task<IActionResult> RegisterAsync(RegisterModel model)
     {
         try
@@ -42,7 +44,30 @@ public class UserController : ControllerBase
         }
         catch (Exception e)
         {
+            _logger.LogError(e, "Registering new user has failed.");
             return StatusCode(500, $"Something went wrong., {e.Message}");
+        }
+    }
+
+    [HttpDelete("Delete/{userId}")]
+    public async Task<ActionResult> DeleteUser([FromRoute] string userId)
+    {
+        try
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+
+            if (user == null)
+            {
+                return BadRequest("This user does not exist.");
+            }
+            
+            await _userManager.DeleteAsync(user);
+            return Ok("User deleted successfully.");
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, $"Error deleting user with id {userId}");
+            return StatusCode(500, "Something went wrong.");
         }
     }
 
