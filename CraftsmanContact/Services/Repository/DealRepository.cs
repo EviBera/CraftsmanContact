@@ -39,7 +39,7 @@ public class DealRepository : IDealRepository
         return dealsAsClient.Concat(dealsAsCraftsman);
     }
 
-    public async Task<Deal> GetDealById(int dealId)
+    public async Task<Deal> GetDealByIdAsync(int dealId)
     {
         var deal = await _dbContext.Deals.FindAsync(dealId);
         return deal;

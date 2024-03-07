@@ -39,7 +39,7 @@ public class UserController : ControllerBase
                 return BadRequest(result);
             }
 
-            return Ok("Successful registration");
+            return Created();
 
         }
         catch (Exception e)
@@ -99,7 +99,7 @@ public class UserController : ControllerBase
     }
 
     [HttpGet("GetById/{userId}")]
-    public async Task<ActionResult<AppUser?>> GetUserById([FromRoute] string userId)
+    public async Task<ActionResult<AppUser?>> GetUserByIdAsync([FromRoute] string userId)
     {
         try
         {

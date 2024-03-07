@@ -18,7 +18,7 @@ public class OfferedServiceController : ControllerBase
         _offeredServiceRepository = osr;
     }
     
-    // GET
+    
     [HttpGet("Get")]
     public async Task<ActionResult<List<OfferedService>>> GetAllAsync()
     {
@@ -58,14 +58,13 @@ public class OfferedServiceController : ControllerBase
         }
     }
     
-    //POST
     [HttpPost("Post")]
     public async Task<ActionResult> RegisterNewOfferedServiceAsync([FromBody]OfferedService service)
     {
         try
         {
             await _offeredServiceRepository.RegisterAsync(service);
-            return Ok("New service registered successfully.");
+            return Created();
         }
         catch (Exception e)
         {
@@ -74,7 +73,6 @@ public class OfferedServiceController : ControllerBase
         }
     }
     
-    //UPDATE
     [HttpPatch("Update/{id}")]
     public async Task<ActionResult> UpdateOfferedServiceAsync(string? newName, string? newDescription, [Required, FromRoute]int id)
     {
@@ -90,9 +88,8 @@ public class OfferedServiceController : ControllerBase
         }
     }
     
-    //DELETE
     [HttpDelete("Delete/{id}")]
-    public async Task<ActionResult> DeleteOfferedService([Required, FromRoute] int id)
+    public async Task<ActionResult> DeleteOfferedServiceAsync([Required, FromRoute] int id)
     {
         try
         {

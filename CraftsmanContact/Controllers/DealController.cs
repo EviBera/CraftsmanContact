@@ -45,7 +45,7 @@ public class DealController : ControllerBase
     {
         try
         {
-            var deal = await _dealRepository.GetDealById(dealId);
+            var deal = await _dealRepository.GetDealByIdAsync(dealId);
             if (deal == null)
             {
                 return NotFound("Deal does not exist.");
@@ -65,7 +65,7 @@ public class DealController : ControllerBase
         try
         {
             await _dealRepository.CreateDealAsync(deal);
-            return Ok("New deal is created.");
+            return Created();
         }
         catch (Exception e)
         {
