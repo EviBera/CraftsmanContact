@@ -1,3 +1,4 @@
+using System.Data;
 using CraftsmanContact.Models;
 using CraftsmanContact.Services.Repository;
 using Microsoft.AspNetCore.Mvc;
@@ -30,6 +31,12 @@ public class DealController : ControllerBase
         catch (Exception e)
         {
             _logger.LogError(e, $"Error getting deals for user {userId}.");
+
+            if (e is RowNotInTableException)
+            {
+                return BadRequest($"Invalid user Id.");
+            }
+            
             return NotFound($"Error getting deals, {e.Message}");
         }
     }

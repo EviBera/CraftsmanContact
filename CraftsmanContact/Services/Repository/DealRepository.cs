@@ -1,6 +1,8 @@
 using System.Collections.Immutable;
+using System.Data;
 using CraftsmanContact.Data;
 using CraftsmanContact.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace CraftsmanContact.Services.Repository;
@@ -8,10 +10,12 @@ namespace CraftsmanContact.Services.Repository;
 public class DealRepository : IDealRepository
 {
     private readonly CraftsmanContactContext _dbContext;
+    private readonly UserManager<AppUser> _userManager;
 
-    public DealRepository(CraftsmanContactContext dbContext)
+    public DealRepository(CraftsmanContactContext dbContext, UserManager<AppUser> userManager)
     {
         _dbContext = dbContext;
+        _userManager = userManager;
     }
     
     public async Task CreateDealAsync(Deal deal)
@@ -22,6 +26,13 @@ public class DealRepository : IDealRepository
 
     public async Task<IEnumerable<Deal>> GetDealsByUserAsync(string userId)
     {
+        var user = await _userManager.FindByIdAsync(userId);
+
+        if (user == null)
+        {
+            throw new RowNotInTableException("This user does not exist.");
+        }
+        
         var dealsAsClient = await _dbContext.Deals.Where(d => d.ClientId == userId).ToListAsync();
         var dealsAsCraftsman = await _dbContext.Deals.Where(d => d.CraftsmanId == userId).ToListAsync();
         

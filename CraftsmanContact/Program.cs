@@ -11,7 +11,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
 builder.Services.AddSingleton<IOfferedServiceRepository, OfferedServiceRepository>();
-builder.Services.AddSingleton<IDealRepository, DealRepository>();
+builder.Services.AddScoped<IDealRepository, DealRepository>();  
 builder.Services.AddSingleton<CraftsmanContactContext, CraftsmanContactContext>();
 
 //builder.Services.AddAuthentication(IdentityConstants.ApplicationScheme).AddIdentityCookies();
