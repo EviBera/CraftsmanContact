@@ -50,7 +50,7 @@ public class UserController : ControllerBase
     }
 
     [HttpDelete("Delete/{userId}")]
-    public async Task<ActionResult> DeleteUser([FromRoute] string userId)
+    public async Task<ActionResult> DeleteUserAsync([FromRoute] string userId)
     {
         try
         {
@@ -68,6 +68,54 @@ public class UserController : ControllerBase
         {
             _logger.LogError(e, $"Error deleting user with id {userId}");
             return StatusCode(500, "Something went wrong.");
+        }
+    }
+
+    [HttpPut("Update/{userId}")]
+    public async Task<ActionResult> UpdateUserAsync([FromRoute] string userId, [FromBody] RegisterModel updatedModel)
+    {
+        try
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                return BadRequest("This user does not exist.");
+            }
+
+            user.FirstName = updatedModel.FirstName;
+            user.LastName = updatedModel.LastName;
+            user.Email = updatedModel.Email;
+            user.PhoneNumber = updatedModel.PhoneNumber;
+
+            await _userManager.UpdateAsync(user);
+
+            return Ok("User updated successfully.");
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, $"Error updating user {userId} data.");
+            return StatusCode(500, "Something went wrong.");
+        }
+    }
+
+    [HttpGet("GetById/{userId}")]
+    public async Task<ActionResult<AppUser?>> GetUserById([FromRoute] string userId)
+    {
+        try
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+
+            if (user == null)
+            {
+                return BadRequest("This user does not exist.");
+            }
+
+            return Ok(user);
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, $"Error getting user {userId}");
+            return StatusCode(500, "Error getting user.");
         }
     }
 
