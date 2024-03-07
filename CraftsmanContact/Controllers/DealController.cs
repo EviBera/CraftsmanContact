@@ -19,9 +19,8 @@ public class DealController : ControllerBase
     }
 
 
-    //Must handle nonexistent user!!!
     [HttpGet("GetByUser/{userId}")]
-    public async Task<ActionResult<List<Deal>>> GetDealsByUser([FromRoute]string userId)
+    public async Task<ActionResult<List<Deal>>> GetDealsByUserAsync([FromRoute]string userId)
     {
         try
         {
@@ -42,7 +41,7 @@ public class DealController : ControllerBase
     }
 
     [HttpGet("GetById/{dealId}")]
-    public async Task<ActionResult<Deal>> GetDealById([FromRoute]int dealId)
+    public async Task<ActionResult<Deal>> GetDealByIdAsync([FromRoute]int dealId)
     {
         try
         {
@@ -61,7 +60,7 @@ public class DealController : ControllerBase
     }
 
     [HttpPost("Post")]
-    public async Task<ActionResult> AddNewDeal([FromBody] Deal deal)
+    public async Task<ActionResult> AddNewDealAsync([FromBody] Deal deal)
     {
         try
         {
@@ -72,6 +71,45 @@ public class DealController : ControllerBase
         {
             _logger.LogError(e, "Error registering deal.");
             return BadRequest($"Error registering deal, {e.Message}");
+        }
+    }
+
+    [HttpPatch("Update/Accept/{dealId}")]
+    public async Task<ActionResult> AcceptDealAsync([FromRoute]int dealId)
+    {
+        try
+        {
+            await _dealRepository.SetDealToAcceptedAsync(dealId);
+            return Ok("Deal accepted.");
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, $"Error accepting the deal offer id {dealId}");
+            if (e is RowNotInTableException)
+            {
+                return BadRequest("Invalid parameters.");
+            }
+            return StatusCode(500, "Error accepting the deal.");
+        }
+    }
+
+    [HttpPatch("Update/Close/{dealId}/{userId}")]
+    public async Task<ActionResult> CloseDealAsync([FromRoute] int dealId, [FromRoute] string userId)
+    {
+        try
+        {
+            await _dealRepository.SetDealClosedAsync(dealId, userId);
+            return Ok("Deal closed.");
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, $"Error closing the deal id: {dealId} by user {userId}");
+            if (e is ArgumentException)
+            {
+                return BadRequest("Invalid parameters.");
+            }
+
+            return StatusCode(500, "Something went wrong.");
         }
     }
 }

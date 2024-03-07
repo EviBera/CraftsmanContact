@@ -48,10 +48,15 @@ public class DealRepository : IDealRepository
     public async Task SetDealToAcceptedAsync(int dealId)
     {
         var deal = await _dbContext.Deals.FindAsync(dealId);
-
         if (deal == null)
         {
-            throw new ArgumentException("Deal does not exist.");
+            throw new RowNotInTableException("Deal does not exist.");
+        }
+
+        var user = await _userManager.FindByIdAsync(deal.CraftsmanId);
+        if (user == null)
+        {
+            throw new RowNotInTableException("The assignee craftsman does not exist.");
         }
 
         deal.IsAcceptedByCraftsman = true;
@@ -65,6 +70,12 @@ public class DealRepository : IDealRepository
         if (deal == null)
         {
             throw new ArgumentException("Deal does not exist.");
+        }
+
+        var user = await _userManager.FindByIdAsync(userId);
+        if (user == null)
+        {
+            throw new ArgumentException("This user does not exist.");
         }
 
         if (deal.ClientId == userId)
