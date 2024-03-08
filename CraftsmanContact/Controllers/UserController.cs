@@ -1,4 +1,5 @@
 using CraftsmanContact.Models;
+using CraftsmanContact.Services.Repository;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,14 +9,12 @@ namespace CraftsmanContact.Controllers;
 [ApiController]
 public class UserController : ControllerBase
 {
-    private readonly UserManager<AppUser> _userManager;
-    private readonly SignInManager<AppUser> _signInManager;
+    private readonly IUserRepository _userRepository;
     private readonly ILogger<UserController> _logger;
 
-    public UserController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, ILogger<UserController> logger)
+    public UserController(IUserRepository userRepository, ILogger<UserController> logger)
     {
-        _userManager = userManager;
-        _signInManager = signInManager;
+        _userRepository = userRepository;
         _logger = logger;
     }
 
@@ -24,22 +23,13 @@ public class UserController : ControllerBase
     {
         try
         {
-            var user = new AppUser()
-            {
-                FirstName = model.FirstName,
-                LastName = model.LastName,
-                Email = model.Email,
-                PhoneNumber = model.PhoneNumber,
-                UserName = model.Email,
-                PasswordHash = model.Password
-            };
-            var result = await _userManager.CreateAsync(user, user.PasswordHash);
+            var result = await _userRepository.RegisterUserAsync(model);
             if (!result.Succeeded)
             {
                 return BadRequest(result);
             }
 
-            return Created();
+            return Ok("User registered successfully.");
 
         }
         catch (Exception e)
@@ -54,19 +44,16 @@ public class UserController : ControllerBase
     {
         try
         {
-            var user = await _userManager.FindByIdAsync(userId);
-
-            if (user == null)
-            {
-                return BadRequest("This user does not exist.");
-            }
-            
-            await _userManager.DeleteAsync(user);
+            await _userRepository.DeleteUserAsync(userId);
             return Ok("User deleted successfully.");
         }
         catch (Exception e)
         {
             _logger.LogError(e, $"Error deleting user with id {userId}");
+            if (e is ArgumentException)
+            {
+                return BadRequest(e.Message);
+            }
             return StatusCode(500, "Something went wrong.");
         }
     }
@@ -76,24 +63,16 @@ public class UserController : ControllerBase
     {
         try
         {
-            var user = await _userManager.FindByIdAsync(userId);
-            if (user == null)
-            {
-                return BadRequest("This user does not exist.");
-            }
-
-            user.FirstName = updatedModel.FirstName;
-            user.LastName = updatedModel.LastName;
-            user.Email = updatedModel.Email;
-            user.PhoneNumber = updatedModel.PhoneNumber;
-
-            await _userManager.UpdateAsync(user);
-
+            await _userRepository.UpdateUserAsync(userId, updatedModel);
             return Ok("User updated successfully.");
         }
         catch (Exception e)
         {
             _logger.LogError(e, $"Error updating user {userId} data.");
+            if (e is ArgumentException)
+            {
+                return BadRequest(e.Message);
+            }
             return StatusCode(500, "Something went wrong.");
         }
     }
@@ -103,18 +82,16 @@ public class UserController : ControllerBase
     {
         try
         {
-            var user = await _userManager.FindByIdAsync(userId);
-
-            if (user == null)
-            {
-                return BadRequest("This user does not exist.");
-            }
-
+            var user = await _userRepository.GetUserByIdAsync(userId);
             return Ok(user);
         }
         catch (Exception e)
         {
             _logger.LogError(e, $"Error getting user {userId}");
+            if (e is ArgumentException)
+            {
+                return BadRequest(e.Message);
+            }
             return StatusCode(500, "Error getting user.");
         }
     }
