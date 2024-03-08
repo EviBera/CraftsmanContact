@@ -31,6 +31,13 @@ public class UserOfferedServiceController : ControllerBase
     {
         try
         {
+            var searchedService = await _offeredServiceRepository.GetByIdAsync(serviceId);
+
+            if (searchedService == null)
+            {
+                return BadRequest("Searched service does not exist.");
+            }
+            
             HashSet<AppUser> users = new HashSet<AppUser>();
             var services = await _usersContext.UserOfferedServices.Where(s => s.OfferedServiceId == serviceId)
                 .ToListAsync();
@@ -81,8 +88,11 @@ public class UserOfferedServiceController : ControllerBase
                 AppUserId = userId,
                 OfferedServiceId = serviceId
             };
-            await _usersContext.UserOfferedServices.AddAsync(newService);
-            await _usersContext.SaveChangesAsync();
+            //await _usersContext.UserOfferedServices.AddAsync(newService);
+            //await _usersContext.SaveChangesAsync();
+            
+            user.UserOfferedServices.Add(newService);
+            await _userManager.UpdateAsync(user);
             
             return Created();
         }
