@@ -17,9 +17,9 @@ builder.Services.AddSingleton<CraftsmanContactContext, CraftsmanContactContext>(
 
 //builder.Services.AddAuthentication(IdentityConstants.ApplicationScheme).AddIdentityCookies();
 //builder.Services.AddAuthorizationBuilder();
-builder.Services.AddDbContext<UsersContext>();
+
 builder.Services.AddIdentityApiEndpoints<AppUser>()
-    .AddEntityFrameworkStores<UsersContext>();
+    .AddEntityFrameworkStores<CraftsmanContactContext>();
 
 var app = builder.Build();
 
