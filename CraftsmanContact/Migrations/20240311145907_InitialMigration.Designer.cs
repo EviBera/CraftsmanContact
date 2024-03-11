@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace CraftsmanContact.Migrations.Users
+namespace CraftsmanContact.Migrations
 {
-    [DbContext(typeof(UsersContext))]
-    [Migration("20240306094039_AddAnnotationsToAppUser")]
-    partial class AddAnnotationsToAppUser
+    [DbContext(typeof(CraftsmanContactContext))]
+    [Migration("20240311145907_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -97,29 +97,80 @@ namespace CraftsmanContact.Migrations.Users
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
-                    b.ToTable("AspNetUsers", (string)null);
+                    b.ToTable("AppUsers", (string)null);
+                });
+
+            modelBuilder.Entity("CraftsmanContact.Models.Deal", b =>
+                {
+                    b.Property<int>("DealId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DealId"));
+
+                    b.Property<string>("ClientId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CraftsmanId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsAcceptedByCraftsman")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsClosedByClient")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsClosedByCraftsman")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("OfferedServiceId")
+                        .HasColumnType("int");
+
+                    b.HasKey("DealId");
+
+                    b.ToTable("Deals");
+                });
+
+            modelBuilder.Entity("CraftsmanContact.Models.OfferedService", b =>
+                {
+                    b.Property<int>("OfferedServiceId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OfferedServiceId"));
+
+                    b.Property<string>("OfferedServiceDescription")
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
+
+                    b.Property<string>("OfferedServiceName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("OfferedServiceId");
+
+                    b.ToTable("OfferedServices");
                 });
 
             modelBuilder.Entity("CraftsmanContact.Models.UserOfferedService", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
                     b.Property<string>("AppUserId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("OfferedServiceId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("AppUserId", "OfferedServiceId");
 
-                    b.HasIndex("AppUserId");
+                    b.HasIndex("OfferedServiceId");
 
-                    b.ToTable("UserOfferedServices");
+                    b.ToTable("UsersAndServicesJoinedTable");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -263,7 +314,15 @@ namespace CraftsmanContact.Migrations.Users
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("CraftsmanContact.Models.OfferedService", "OfferedService")
+                        .WithMany("UserOfferedServices")
+                        .HasForeignKey("OfferedServiceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("AppUser");
+
+                    b.Navigation("OfferedService");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -318,6 +377,11 @@ namespace CraftsmanContact.Migrations.Users
                 });
 
             modelBuilder.Entity("CraftsmanContact.Models.AppUser", b =>
+                {
+                    b.Navigation("UserOfferedServices");
+                });
+
+            modelBuilder.Entity("CraftsmanContact.Models.OfferedService", b =>
                 {
                     b.Navigation("UserOfferedServices");
                 });
