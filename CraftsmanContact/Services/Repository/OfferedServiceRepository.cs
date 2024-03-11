@@ -39,12 +39,12 @@ public class OfferedServiceRepository : IOfferedServiceRepository
         {
             if (newName != null)
             {
-                serviceToUpdate.Name = newName;
+                serviceToUpdate.OfferedServiceName = newName;
             }
     
             if (newDescription != null)
             {
-                serviceToUpdate.Description = newDescription;
+                serviceToUpdate.OfferedServiceDescription = newDescription;
             }
 
             await _dbContext.SaveChangesAsync();
@@ -66,7 +66,7 @@ public class OfferedServiceRepository : IOfferedServiceRepository
         }
         else
         {
-            await _dbContext.OfferedServices.Where(item => item.Id == id).ExecuteDeleteAsync();
+            await _dbContext.OfferedServices.Where(item => item.OfferedServiceId == id).ExecuteDeleteAsync();
         }
     }
     

@@ -5,10 +5,12 @@ namespace CraftsmanContact.Models;
 public class OfferedService
 {
     [Key] 
-    public int Id { get; set; }
+    public int OfferedServiceId { get; set; }
     [StringLength(50)]
-    public string Name { get; set; }
+    public string OfferedServiceName { get; set; }
     [StringLength(300)]
-    public string? Description { get; set; }
+    public string? OfferedServiceDescription { get; set; }
+
+    public ICollection<UserOfferedService> UserOfferedServices { get; set; } = new HashSet<UserOfferedService>();
     
 }

@@ -1,14 +1,13 @@
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace CraftsmanContact.Models;
 
+[Table("UsersAndServicesJoinedTable")]
 public class UserOfferedService
 {
-    public int Id { get; set; }
-
-    // Foreign key for AppUser
     public string AppUserId { get; set; }
-    public virtual AppUser AppUser { get; set; }
-
-    // Foreign key for OfferedService
+    public AppUser AppUser { get; set; }
     public int OfferedServiceId { get; set; }
+    public OfferedService OfferedService { get; set; }
     
 }

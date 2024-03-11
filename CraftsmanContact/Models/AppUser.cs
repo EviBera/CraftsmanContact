@@ -11,10 +11,6 @@ public class AppUser : IdentityUser
         public string LastName { get; set; }
         
         //Navigation property for the offered services
-        public virtual ICollection<UserOfferedService> UserOfferedServices { get; set; }
-
-        public AppUser()
-        {
-                UserOfferedServices = new HashSet<UserOfferedService>();
-        }
+        public ICollection<UserOfferedService> UserOfferedServices { get; set; } = new HashSet<UserOfferedService>();
+        
 }
