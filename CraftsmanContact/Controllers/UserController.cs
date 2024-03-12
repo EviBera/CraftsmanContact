@@ -2,6 +2,7 @@ using System.Data;
 using CraftsmanContact.DTOs.User;
 using CraftsmanContact.Models;
 using CraftsmanContact.Services.Repository;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -95,6 +96,45 @@ public class UserController : ControllerBase
                 return BadRequest("This user does not exist.");
             }
             return StatusCode(500, "Error getting user.");
+        }
+    }
+
+    [HttpPost("ServiceRegistry/{userId}/{serviceId}")]
+    public async Task<IActionResult> RegisterServiceAsOfferedByUser([FromRoute] string userId,
+        [FromRoute] int serviceId)
+    {
+        try
+        {
+            await _userRepository.RegisterServiceForCraftsmanAsync(userId, serviceId);
+            return Ok("Service registered successfully");
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, $"Error registering service id {serviceId} for user id {userId}");
+            if (e is RowNotInTableException)
+            {
+                return BadRequest(e.Message);
+            }
+            return StatusCode(500, "Error registering service for user.");
+        }
+    }
+
+    [HttpGet("GetCraftsmenByService/{serviceId}")]
+    public async Task<ActionResult<IEnumerable<UserDto>>> GetCraftsmenByServiceAsync([FromRoute] int serviceId)
+    {
+        try
+        {
+            IEnumerable<UserDto> craftsmen = await _userRepository.GetCraftsmenByIdAsync(serviceId);
+            return Ok(craftsmen);
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, $"Error getting craftsmen by service id {serviceId}.");
+            if (e is RowNotInTableException)
+            {
+                return BadRequest("This service does not exist.");
+            }
+            return StatusCode(500, "Error getting craftsmen.");
         }
     }
 
