@@ -1,4 +1,4 @@
-namespace CraftsmanContact.DTOs;
+namespace CraftsmanContact.DTOs.OfferedService;
 
 public class UpdateRequestOfferedServiceDto
 {
