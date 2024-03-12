@@ -1,6 +1,10 @@
 using System.ComponentModel.DataAnnotations;
+using System.Data;
+using CraftsmanContact.DTOs;
+using CraftsmanContact.Mappers;
 using CraftsmanContact.Models;
 using CraftsmanContact.Services.Repository;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CraftsmanContact.Controllers;
@@ -20,7 +24,7 @@ public class OfferedServiceController : ControllerBase
     
     
     [HttpGet("Get")]
-    public async Task<ActionResult<List<OfferedService>>> GetAllAsync()
+    public async Task<ActionResult<List<OfferedServiceDto>>> GetAllAsync()
     {
         try
         {
@@ -36,35 +40,31 @@ public class OfferedServiceController : ControllerBase
     }
 
     [HttpGet("GetById/{id}")]
-    public async Task<ActionResult<OfferedService>> GetByIdAsync([Required, FromRoute]int id)
+    public async Task<ActionResult<OfferedServiceDto>> GetByIdAsync([Required, FromRoute]int id)
     {
         try
         {
             var offeredService = await _offeredServiceRepository.GetByIdAsync(id);
-            if (offeredService != null)
-            {
-                return Ok(offeredService);
-            }
-            else
-            {
-                return NotFound($"The searched offered service does not exist.");
-            }
-            
+            return Ok(offeredService);
         }
         catch (Exception e)
         {
             _logger.LogError(e, "Error getting offered service id: " + id);
+            if (e is RowNotInTableException)
+            {
+                return NotFound($"The searched offered service does not exist.");
+            }
             return StatusCode(500, $"Error getting offered service, {e.Message}");
         }
     }
     
     [HttpPost("Post")]
-    public async Task<ActionResult> RegisterNewOfferedServiceAsync([FromBody]OfferedService service)
+    public async Task<ActionResult<OfferedServiceDto>> RegisterNewOfferedServiceAsync([FromBody]CreateRequestOfferedServiceDto serviceDto)
     {
         try
         {
-            await _offeredServiceRepository.RegisterAsync(service);
-            return Created();
+            var newService = await _offeredServiceRepository.RegisterAsync(serviceDto);
+            return Ok(newService.ToOfferedServiceDto());
         }
         catch (Exception e)
         {
@@ -74,17 +74,22 @@ public class OfferedServiceController : ControllerBase
     }
     
     [HttpPatch("Update/{id}")]
-    public async Task<ActionResult> UpdateOfferedServiceAsync(string? newName, string? newDescription, [Required, FromRoute]int id)
+    public async Task<ActionResult> UpdateOfferedServiceAsync([Required, FromRoute]int id, [FromBody]UpdateRequestOfferedServiceDto serviceDto)
     {
         try
         {
-            await _offeredServiceRepository.UpdateAsync(id, newName, newDescription);
-            return Ok("Service updated successfully.");
+            var service = await _offeredServiceRepository.UpdateAsync(id, serviceDto);
+            return Ok(service);
         }
         catch (Exception e)
         {
             _logger.LogError(e, "Error updating the offered service id: " + id );
-            return BadRequest($"Error updating the offered service, {e.Message}");
+            if (e is RowNotInTableException)
+            {
+                return BadRequest($"This offered service does not exist.");
+            }
+
+            return StatusCode(500, "Something went wrong");
         }
     }
     
@@ -99,7 +104,11 @@ public class OfferedServiceController : ControllerBase
         catch (Exception e)
         {
             _logger.LogError(e, "Error deleting the offered service id: " + id);
-            return BadRequest($"Error deleting the offered service, {e.Message}");
+            if (e is RowNotInTableException)
+            {
+                return BadRequest("Invalid Id");
+            }
+            return StatusCode(500, $"Error deleting the offered service, {e.Message}");
         }
     }
 }

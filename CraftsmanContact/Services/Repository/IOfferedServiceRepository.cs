@@ -1,12 +1,13 @@
+using CraftsmanContact.DTOs;
 using CraftsmanContact.Models;
 
 namespace CraftsmanContact.Services.Repository;
 
 public interface IOfferedServiceRepository
 {
-    Task<IEnumerable<OfferedService>> GetAllAsync();
-    Task RegisterAsync(OfferedService offeredService);
-    Task<OfferedService?> GetByIdAsync(int id);
-    Task UpdateAsync(int id, string? newName, string? newDescription);
+    Task<IEnumerable<OfferedServiceDto>> GetAllAsync();
+    Task<OfferedService> RegisterAsync(CreateRequestOfferedServiceDto offeredServiceDto);
+    Task<OfferedServiceDto?> GetByIdAsync(int id);
+    Task<OfferedServiceDto> UpdateAsync(int id, UpdateRequestOfferedServiceDto offeredServiceDto);
     Task DeleteAsync(int id);
 }

@@ -1,4 +1,7 @@
+using System.Data;
 using CraftsmanContact.Data;
+using CraftsmanContact.DTOs;
+using CraftsmanContact.Mappers;
 using CraftsmanContact.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,47 +16,48 @@ public class OfferedServiceRepository : IOfferedServiceRepository
         _dbContext = dbContext;
     }
     
-    public async Task<IEnumerable<OfferedService>> GetAllAsync()
+    public async Task<IEnumerable<OfferedServiceDto>> GetAllAsync()
     {
-        var services = await _dbContext.OfferedServices.ToListAsync();
+        var services = await _dbContext.OfferedServices.Select(s => s.ToOfferedServiceDto()).ToListAsync();
+        
         return services;
     }
 
-    public async Task RegisterAsync(OfferedService offeredService)
+    public async Task<OfferedService> RegisterAsync(CreateRequestOfferedServiceDto serviceDto)
     {
-        await _dbContext.OfferedServices.AddAsync(offeredService);
+        var service = serviceDto.ToOfferedServiceFromCreateRequestOfferedServiceDto();
+        await _dbContext.OfferedServices.AddAsync(service);
         await _dbContext.SaveChangesAsync();
-    }
 
-    public async Task<OfferedService?> GetByIdAsync(int id)
-    {
-        var service = await _dbContext.OfferedServices.FindAsync(id);
         return service;
     }
 
-    public async Task UpdateAsync(int id, string? newName, string? newDescription)
+    public async Task<OfferedServiceDto?> GetByIdAsync(int id)
     {
-        var serviceToUpdate = await _dbContext.OfferedServices.FindAsync(id);
+        OfferedService? service = await _dbContext.OfferedServices.FirstOrDefaultAsync(s => s.OfferedServiceId == id);
         
-        if (serviceToUpdate != null)
+        if (service != null)
         {
-            if (newName != null)
-            {
-                serviceToUpdate.OfferedServiceName = newName;
-            }
-    
-            if (newDescription != null)
-            {
-                serviceToUpdate.OfferedServiceDescription = newDescription;
-            }
+            return service.ToOfferedServiceDto();
+        }
 
-            await _dbContext.SaveChangesAsync();
-        }
-        else
+        throw new RowNotInTableException();
+    }
+
+    public async Task<OfferedServiceDto> UpdateAsync(int id, UpdateRequestOfferedServiceDto serviceDto)
+    {
+        var serviceToUpdate = await _dbContext.OfferedServices.FirstOrDefaultAsync(s => s.OfferedServiceId == id);
+
+        if (serviceToUpdate == null)
         {
-            throw new ArgumentException("Invalid Id");
+            throw new RowNotInTableException();
         }
         
+        serviceToUpdate.OfferedServiceName = serviceDto.OfferedServiceName;
+        serviceToUpdate.OfferedServiceDescription = serviceDto.OfferedServiceDescription;
+        await _dbContext.SaveChangesAsync();
+
+        return serviceToUpdate.ToOfferedServiceDto();
     }
 
     public async Task DeleteAsync(int id)
@@ -62,12 +66,11 @@ public class OfferedServiceRepository : IOfferedServiceRepository
         
         if (serviceToDelete == null)
         {
-            throw new ArgumentException("Invalid Id");
+            throw new RowNotInTableException();
         }
-        else
-        {
-            await _dbContext.OfferedServices.Where(item => item.OfferedServiceId == id).ExecuteDeleteAsync();
-        }
+
+        await _dbContext.OfferedServices.Where(item => item.OfferedServiceId == id).ExecuteDeleteAsync();
+
     }
     
 }
