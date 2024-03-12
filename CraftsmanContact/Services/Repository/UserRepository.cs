@@ -1,3 +1,6 @@
+using System.Data;
+using CraftsmanContact.DTOs.User;
+using CraftsmanContact.Mappers;
 using CraftsmanContact.Models;
 using Microsoft.AspNetCore.Identity;
 
@@ -14,17 +17,9 @@ public class UserRepository : IUserRepository
     }
     
     
-    public async Task<IdentityResult> RegisterUserAsync(RegisterModel model)
+    public async Task<IdentityResult> RegisterUserAsync(RegisterUserRequestDto requestDto)
     {
-        var user = new AppUser()
-        {
-            FirstName = model.FirstName,
-            LastName = model.LastName,
-            Email = model.Email,
-            PhoneNumber = model.PhoneNumber,
-            UserName = model.Email,
-            PasswordHash = model.Password
-        };
+        var user = requestDto.ToAppUserFromRegisterUserRequestDto();
         var result = await _userManager.CreateAsync(user, user.PasswordHash);
         return result;
     }
@@ -35,38 +30,37 @@ public class UserRepository : IUserRepository
 
         if (user == null)
         {
-            throw new ArgumentException("This user does not exist.");
+            throw new RowNotInTableException();
         }
             
         await _userManager.DeleteAsync(user);
     }
 
-    public async Task UpdateUserAsync(string userId, RegisterModel newUserData)
+    public async Task UpdateUserAsync(string userId, UpdateUserRequestDto requestDto)
     {
         var user = await _userManager.FindByIdAsync(userId);
         if (user == null)
         {
-            throw new ArgumentException("This user does not exist.");
+            throw new RowNotInTableException();
         }
 
-        user.FirstName = newUserData.FirstName;
-        user.LastName = newUserData.LastName;
-        user.Email = newUserData.Email;
-        user.PhoneNumber = newUserData.PhoneNumber;
+        user.FirstName = requestDto.FirstName;
+        user.LastName = requestDto.LastName;
+        user.Email = requestDto.Email;
+        user.PhoneNumber = requestDto.PhoneNumber;
 
         await _userManager.UpdateAsync(user);
     }
 
-    public async Task<AppUser> GetUserByIdAsync(string userId)
+    public async Task<UserDto> GetUserByIdAsync(string userId)
     {
         var user = await _userManager.FindByIdAsync(userId);
 
         if (user == null)
         {
-            throw new ArgumentException("This user does not exist.");
+            throw new RowNotInTableException();
         }
 
-        return user;
-
+        return user.ToUserDto();
     }
 }

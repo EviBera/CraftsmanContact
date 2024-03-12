@@ -1,3 +1,5 @@
+using System.Data;
+using CraftsmanContact.DTOs.User;
 using CraftsmanContact.Models;
 using CraftsmanContact.Services.Repository;
 using Microsoft.AspNetCore.Identity;
@@ -19,11 +21,11 @@ public class UserController : ControllerBase
     }
 
     [HttpPost("Register")]
-    public async Task<IActionResult> RegisterAsync(RegisterModel model)
+    public async Task<IActionResult> RegisterAsync([FromBody]RegisterUserRequestDto requestDto)
     {
         try
         {
-            var result = await _userRepository.RegisterUserAsync(model);
+            var result = await _userRepository.RegisterUserAsync(requestDto);
             if (!result.Succeeded)
             {
                 return BadRequest(result);
@@ -40,7 +42,7 @@ public class UserController : ControllerBase
     }
 
     [HttpDelete("Delete/{userId}")]
-    public async Task<ActionResult> DeleteUserAsync([FromRoute] string userId)
+    public async Task<IActionResult> DeleteUserAsync([FromRoute] string userId)
     {
         try
         {
@@ -50,35 +52,35 @@ public class UserController : ControllerBase
         catch (Exception e)
         {
             _logger.LogError(e, $"Error deleting user with id {userId}");
-            if (e is ArgumentException)
+            if (e is RowNotInTableException)
             {
-                return BadRequest(e.Message);
+                return BadRequest("This user does not exist.");
             }
             return StatusCode(500, "Something went wrong.");
         }
     }
 
     [HttpPut("Update/{userId}")]
-    public async Task<ActionResult> UpdateUserAsync([FromRoute] string userId, [FromBody] RegisterModel updatedModel)
+    public async Task<IActionResult> UpdateUserAsync([FromRoute] string userId, [FromBody] UpdateUserRequestDto requestDto)
     {
         try
         {
-            await _userRepository.UpdateUserAsync(userId, updatedModel);
+            await _userRepository.UpdateUserAsync(userId, requestDto);
             return Ok("User updated successfully.");
         }
         catch (Exception e)
         {
             _logger.LogError(e, $"Error updating user {userId} data.");
-            if (e is ArgumentException)
+            if (e is RowNotInTableException)
             {
-                return BadRequest(e.Message);
+                return BadRequest("This user does not exist");
             }
             return StatusCode(500, "Something went wrong.");
         }
     }
 
     [HttpGet("GetById/{userId}")]
-    public async Task<ActionResult<AppUser?>> GetUserByIdAsync([FromRoute] string userId)
+    public async Task<ActionResult<UserDto?>> GetUserByIdAsync([FromRoute] string userId)
     {
         try
         {
@@ -88,9 +90,9 @@ public class UserController : ControllerBase
         catch (Exception e)
         {
             _logger.LogError(e, $"Error getting user {userId}");
-            if (e is ArgumentException)
+            if (e is RowNotInTableException)
             {
-                return BadRequest(e.Message);
+                return BadRequest("This user does not exist.");
             }
             return StatusCode(500, "Error getting user.");
         }
