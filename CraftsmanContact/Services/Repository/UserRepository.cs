@@ -83,13 +83,18 @@ public class UserRepository : IUserRepository
         {
             throw new RowNotInTableException("This service does not exist.");
         }
-
-        var newRecord = new UserOfferedService
+        
+        UserOfferedService newService = new UserOfferedService
         {
-            AppUserId = userId,
-            OfferedServiceId = serviceId
+            AppUser = user,
+            AppUserId = user.Id,
+            OfferedService = service,
+            OfferedServiceId = service.OfferedServiceId
         };
-        await _dbContext.UsersAndServicesJoinedTable.AddAsync(newRecord);
+        
+        user.UserOfferedServices.Add(newService);
+        service.UserOfferedServices.Add(newService);
+        
         await _dbContext.SaveChangesAsync();
     }
 

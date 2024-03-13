@@ -99,7 +99,7 @@ public class UserController : ControllerBase
         }
     }
 
-    [HttpPost("registerservice/{userId}/{serviceId}")]
+    [HttpPatch("registerservice/{userId}/{serviceId}")]
     public async Task<IActionResult> RegisterServiceAsOfferedByUser([FromRoute] string userId,
         [FromRoute] int serviceId)
     {
