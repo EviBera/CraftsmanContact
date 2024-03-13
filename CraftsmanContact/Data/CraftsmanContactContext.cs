@@ -57,5 +57,17 @@ public class CraftsmanContactContext : IdentityDbContext<AppUser>
             .WithMany(os => os.UserOfferedServices)
             .HasForeignKey(uos => uos.OfferedServiceId);
         
+        //Prevent cascading deletion when a user leaves the app
+        modelBuilder.Entity<Deal>()
+            .HasOne(d => d.CraftsMan)
+            .WithMany()
+            .HasForeignKey(d => d.CraftsmanId)
+            .OnDelete(DeleteBehavior.NoAction); 
+
+        modelBuilder.Entity<Deal>()
+            .HasOne(d => d.Client)
+            .WithMany()
+            .HasForeignKey(d => d.ClientId)
+            .OnDelete(DeleteBehavior.NoAction); 
     }
 }

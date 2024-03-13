@@ -11,6 +11,6 @@ public class AppUser : IdentityUser
         public string LastName { get; set; } = String.Empty;
         
         //Navigation property for the offered services
-        public ICollection<UserOfferedService> UserOfferedServices { get; set; } = new HashSet<UserOfferedService>();
+        public virtual ICollection<UserOfferedService> UserOfferedServices { get; set; } = new HashSet<UserOfferedService>();
         
 }
