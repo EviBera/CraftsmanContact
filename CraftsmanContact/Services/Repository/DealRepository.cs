@@ -1,6 +1,8 @@
 using System.Collections.Immutable;
 using System.Data;
 using CraftsmanContact.Data;
+using CraftsmanContact.DTOs.Deal;
+using CraftsmanContact.Mappers;
 using CraftsmanContact.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -18,34 +20,58 @@ public class DealRepository : IDealRepository
         _userManager = userManager;
     }
     
-    public async Task CreateDealAsync(Deal deal)
+    public async Task CreateDealAsync(CreateDealRequestDto dealDto)
     {
-        await _dbContext.Deals.AddAsync(deal);
+        var craftsman = await _userManager.FindByIdAsync(dealDto.CraftsmanId);
+        if (craftsman == null)
+        {
+            throw new RowNotInTableException("The craftsman does not exist.");
+        }
+
+        var client = await _userManager.FindByIdAsync(dealDto.ClientId);
+        if (client == null)
+        {
+            throw new RowNotInTableException("The client does not exist.");
+        }
+
+        var service = _dbContext.UsersAndServicesJoinedTable
+            .Where(s => s.AppUserId == dealDto.CraftsmanId)
+            .FirstOrDefault(s => s.OfferedServiceId == dealDto.OfferedServiceId);
+        if (service == null)
+        {
+            throw new RowNotInTableException("The craftsman does not offer this service.");
+        }
+            
+        await _dbContext.Deals.AddAsync(dealDto.ToDealFromCreateDealRequestDto());
         await _dbContext.SaveChangesAsync();
     }
 
-    public async Task<IEnumerable<Deal>> GetDealsByUserAsync(string userId)
+    public async Task<IEnumerable<DealDto>> GetDealsByUserAsync(string userId)
     {
         var user = await _userManager.FindByIdAsync(userId);
 
         if (user == null)
         {
-            throw new RowNotInTableException("This user does not exist.");
+            throw new RowNotInTableException();
         }
         
-        var dealsAsClient = await _dbContext.Deals.Where(d => d.ClientId == userId).ToListAsync();
-        var dealsAsCraftsman = await _dbContext.Deals.Where(d => d.CraftsmanId == userId).ToListAsync();
+        var dealsAsClient = await _dbContext.Deals.Where(d => d.ClientId == userId).Select(d => d.ToDealDto()).ToListAsync();
+        var dealsAsCraftsman = await _dbContext.Deals.Where(d => d.CraftsmanId == userId).Select(d => d.ToDealDto()).ToListAsync();
         
         return dealsAsClient.Concat(dealsAsCraftsman);
     }
 
-    public async Task<Deal> GetDealByIdAsync(int dealId)
+    public async Task<DealDto> GetDealByIdAsync(int dealId)
     {
         var deal = await _dbContext.Deals.FindAsync(dealId);
-        return deal;
+        if (deal == null)
+        {
+            throw new RowNotInTableException();
+        }
+        return deal.ToDealDto();
     }
 
-    public async Task SetDealToAcceptedAsync(int dealId)
+    public async Task SetDealToAcceptedAsync(string craftsmanId, int dealId)
     {
         var deal = await _dbContext.Deals.FindAsync(dealId);
         if (deal == null)
@@ -53,10 +79,20 @@ public class DealRepository : IDealRepository
             throw new RowNotInTableException("Deal does not exist.");
         }
 
-        var user = await _userManager.FindByIdAsync(deal.CraftsmanId);
-        if (user == null)
+        var craftsman = await _userManager.FindByIdAsync(deal.CraftsmanId);
+        if (craftsman == null)
         {
             throw new RowNotInTableException("The assignee craftsman does not exist.");
+        }
+
+        if (deal.CraftsmanId != craftsmanId)
+        {
+            throw new ArgumentException("This user is not authorized to accept the offer.");
+        }
+
+        if (deal.IsAcceptedByCraftsman)
+        {
+            throw new ArgumentException("The offer is already accepted.");
         }
 
         deal.IsAcceptedByCraftsman = true;
@@ -78,11 +114,11 @@ public class DealRepository : IDealRepository
             throw new ArgumentException("This user does not exist.");
         }
 
-        if (deal.ClientId == userId)
+        if (deal.ClientId == userId && !deal.IsClosedByClient)
         {
             deal.IsClosedByClient = true;
         } 
-        else if (deal.CraftsmanId == userId)
+        else if (deal.CraftsmanId == userId && !deal.IsClosedByCraftsman)
         {
             deal.IsClosedByCraftsman = true;
         }

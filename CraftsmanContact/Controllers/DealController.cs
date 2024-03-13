@@ -1,6 +1,8 @@
 using System.Data;
+using CraftsmanContact.DTOs.Deal;
 using CraftsmanContact.Models;
 using CraftsmanContact.Services.Repository;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CraftsmanContact.Controllers;
@@ -20,7 +22,7 @@ public class DealController : ControllerBase
 
 
     [HttpGet("byuser/{userId}")]
-    public async Task<ActionResult<List<Deal>>> GetDealsByUserAsync([FromRoute]string userId)
+    public async Task<ActionResult<List<DealDto>>> GetDealsByUserAsync([FromRoute]string userId)
     {
         try
         {
@@ -41,30 +43,30 @@ public class DealController : ControllerBase
     }
 
     [HttpGet("byid/{dealId}")]
-    public async Task<ActionResult<Deal>> GetDealByIdAsync([FromRoute]int dealId)
+    public async Task<ActionResult<DealDto>> GetDealByIdAsync([FromRoute]int dealId)
     {
         try
         {
             var deal = await _dealRepository.GetDealByIdAsync(dealId);
-            if (deal == null)
-            {
-                return NotFound("Deal does not exist.");
-            }
             return Ok(deal);
         }
         catch (Exception e)
         {
             _logger.LogError(e, $"Error getting deal by Id {dealId}.");
-            return NotFound($"Error getting deal, {e.Message}");
+            if (e is RowNotInTableException)
+            {
+                return BadRequest("Invalid Id");
+            }
+            return StatusCode(500, $"Error getting deal.");
         }
     }
 
     [HttpPost]
-    public async Task<ActionResult> AddNewDealAsync([FromBody] Deal deal)
+    public async Task<ActionResult> AddNewDealAsync([FromBody] CreateDealRequestDto dealDto)
     {
         try
         {
-            await _dealRepository.CreateDealAsync(deal);
+            await _dealRepository.CreateDealAsync(dealDto);
             return Created();
         }
         catch (Exception e)
@@ -74,20 +76,20 @@ public class DealController : ControllerBase
         }
     }
 
-    [HttpPatch("accept/{dealId}")]
-    public async Task<ActionResult> AcceptDealAsync([FromRoute]int dealId)
+    [HttpPatch("accept/{craftsmanId}/{dealId}")]
+    public async Task<ActionResult> AcceptDealAsync([FromRoute] string craftsmanId, [FromRoute]int dealId)
     {
         try
         {
-            await _dealRepository.SetDealToAcceptedAsync(dealId);
+            await _dealRepository.SetDealToAcceptedAsync(craftsmanId, dealId);
             return Ok("Deal accepted.");
         }
         catch (Exception e)
         {
             _logger.LogError(e, $"Error accepting the deal offer id {dealId}");
-            if (e is RowNotInTableException)
+            if (e is RowNotInTableException || e is ArgumentException)
             {
-                return BadRequest("Invalid parameters.");
+                return BadRequest(e.Message);
             }
             return StatusCode(500, "Error accepting the deal.");
         }
@@ -106,7 +108,7 @@ public class DealController : ControllerBase
             _logger.LogError(e, $"Error closing the deal id: {dealId} by user {userId}");
             if (e is ArgumentException)
             {
-                return BadRequest("Invalid parameters.");
+                return BadRequest($"Invalid parameters, {e.Message}");
             }
 
             return StatusCode(500, "Something went wrong.");
