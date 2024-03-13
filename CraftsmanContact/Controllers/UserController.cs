@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CraftsmanContact.Controllers;
 
-[Route("api/[controller]")]
+[Route("api/user")]
 [ApiController]
 public class UserController : ControllerBase
 {
@@ -21,7 +21,7 @@ public class UserController : ControllerBase
         _logger = logger;
     }
 
-    [HttpPost("Register")]
+    [HttpPost("register")]
     public async Task<IActionResult> RegisterAsync([FromBody]RegisterUserRequestDto requestDto)
     {
         try
@@ -42,7 +42,7 @@ public class UserController : ControllerBase
         }
     }
 
-    [HttpDelete("Delete/{userId}")]
+    [HttpDelete("{userId}")]
     public async Task<IActionResult> DeleteUserAsync([FromRoute] string userId)
     {
         try
@@ -61,7 +61,7 @@ public class UserController : ControllerBase
         }
     }
 
-    [HttpPut("Update/{userId}")]
+    [HttpPut("{userId}")]
     public async Task<IActionResult> UpdateUserAsync([FromRoute] string userId, [FromBody] UpdateUserRequestDto requestDto)
     {
         try
@@ -80,7 +80,7 @@ public class UserController : ControllerBase
         }
     }
 
-    [HttpGet("GetById/{userId}")]
+    [HttpGet("{userId}")]
     public async Task<ActionResult<UserDto?>> GetUserByIdAsync([FromRoute] string userId)
     {
         try
@@ -99,7 +99,7 @@ public class UserController : ControllerBase
         }
     }
 
-    [HttpPost("ServiceRegistry/{userId}/{serviceId}")]
+    [HttpPost("registerservice/{userId}/{serviceId}")]
     public async Task<IActionResult> RegisterServiceAsOfferedByUser([FromRoute] string userId,
         [FromRoute] int serviceId)
     {
@@ -119,7 +119,7 @@ public class UserController : ControllerBase
         }
     }
 
-    [HttpGet("GetCraftsmenByService/{serviceId}")]
+    [HttpGet("craftsmenbyservice/{serviceId}")]
     public async Task<ActionResult<IEnumerable<UserDto>>> GetCraftsmenByServiceAsync([FromRoute] int serviceId)
     {
         try

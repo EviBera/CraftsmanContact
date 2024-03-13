@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CraftsmanContact.Controllers;
 
-[Route("api/[controller]")]
+[Route("api/deal")]
 [ApiController]
 public class DealController : ControllerBase
 {
@@ -19,7 +19,7 @@ public class DealController : ControllerBase
     }
 
 
-    [HttpGet("GetByUser/{userId}")]
+    [HttpGet("byuser/{userId}")]
     public async Task<ActionResult<List<Deal>>> GetDealsByUserAsync([FromRoute]string userId)
     {
         try
@@ -40,7 +40,7 @@ public class DealController : ControllerBase
         }
     }
 
-    [HttpGet("GetById/{dealId}")]
+    [HttpGet("byid/{dealId}")]
     public async Task<ActionResult<Deal>> GetDealByIdAsync([FromRoute]int dealId)
     {
         try
@@ -59,7 +59,7 @@ public class DealController : ControllerBase
         }
     }
 
-    [HttpPost("Post")]
+    [HttpPost]
     public async Task<ActionResult> AddNewDealAsync([FromBody] Deal deal)
     {
         try
@@ -74,7 +74,7 @@ public class DealController : ControllerBase
         }
     }
 
-    [HttpPatch("Update/Accept/{dealId}")]
+    [HttpPatch("accept/{dealId}")]
     public async Task<ActionResult> AcceptDealAsync([FromRoute]int dealId)
     {
         try
@@ -93,7 +93,7 @@ public class DealController : ControllerBase
         }
     }
 
-    [HttpPatch("Update/Close/{dealId}/{userId}")]
+    [HttpPatch("close/{dealId}/{userId}")]
     public async Task<ActionResult> CloseDealAsync([FromRoute] int dealId, [FromRoute] string userId)
     {
         try

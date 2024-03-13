@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CraftsmanContact.Controllers;
 
-[Route("api/[controller]")]
+[Route("api/offeredservice")]
 [ApiController]
 public class OfferedServiceController : ControllerBase
 {
@@ -24,7 +24,7 @@ public class OfferedServiceController : ControllerBase
     }
     
     
-    [HttpGet("Get")]
+    [HttpGet("all")]
     public async Task<ActionResult<List<OfferedServiceDto>>> GetAllAsync()
     {
         try
@@ -40,7 +40,7 @@ public class OfferedServiceController : ControllerBase
         }
     }
 
-    [HttpGet("GetById/{id}")]
+    [HttpGet("{id}")]
     public async Task<ActionResult<OfferedServiceDto>> GetByIdAsync([Required, FromRoute]int id)
     {
         try
@@ -59,7 +59,7 @@ public class OfferedServiceController : ControllerBase
         }
     }
     
-    [HttpPost("Post")]
+    [HttpPost]
     public async Task<ActionResult<OfferedServiceDto>> RegisterNewOfferedServiceAsync([FromBody]CreateRequestOfferedServiceDto serviceDto)
     {
         try
@@ -74,7 +74,7 @@ public class OfferedServiceController : ControllerBase
         }
     }
     
-    [HttpPatch("Update/{id}")]
+    [HttpPatch("{id}")]
     public async Task<ActionResult> UpdateOfferedServiceAsync([Required, FromRoute]int id, [FromBody]UpdateRequestOfferedServiceDto serviceDto)
     {
         try
@@ -94,7 +94,7 @@ public class OfferedServiceController : ControllerBase
         }
     }
     
-    [HttpDelete("Delete/{id}")]
+    [HttpDelete("{id}")]
     public async Task<ActionResult> DeleteOfferedServiceAsync([Required, FromRoute] int id)
     {
         try
