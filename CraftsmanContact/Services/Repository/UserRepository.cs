@@ -1,5 +1,7 @@
+using System.ComponentModel.Design.Serialization;
 using System.Data;
 using CraftsmanContact.Data;
+using CraftsmanContact.DTOs.OfferedService;
 using CraftsmanContact.DTOs.User;
 using CraftsmanContact.Mappers;
 using CraftsmanContact.Models;
@@ -98,6 +100,35 @@ public class UserRepository : IUserRepository
         await _dbContext.SaveChangesAsync();
     }
 
+    public async Task RemoveServiceOfCraftsmanAsync(string userId, int serviceId)
+    {
+        var user = await _userManager.FindByIdAsync(userId);
+
+        if (user == null)
+        {
+            throw new RowNotInTableException("This user does not exist.");
+        }
+
+        var service = await _dbContext.OfferedServices.FindAsync(serviceId);
+
+        if (service == null)
+        {
+            throw new RowNotInTableException("This service does not exist.");
+        }
+
+        var needlessService = _dbContext.UsersAndServicesJoinedTable
+            .Where(s => s.AppUserId == userId)
+            .FirstOrDefault(s => s.OfferedServiceId == serviceId);
+
+        if (needlessService == null)
+        {
+            throw new RowNotInTableException("The user does not offer this service.");
+        }
+
+        _dbContext.UsersAndServicesJoinedTable.Remove(needlessService);
+        await _dbContext.SaveChangesAsync();
+    }
+
     public async Task<IEnumerable<UserDto>> GetCraftsmenByIdAsync(int serviceId)
     {
         var service = await _dbContext.OfferedServices.FindAsync(serviceId);
@@ -112,5 +143,20 @@ public class UserRepository : IUserRepository
             .ToListAsync();
         
         return craftsmen;
+    }
+
+    public async Task<IEnumerable<OfferedServiceDto>> GetServicesOfUserAsync(string userId)
+    {
+        var user = await _userManager.FindByIdAsync(userId);
+
+        if (user == null)
+        {
+            throw new RowNotInTableException("This user does not exist.");
+        }
+
+        var services = await _dbContext.UsersAndServicesJoinedTable.Where(s => s.AppUserId == userId)
+            .Select(x => x.OfferedService.ToOfferedServiceDto()).ToListAsync();
+
+        return services;
     }
 }

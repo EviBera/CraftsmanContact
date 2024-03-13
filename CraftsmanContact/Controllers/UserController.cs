@@ -1,4 +1,5 @@
 using System.Data;
+using CraftsmanContact.DTOs.OfferedService;
 using CraftsmanContact.DTOs.User;
 using CraftsmanContact.Models;
 using CraftsmanContact.Services.Repository;
@@ -119,6 +120,25 @@ public class UserController : ControllerBase
         }
     }
 
+    [HttpPatch("removeservice/{userId}/{serviceId}")]
+    public async Task<IActionResult> DeleteOfferedService([FromRoute] string userId, [FromRoute] int serviceId)
+    {
+        try
+        {
+            await _userRepository.RemoveServiceOfCraftsmanAsync(userId, serviceId);
+            return Ok("Service deleted successfully");
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, $"Error removing service id {serviceId} for user id {userId}");
+            if (e is RowNotInTableException)
+            {
+                return BadRequest(e.Message);
+            }
+            return StatusCode(500, $"Error removing service for user, {e.Message}");
+        }
+    }
+
     [HttpGet("craftsmenbyservice/{serviceId}")]
     public async Task<ActionResult<IEnumerable<UserDto>>> GetCraftsmenByServiceAsync([FromRoute] int serviceId)
     {
@@ -138,4 +158,23 @@ public class UserController : ControllerBase
         }
     }
 
-}
+    [HttpGet("services/{userId}")]
+    public async Task<ActionResult<OfferedServiceDto>> GetServicesOfUserAsync([FromRoute] string userId)
+    {
+        try
+        {
+            var services = await _userRepository.GetServicesOfUserAsync(userId);
+            return Ok(services);
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, $"Error getting services of user id {userId}.");
+            if (e is RowNotInTableException)
+            {
+                return BadRequest("This user does not exist.");
+            }
+            return StatusCode(500, "Error getting services of craftsman.");
+        }
+    }
+    
+}   
