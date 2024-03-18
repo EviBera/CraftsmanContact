@@ -8,7 +8,7 @@ public class CraftsmanContactContext : IdentityDbContext<AppUser>
 {
     public DbSet<OfferedService> OfferedServices { get; set; }
     public DbSet<Deal> Deals { get; set; }
-    public DbSet<UserOfferedService> UsersAndServicesJoinedTable { get; set; }
+    //public DbSet<UserOfferedService> UsersAndServicesJoinedTable { get; set; }
     private readonly IConfiguration _configuration;
 
     public CraftsmanContactContext(IConfiguration configuration)
@@ -46,20 +46,6 @@ public class CraftsmanContactContext : IdentityDbContext<AppUser>
             entity.Property(e => e.OfferedServiceName).HasMaxLength(50);
             entity.Property(e => e.OfferedServiceDescription).HasMaxLength(300);
         });
-
-        // Configure UserOfferedService (join table)
-        modelBuilder.Entity<UserOfferedService>()
-            .HasKey(uos => new { uos.AppUserId, uos.OfferedServiceId });
-
-        /*modelBuilder.Entity<UserOfferedService>()
-            .HasOne(uos => uos.AppUser);
-            //.WithMany(au => au.OfferedServices)
-           // .HasForeignKey(uos => uos.AppUserId);
-
-           modelBuilder.Entity<UserOfferedService>()
-               .HasOne(uos => uos.OfferedService);
-            //.WithMany(os => os.AppUsers)
-            //.HasForeignKey(uos => uos.OfferedServiceId);*/
         
         //Prevent cascading deletion when a user leaves the app
         modelBuilder.Entity<Deal>()

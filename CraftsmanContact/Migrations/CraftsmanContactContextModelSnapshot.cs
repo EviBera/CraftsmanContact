@@ -176,21 +176,6 @@ namespace CraftsmanContact.Migrations
                     b.ToTable("OfferedServices");
                 });
 
-            modelBuilder.Entity("CraftsmanContact.Models.UserOfferedService", b =>
-                {
-                    b.Property<string>("AppUserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("OfferedServiceId")
-                        .HasColumnType("int");
-
-                    b.HasKey("AppUserId", "OfferedServiceId");
-
-                    b.HasIndex("OfferedServiceId");
-
-                    b.ToTable("UsersAndServicesJoinedTable");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -362,25 +347,6 @@ namespace CraftsmanContact.Migrations
                     b.Navigation("Client");
 
                     b.Navigation("CraftsMan");
-
-                    b.Navigation("OfferedService");
-                });
-
-            modelBuilder.Entity("CraftsmanContact.Models.UserOfferedService", b =>
-                {
-                    b.HasOne("CraftsmanContact.Models.AppUser", "AppUser")
-                        .WithMany()
-                        .HasForeignKey("AppUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("CraftsmanContact.Models.OfferedService", "OfferedService")
-                        .WithMany()
-                        .HasForeignKey("OfferedServiceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("AppUser");
 
                     b.Navigation("OfferedService");
                 });
