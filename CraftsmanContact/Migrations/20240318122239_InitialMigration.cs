@@ -173,6 +173,30 @@ namespace CraftsmanContact.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "AppUserOfferedService",
+                columns: table => new
+                {
+                    AppUsersId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    OfferedServicesOfferedServiceId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AppUserOfferedService", x => new { x.AppUsersId, x.OfferedServicesOfferedServiceId });
+                    table.ForeignKey(
+                        name: "FK_AppUserOfferedService_AppUsers_AppUsersId",
+                        column: x => x.AppUsersId,
+                        principalTable: "AppUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_AppUserOfferedService_OfferedServices_OfferedServicesOfferedServiceId",
+                        column: x => x.OfferedServicesOfferedServiceId,
+                        principalTable: "OfferedServices",
+                        principalColumn: "OfferedServiceId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Deals",
                 columns: table => new
                 {
@@ -230,6 +254,11 @@ namespace CraftsmanContact.Migrations
                         principalColumn: "OfferedServiceId",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AppUserOfferedService_OfferedServicesOfferedServiceId",
+                table: "AppUserOfferedService",
+                column: "OfferedServicesOfferedServiceId");
 
             migrationBuilder.CreateIndex(
                 name: "EmailIndex",
@@ -294,6 +323,9 @@ namespace CraftsmanContact.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "AppUserOfferedService");
+
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 

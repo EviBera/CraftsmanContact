@@ -35,6 +35,10 @@ public class CraftsmanContactContext : IdentityDbContext<AppUser>
             entity.Property(e => e.LastName).IsRequired().HasMaxLength(50);
         });
 
+        modelBuilder.Entity<AppUser>()
+            .HasMany(u => u.OfferedServices)
+            .WithMany(s => s.AppUsers);
+
         // Configure OfferedService
         modelBuilder.Entity<OfferedService>(entity =>
         {
@@ -47,15 +51,15 @@ public class CraftsmanContactContext : IdentityDbContext<AppUser>
         modelBuilder.Entity<UserOfferedService>()
             .HasKey(uos => new { uos.AppUserId, uos.OfferedServiceId });
 
-        modelBuilder.Entity<UserOfferedService>()
-            .HasOne(uos => uos.AppUser)
-            .WithMany(au => au.UserOfferedServices)
-            .HasForeignKey(uos => uos.AppUserId);
+        /*modelBuilder.Entity<UserOfferedService>()
+            .HasOne(uos => uos.AppUser);
+            //.WithMany(au => au.OfferedServices)
+           // .HasForeignKey(uos => uos.AppUserId);
 
-        modelBuilder.Entity<UserOfferedService>()
-            .HasOne(uos => uos.OfferedService)
-            .WithMany(os => os.UserOfferedServices)
-            .HasForeignKey(uos => uos.OfferedServiceId);
+           modelBuilder.Entity<UserOfferedService>()
+               .HasOne(uos => uos.OfferedService);
+            //.WithMany(os => os.AppUsers)
+            //.HasForeignKey(uos => uos.OfferedServiceId);*/
         
         //Prevent cascading deletion when a user leaves the app
         modelBuilder.Entity<Deal>()

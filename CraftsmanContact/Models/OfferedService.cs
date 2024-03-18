@@ -12,6 +12,6 @@ public class OfferedService
     [StringLength(300)]
     public string? OfferedServiceDescription { get; set; }
 
-    public virtual ICollection<UserOfferedService> UserOfferedServices { get; set; } = new HashSet<UserOfferedService>();
+    public virtual ICollection<AppUser> AppUsers { get; set; } = new HashSet<AppUser>();
     
 }

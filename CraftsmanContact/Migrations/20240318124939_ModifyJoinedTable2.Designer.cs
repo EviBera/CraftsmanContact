@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CraftsmanContact.Migrations
 {
     [DbContext(typeof(CraftsmanContactContext))]
-    [Migration("20240313102405_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20240318124939_ModifyJoinedTable2")]
+    partial class ModifyJoinedTable2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,21 @@ namespace CraftsmanContact.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("AppUserOfferedService", b =>
+                {
+                    b.Property<string>("AppUsersId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("OfferedServicesOfferedServiceId")
+                        .HasColumnType("int");
+
+                    b.HasKey("AppUsersId", "OfferedServicesOfferedServiceId");
+
+                    b.HasIndex("OfferedServicesOfferedServiceId");
+
+                    b.ToTable("AppUserOfferedService");
+                });
 
             modelBuilder.Entity("CraftsmanContact.Models.AppUser", b =>
                 {
@@ -312,6 +327,21 @@ namespace CraftsmanContact.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("AppUserOfferedService", b =>
+                {
+                    b.HasOne("CraftsmanContact.Models.AppUser", null)
+                        .WithMany()
+                        .HasForeignKey("AppUsersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CraftsmanContact.Models.OfferedService", null)
+                        .WithMany()
+                        .HasForeignKey("OfferedServicesOfferedServiceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("CraftsmanContact.Models.Deal", b =>
                 {
                     b.HasOne("CraftsmanContact.Models.AppUser", "Client")
@@ -342,13 +372,13 @@ namespace CraftsmanContact.Migrations
             modelBuilder.Entity("CraftsmanContact.Models.UserOfferedService", b =>
                 {
                     b.HasOne("CraftsmanContact.Models.AppUser", "AppUser")
-                        .WithMany("UserOfferedServices")
+                        .WithMany()
                         .HasForeignKey("AppUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("CraftsmanContact.Models.OfferedService", "OfferedService")
-                        .WithMany("UserOfferedServices")
+                        .WithMany()
                         .HasForeignKey("OfferedServiceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -407,16 +437,6 @@ namespace CraftsmanContact.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("CraftsmanContact.Models.AppUser", b =>
-                {
-                    b.Navigation("UserOfferedServices");
-                });
-
-            modelBuilder.Entity("CraftsmanContact.Models.OfferedService", b =>
-                {
-                    b.Navigation("UserOfferedServices");
                 });
 #pragma warning restore 612, 618
         }

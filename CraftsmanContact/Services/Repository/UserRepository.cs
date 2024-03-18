@@ -73,29 +73,23 @@ public class UserRepository : IUserRepository
     public async Task RegisterServiceForCraftsmanAsync(string userId, int serviceId)
     {
         var user = await _userManager.FindByIdAsync(userId);
-
+        _dbContext.Entry(user).Collection(u => u.OfferedServices).Load();
+        
         if (user == null)
         {
             throw new RowNotInTableException("This user does not exist.");
         }
 
         var service = await _dbContext.OfferedServices.FindAsync(serviceId);
-
+        _dbContext.Entry(service).Collection(s => s.AppUsers).Load();
+        
         if (service == null)
         {
             throw new RowNotInTableException("This service does not exist.");
         }
         
-        UserOfferedService newService = new UserOfferedService
-        {
-            AppUser = user,
-            AppUserId = user.Id,
-            OfferedService = service,
-            OfferedServiceId = service.OfferedServiceId
-        };
-        
-        user.UserOfferedServices.Add(newService);
-        service.UserOfferedServices.Add(newService);
+        user.OfferedServices.Add(service);
+        service.AppUsers.Add(user); 
         
         await _dbContext.SaveChangesAsync();
     }
@@ -103,7 +97,8 @@ public class UserRepository : IUserRepository
     public async Task RemoveServiceOfCraftsmanAsync(string userId, int serviceId)
     {
         var user = await _userManager.FindByIdAsync(userId);
-
+        _dbContext.Entry(user).Collection(u => u.OfferedServices).Load();
+        
         if (user == null)
         {
             throw new RowNotInTableException("This user does not exist.");
@@ -116,16 +111,14 @@ public class UserRepository : IUserRepository
             throw new RowNotInTableException("This service does not exist.");
         }
 
-        var needlessService = _dbContext.UsersAndServicesJoinedTable
-            .Where(s => s.AppUserId == userId)
-            .FirstOrDefault(s => s.OfferedServiceId == serviceId);
+        var needlessService = user.OfferedServices.FirstOrDefault(s => s.OfferedServiceId == serviceId);
 
         if (needlessService == null)
         {
             throw new RowNotInTableException("The user does not offer this service.");
         }
 
-        _dbContext.UsersAndServicesJoinedTable.Remove(needlessService);
+        user.OfferedServices.Remove(needlessService);
         await _dbContext.SaveChangesAsync();
     }
 
@@ -137,10 +130,9 @@ public class UserRepository : IUserRepository
         {
             throw new RowNotInTableException();
         }
-
-        var craftsmen = await _dbContext.UsersAndServicesJoinedTable.
-            Where(item => item.OfferedServiceId == serviceId).Select(x => x.AppUser.ToUserDto())
-            .ToListAsync();
+        
+        _dbContext.Entry(service).Collection(s => s.AppUsers).Load();
+        var craftsmen = service.AppUsers.Select(u => u.ToUserDto());
         
         return craftsmen;
     }
@@ -148,15 +140,17 @@ public class UserRepository : IUserRepository
     public async Task<IEnumerable<OfferedServiceDto>> GetServicesOfUserAsync(string userId)
     {
         var user = await _userManager.FindByIdAsync(userId);
+        _dbContext.Entry(user).Collection(u => u.OfferedServices).Load();
 
         if (user == null)
         {
             throw new RowNotInTableException("This user does not exist.");
         }
-
+/*
         var services = await _dbContext.UsersAndServicesJoinedTable.Where(s => s.AppUserId == userId)
-            .Select(x => x.OfferedService.ToOfferedServiceDto()).ToListAsync();
+            .Select(x => x.OfferedService.ToOfferedServiceDto()).ToListAsync();*/
 
+        var services = user.OfferedServices.Select(s => s.ToOfferedServiceDto());
         return services;
     }
 }
