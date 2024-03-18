@@ -33,10 +33,9 @@ public class DealRepository : IDealRepository
         {
             throw new RowNotInTableException("The client does not exist.");
         }
-
-        var service = _dbContext.UsersAndServicesJoinedTable
-            .Where(s => s.AppUserId == dealDto.CraftsmanId)
-            .FirstOrDefault(s => s.OfferedServiceId == dealDto.OfferedServiceId);
+        
+        _dbContext.Entry(craftsman).Collection(u => u.OfferedServices).Load();
+        var service = craftsman.OfferedServices.FirstOrDefault(s => s.OfferedServiceId == dealDto.OfferedServiceId);
         if (service == null)
         {
             throw new RowNotInTableException("The craftsman does not offer this service.");
