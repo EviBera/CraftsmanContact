@@ -1,4 +1,3 @@
-using System.ComponentModel.Design.Serialization;
 using System.Data;
 using CraftsmanContact.Data;
 using CraftsmanContact.DTOs.OfferedService;
@@ -6,7 +5,6 @@ using CraftsmanContact.DTOs.User;
 using CraftsmanContact.Mappers;
 using CraftsmanContact.Models;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 
 namespace CraftsmanContact.Services.Repository;
 
@@ -122,7 +120,7 @@ public class UserRepository : IUserRepository
         await _dbContext.SaveChangesAsync();
     }
 
-    public async Task<IEnumerable<UserDto>> GetCraftsmenByIdAsync(int serviceId)
+    public async Task<IEnumerable<UserDto>> GetCraftsmenByServiceIdAsync(int serviceId)
     {
         var service = await _dbContext.OfferedServices.FindAsync(serviceId);
         
@@ -146,9 +144,6 @@ public class UserRepository : IUserRepository
         {
             throw new RowNotInTableException("This user does not exist.");
         }
-/*
-        var services = await _dbContext.UsersAndServicesJoinedTable.Where(s => s.AppUserId == userId)
-            .Select(x => x.OfferedService.ToOfferedServiceDto()).ToListAsync();*/
 
         var services = user.OfferedServices.Select(s => s.ToOfferedServiceDto());
         return services;

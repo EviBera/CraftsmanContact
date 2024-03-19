@@ -1,10 +1,7 @@
 using System.Data;
 using CraftsmanContact.DTOs.OfferedService;
 using CraftsmanContact.DTOs.User;
-using CraftsmanContact.Models;
 using CraftsmanContact.Services.Repository;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CraftsmanContact.Controllers;
@@ -101,7 +98,7 @@ public class UserController : ControllerBase
     }
 
     [HttpPatch("registerservice/{userId}/{serviceId}")]
-    public async Task<IActionResult> RegisterServiceAsOfferedByUser([FromRoute] string userId,
+    public async Task<IActionResult> RegisterServiceAsOfferedByUserAsync([FromRoute] string userId,
         [FromRoute] int serviceId)
     {
         try
@@ -121,7 +118,7 @@ public class UserController : ControllerBase
     }
 
     [HttpPatch("removeservice/{userId}/{serviceId}")]
-    public async Task<IActionResult> DeleteOfferedService([FromRoute] string userId, [FromRoute] int serviceId)
+    public async Task<IActionResult> RemoveOfferedServiceFromCraftsmanAsync([FromRoute] string userId, [FromRoute] int serviceId)
     {
         try
         {
@@ -144,7 +141,7 @@ public class UserController : ControllerBase
     {
         try
         {
-            IEnumerable<UserDto> craftsmen = await _userRepository.GetCraftsmenByIdAsync(serviceId);
+            IEnumerable<UserDto> craftsmen = await _userRepository.GetCraftsmenByServiceIdAsync(serviceId);
             return Ok(craftsmen);
         }
         catch (Exception e)
