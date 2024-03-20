@@ -72,7 +72,11 @@ public class DealController : ControllerBase
         catch (Exception e)
         {
             _logger.LogError(e, "Error registering deal.");
-            return BadRequest($"Error registering deal, {e.Message}");
+            if (e is RowNotInTableException)
+            {
+                return BadRequest($"Error registering deal, {e.Message}");
+            }
+            return StatusCode(500, "Error registering deal");
         }
     }
 
@@ -106,7 +110,7 @@ public class DealController : ControllerBase
         catch (Exception e)
         {
             _logger.LogError(e, $"Error closing the deal id: {dealId} by user {userId}");
-            if (e is ArgumentException)
+            if (e is RowNotInTableException || e is ArgumentException)
             {
                 return BadRequest($"Invalid parameters, {e.Message}");
             }

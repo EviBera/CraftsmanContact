@@ -104,13 +104,13 @@ public class DealRepository : IDealRepository
 
         if (deal == null)
         {
-            throw new ArgumentException("Deal does not exist.");
+            throw new RowNotInTableException("Deal does not exist.");
         }
 
         var user = await _userManager.FindByIdAsync(userId);
         if (user == null)
         {
-            throw new ArgumentException("This user does not exist.");
+            throw new RowNotInTableException("This user does not exist.");
         }
 
         if (deal.ClientId == userId && !deal.IsClosedByClient)
