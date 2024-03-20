@@ -1,5 +1,4 @@
 using CraftsmanContact.DTOs.Deal;
-using CraftsmanContact.Models;
 
 namespace CraftsmanContact.Services.Repository;
 
