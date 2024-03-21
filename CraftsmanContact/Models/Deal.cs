@@ -6,9 +6,9 @@ namespace CraftsmanContact.Models;
 public class Deal
 {
     [Key] public int DealId { get; set; }
-    [Required] public string CraftsmanId { get; set; } = String.Empty;
+    public string CraftsmanId { get; set; } = String.Empty;
     public virtual AppUser CraftsMan { get; set; }
-    [Required] public string ClientId { get; set; } = String.Empty;
+    public string ClientId { get; set; } = String.Empty;
     public virtual AppUser Client { get; set; }
     public int OfferedServiceId { get; set; }
     public virtual OfferedService OfferedService { get; set; }
