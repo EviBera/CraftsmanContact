@@ -22,6 +22,9 @@ public class UserController : ControllerBase
     [HttpPost("register")]
     public async Task<IActionResult> RegisterAsync([FromBody]RegisterUserRequestDto requestDto)
     {
+        if (!ModelState.IsValid)
+            return StatusCode(418, ModelState); 
+        
         try
         {
             var result = await _userRepository.RegisterUserAsync(requestDto);
@@ -40,9 +43,12 @@ public class UserController : ControllerBase
         }
     }
 
-    [HttpDelete("{userId:guid}")]
+    [HttpDelete("{userId}")]
     public async Task<IActionResult> DeleteUserAsync([FromRoute] string userId)
     {
+        if (!ModelState.IsValid)
+            return StatusCode(418, ModelState); 
+        
         try
         {
             await _userRepository.DeleteUserAsync(userId);
@@ -59,9 +65,12 @@ public class UserController : ControllerBase
         }
     }
 
-    [HttpPut("{userId:guid}")]
+    [HttpPut("{userId}")]
     public async Task<IActionResult> UpdateUserAsync([FromRoute] string userId, [FromBody] UpdateUserRequestDto requestDto)
     {
+        if (!ModelState.IsValid)
+            return StatusCode(418, ModelState); 
+        
         try
         {
             await _userRepository.UpdateUserAsync(userId, requestDto);
@@ -78,9 +87,12 @@ public class UserController : ControllerBase
         }
     }
 
-    [HttpGet("{userId:guid}")]
+    [HttpGet("{userId}")]
     public async Task<ActionResult<UserDto?>> GetUserByIdAsync([FromRoute] string userId)
     {
+        if (!ModelState.IsValid)
+            return StatusCode(418, ModelState); 
+        
         try
         {
             var user = await _userRepository.GetUserByIdAsync(userId);
@@ -97,10 +109,13 @@ public class UserController : ControllerBase
         }
     }
 
-    [HttpPatch("registerservice/{userId:guid}/{serviceId:int}")]
+    [HttpPatch("registerservice/{userId}/{serviceId:int}")]
     public async Task<IActionResult> RegisterServiceAsOfferedByUserAsync([FromRoute] string userId,
         [FromRoute] int serviceId)
     {
+        if (!ModelState.IsValid)
+            return StatusCode(418, ModelState); 
+        
         try
         {
             await _userRepository.RegisterServiceForCraftsmanAsync(userId, serviceId);
@@ -117,9 +132,12 @@ public class UserController : ControllerBase
         }
     }
 
-    [HttpPatch("removeservice/{userId:guid}/{serviceId:int}")]
+    [HttpPatch("removeservice/{userId}/{serviceId:int}")]
     public async Task<IActionResult> RemoveOfferedServiceFromCraftsmanAsync([FromRoute] string userId, [FromRoute] int serviceId)
     {
+        if (!ModelState.IsValid)
+            return StatusCode(418, ModelState); 
+        
         try
         {
             await _userRepository.RemoveServiceOfCraftsmanAsync(userId, serviceId);
@@ -139,6 +157,9 @@ public class UserController : ControllerBase
     [HttpGet("craftsmenbyservice/{serviceId:int}")]
     public async Task<ActionResult<IEnumerable<UserDto>>> GetCraftsmenByServiceAsync([FromRoute] int serviceId)
     {
+        if (!ModelState.IsValid)
+            return StatusCode(418, ModelState); 
+        
         try
         {
             IEnumerable<UserDto> craftsmen = await _userRepository.GetCraftsmenByServiceIdAsync(serviceId);
@@ -155,9 +176,12 @@ public class UserController : ControllerBase
         }
     }
 
-    [HttpGet("services/{userId:guid}")]
+    [HttpGet("services/{userId}")]
     public async Task<ActionResult<OfferedServiceDto>> GetServicesOfUserAsync([FromRoute] string userId)
     {
+        if (!ModelState.IsValid)
+            return StatusCode(418, ModelState); 
+        
         try
         {
             var services = await _userRepository.GetServicesOfUserAsync(userId);

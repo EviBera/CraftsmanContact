@@ -24,6 +24,9 @@ public class OfferedServiceController : ControllerBase
     [HttpGet("all")]
     public async Task<ActionResult<List<OfferedServiceDto>>> GetAllAsync()
     {
+        if (!ModelState.IsValid)
+            return StatusCode(418, ModelState); 
+        
         try
         {
             var offeredServices = await _offeredServiceRepository.GetAllAsync();
@@ -37,17 +40,20 @@ public class OfferedServiceController : ControllerBase
         }
     }
 
-    [HttpGet("{id:int}")]
-    public async Task<ActionResult<OfferedServiceDto>> GetByIdAsync([Required, FromRoute]int id)
+    [HttpGet("{serviceId:int}")]
+    public async Task<ActionResult<OfferedServiceDto>> GetByIdAsync([Required, FromRoute]int serviceId)
     {
+        if (!ModelState.IsValid)
+            return StatusCode(418, ModelState);
+        
         try
         {
-            var offeredService = await _offeredServiceRepository.GetByIdAsync(id);
+            var offeredService = await _offeredServiceRepository.GetByIdAsync(serviceId);
             return Ok(offeredService);
         }
         catch (Exception e)
         {
-            _logger.LogError(e, "Error getting offered service id: " + id);
+            _logger.LogError(e, "Error getting offered service id: " + serviceId);
             if (e is RowNotInTableException)
             {
                 return NotFound($"The searched offered service does not exist.");
@@ -59,6 +65,9 @@ public class OfferedServiceController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<OfferedServiceDto>> RegisterNewOfferedServiceAsync([FromBody]CreateRequestOfferedServiceDto serviceDto)
     {
+        if (!ModelState.IsValid)
+            return StatusCode(418, ModelState);
+        
         try
         {
             var newService = await _offeredServiceRepository.RegisterAsync(serviceDto);
@@ -71,9 +80,12 @@ public class OfferedServiceController : ControllerBase
         }
     }
     
-    [HttpPatch("{id:int}")]
+    [HttpPatch("{serviceId:int}")]
     public async Task<ActionResult> UpdateOfferedServiceAsync([Required, FromRoute]int serviceId, [FromBody]UpdateRequestOfferedServiceDto serviceDto)
     {
+        if (!ModelState.IsValid)
+            return StatusCode(418, ModelState);
+        
         try
         {
             var service = await _offeredServiceRepository.UpdateAsync(serviceId, serviceDto);
@@ -91,9 +103,12 @@ public class OfferedServiceController : ControllerBase
         }
     }
     
-    [HttpDelete("{id:int}")]
+    [HttpDelete("{serviceId:int}")]
     public async Task<ActionResult> DeleteOfferedServiceAsync([Required, FromRoute] int serviceId)
     {
+        if (!ModelState.IsValid)
+            return StatusCode(418, ModelState);
+        
         try
         {
             await _offeredServiceRepository.DeleteAsync(serviceId);
@@ -104,7 +119,7 @@ public class OfferedServiceController : ControllerBase
             _logger.LogError(e, "Error deleting the offered service id: " + serviceId);
             if (e is RowNotInTableException)
             {
-                return BadRequest("Invalid Id");
+                return BadRequest("This service does not exist.");
             }
             return StatusCode(500, $"Error deleting the offered service, {e.Message}");
         }
