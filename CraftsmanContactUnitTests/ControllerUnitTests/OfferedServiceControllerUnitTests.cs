@@ -339,7 +339,7 @@ public class OfferedServiceControllerUnitTests
         var badRequestResult = result as BadRequestObjectResult;
         Assert.IsNotNull(badRequestResult);
         Assert.That(badRequestResult.StatusCode, Is.EqualTo(400));
-        Assert.That(badRequestResult.Value, Is.EqualTo("Invalid Id"));
+        Assert.That(badRequestResult.Value, Is.EqualTo("This service does not exist."));
 
         // Verify the DeleteAsync method was called on the repository
         _offeredServiceRepositoryMock.Verify(repository => repository.DeleteAsync(invalidServiceId), Times.Once);
