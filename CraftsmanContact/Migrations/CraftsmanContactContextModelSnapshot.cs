@@ -122,11 +122,11 @@ namespace CraftsmanContact.Migrations
 
                     b.Property<string>("ClientId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CraftsmanId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -144,12 +144,6 @@ namespace CraftsmanContact.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("DealId");
-
-                    b.HasIndex("ClientId");
-
-                    b.HasIndex("CraftsmanId");
-
-                    b.HasIndex("OfferedServiceId");
 
                     b.ToTable("Deals");
                 });
@@ -322,33 +316,6 @@ namespace CraftsmanContact.Migrations
                         .HasForeignKey("OfferedServicesOfferedServiceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("CraftsmanContact.Models.Deal", b =>
-                {
-                    b.HasOne("CraftsmanContact.Models.AppUser", "Client")
-                        .WithMany()
-                        .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("CraftsmanContact.Models.AppUser", "CraftsMan")
-                        .WithMany()
-                        .HasForeignKey("CraftsmanId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("CraftsmanContact.Models.OfferedService", "OfferedService")
-                        .WithMany()
-                        .HasForeignKey("OfferedServiceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Client");
-
-                    b.Navigation("CraftsMan");
-
-                    b.Navigation("OfferedService");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

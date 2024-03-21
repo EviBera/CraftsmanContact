@@ -7,11 +7,8 @@ public class Deal
 {
     [Key] public int DealId { get; set; }
     public string CraftsmanId { get; set; } = String.Empty;
-    public virtual AppUser CraftsMan { get; set; }
     public string ClientId { get; set; } = String.Empty;
-    public virtual AppUser Client { get; set; }
     public int OfferedServiceId { get; set; }
-    public virtual OfferedService OfferedService { get; set; }
     public DateTime CreatedAt { get; set; } = DateTime.Now;
     [DefaultValue(false)] public bool IsAcceptedByCraftsman { get; set; }
     [DefaultValue(false)] public bool IsClosedByCraftsman { get; set; }

@@ -47,17 +47,5 @@ public class CraftsmanContactContext : IdentityDbContext<AppUser>
             entity.Property(e => e.OfferedServiceDescription).HasMaxLength(300);
         });
         
-        //Prevent cascading deletion when a user leaves the app
-        modelBuilder.Entity<Deal>()
-            .HasOne(d => d.CraftsMan)
-            .WithMany()
-            .HasForeignKey(d => d.CraftsmanId)
-            .OnDelete(DeleteBehavior.NoAction); 
-
-        modelBuilder.Entity<Deal>()
-            .HasOne(d => d.Client)
-            .WithMany()
-            .HasForeignKey(d => d.ClientId)
-            .OnDelete(DeleteBehavior.NoAction); 
     }
 }

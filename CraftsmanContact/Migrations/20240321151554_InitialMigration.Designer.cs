@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CraftsmanContact.Migrations
 {
     [DbContext(typeof(CraftsmanContactContext))]
-    [Migration("20240318124939_ModifyJoinedTable2")]
-    partial class ModifyJoinedTable2
+    [Migration("20240321151554_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -125,11 +125,11 @@ namespace CraftsmanContact.Migrations
 
                     b.Property<string>("ClientId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CraftsmanId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -147,12 +147,6 @@ namespace CraftsmanContact.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("DealId");
-
-                    b.HasIndex("ClientId");
-
-                    b.HasIndex("CraftsmanId");
-
-                    b.HasIndex("OfferedServiceId");
 
                     b.ToTable("Deals");
                 });
@@ -177,21 +171,6 @@ namespace CraftsmanContact.Migrations
                     b.HasKey("OfferedServiceId");
 
                     b.ToTable("OfferedServices");
-                });
-
-            modelBuilder.Entity("CraftsmanContact.Models.UserOfferedService", b =>
-                {
-                    b.Property<string>("AppUserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("OfferedServiceId")
-                        .HasColumnType("int");
-
-                    b.HasKey("AppUserId", "OfferedServiceId");
-
-                    b.HasIndex("OfferedServiceId");
-
-                    b.ToTable("UsersAndServicesJoinedTable");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -340,52 +319,6 @@ namespace CraftsmanContact.Migrations
                         .HasForeignKey("OfferedServicesOfferedServiceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("CraftsmanContact.Models.Deal", b =>
-                {
-                    b.HasOne("CraftsmanContact.Models.AppUser", "Client")
-                        .WithMany()
-                        .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("CraftsmanContact.Models.AppUser", "CraftsMan")
-                        .WithMany()
-                        .HasForeignKey("CraftsmanId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("CraftsmanContact.Models.OfferedService", "OfferedService")
-                        .WithMany()
-                        .HasForeignKey("OfferedServiceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Client");
-
-                    b.Navigation("CraftsMan");
-
-                    b.Navigation("OfferedService");
-                });
-
-            modelBuilder.Entity("CraftsmanContact.Models.UserOfferedService", b =>
-                {
-                    b.HasOne("CraftsmanContact.Models.AppUser", "AppUser")
-                        .WithMany()
-                        .HasForeignKey("AppUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("CraftsmanContact.Models.OfferedService", "OfferedService")
-                        .WithMany()
-                        .HasForeignKey("OfferedServiceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("AppUser");
-
-                    b.Navigation("OfferedService");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

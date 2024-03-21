@@ -19,9 +19,12 @@ public class DealController : ControllerBase
     }
 
 
-    [HttpGet("byuser/{userId:guid}")]
+    [HttpGet("byuser/{userId}")]
     public async Task<ActionResult<List<DealDto>>> GetDealsByUserAsync([FromRoute]string userId)
     {
+        if (!ModelState.IsValid)
+            return StatusCode(418, ModelState); 
+        
         try
         {
             var deals = await _dealRepository.GetDealsByUserAsync(userId);
@@ -43,6 +46,9 @@ public class DealController : ControllerBase
     [HttpGet("byid/{dealId:int}")]
     public async Task<ActionResult<DealDto>> GetDealByIdAsync([FromRoute]int dealId)
     {
+        if (!ModelState.IsValid)
+            return StatusCode(418, ModelState); 
+        
         try
         {
             var deal = await _dealRepository.GetDealByIdAsync(dealId);
@@ -62,6 +68,9 @@ public class DealController : ControllerBase
     [HttpPost]
     public async Task<ActionResult> AddNewDealAsync([FromBody] CreateDealRequestDto dealDto)
     {
+        if (!ModelState.IsValid)
+            return StatusCode(418, ModelState); 
+        
         try
         {
             await _dealRepository.CreateDealAsync(dealDto);
@@ -78,9 +87,12 @@ public class DealController : ControllerBase
         }
     }
 
-    [HttpPatch("accept/{craftsmanId:guid}/{dealId:int}")]
+    [HttpPatch("accept/{craftsmanId}/{dealId:int}")]
     public async Task<ActionResult> AcceptDealAsync([FromRoute] string craftsmanId, [FromRoute]int dealId)
     {
+        if (!ModelState.IsValid)
+            return StatusCode(418, ModelState); 
+        
         try
         {
             await _dealRepository.SetDealToAcceptedAsync(craftsmanId, dealId);
@@ -97,9 +109,12 @@ public class DealController : ControllerBase
         }
     }
 
-    [HttpPatch("close/{dealId:int}/{userId:guid}")]
+    [HttpPatch("close/{dealId:int}/{userId}")]
     public async Task<ActionResult> CloseDealAsync([FromRoute] int dealId, [FromRoute] string userId)
     {
+        if (!ModelState.IsValid)
+            return StatusCode(418, ModelState); 
+        
         try
         {
             await _dealRepository.SetDealClosedAsync(dealId, userId);

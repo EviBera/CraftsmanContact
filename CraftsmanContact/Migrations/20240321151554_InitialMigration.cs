@@ -53,6 +53,25 @@ namespace CraftsmanContact.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Deals",
+                columns: table => new
+                {
+                    DealId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CraftsmanId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ClientId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    OfferedServiceId = table.Column<int>(type: "int", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsAcceptedByCraftsman = table.Column<bool>(type: "bit", nullable: false),
+                    IsClosedByCraftsman = table.Column<bool>(type: "bit", nullable: false),
+                    IsClosedByClient = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Deals", x => x.DealId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "OfferedServices",
                 columns: table => new
                 {
@@ -196,65 +215,6 @@ namespace CraftsmanContact.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "Deals",
-                columns: table => new
-                {
-                    DealId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    CraftsmanId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ClientId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    OfferedServiceId = table.Column<int>(type: "int", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    IsAcceptedByCraftsman = table.Column<bool>(type: "bit", nullable: false),
-                    IsClosedByCraftsman = table.Column<bool>(type: "bit", nullable: false),
-                    IsClosedByClient = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Deals", x => x.DealId);
-                    table.ForeignKey(
-                        name: "FK_Deals_AppUsers_ClientId",
-                        column: x => x.ClientId,
-                        principalTable: "AppUsers",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Deals_AppUsers_CraftsmanId",
-                        column: x => x.CraftsmanId,
-                        principalTable: "AppUsers",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Deals_OfferedServices_OfferedServiceId",
-                        column: x => x.OfferedServiceId,
-                        principalTable: "OfferedServices",
-                        principalColumn: "OfferedServiceId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "UsersAndServicesJoinedTable",
-                columns: table => new
-                {
-                    AppUserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    OfferedServiceId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_UsersAndServicesJoinedTable", x => new { x.AppUserId, x.OfferedServiceId });
-                    table.ForeignKey(
-                        name: "FK_UsersAndServicesJoinedTable_AppUsers_AppUserId",
-                        column: x => x.AppUserId,
-                        principalTable: "AppUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_UsersAndServicesJoinedTable_OfferedServices_OfferedServiceId",
-                        column: x => x.OfferedServiceId,
-                        principalTable: "OfferedServices",
-                        principalColumn: "OfferedServiceId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
             migrationBuilder.CreateIndex(
                 name: "IX_AppUserOfferedService_OfferedServicesOfferedServiceId",
                 table: "AppUserOfferedService",
@@ -298,26 +258,6 @@ namespace CraftsmanContact.Migrations
                 name: "IX_AspNetUserRoles_RoleId",
                 table: "AspNetUserRoles",
                 column: "RoleId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Deals_ClientId",
-                table: "Deals",
-                column: "ClientId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Deals_CraftsmanId",
-                table: "Deals",
-                column: "CraftsmanId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Deals_OfferedServiceId",
-                table: "Deals",
-                column: "OfferedServiceId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UsersAndServicesJoinedTable_OfferedServiceId",
-                table: "UsersAndServicesJoinedTable",
-                column: "OfferedServiceId");
         }
 
         /// <inheritdoc />
@@ -345,16 +285,13 @@ namespace CraftsmanContact.Migrations
                 name: "Deals");
 
             migrationBuilder.DropTable(
-                name: "UsersAndServicesJoinedTable");
+                name: "OfferedServices");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AppUsers");
-
-            migrationBuilder.DropTable(
-                name: "OfferedServices");
         }
     }
 }

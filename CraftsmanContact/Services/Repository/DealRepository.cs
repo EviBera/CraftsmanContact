@@ -77,6 +77,12 @@ public class DealRepository : IDealRepository
             throw new RowNotInTableException("Deal does not exist.");
         }
 
+        var service = _dbContext.OfferedServices.FirstOrDefault(s => s.OfferedServiceId == deal.OfferedServiceId);
+        if (service == null)
+        {
+            throw new RowNotInTableException("The service does not exist anymore.");
+        }
+
         var craftsman = await _userManager.FindByIdAsync(deal.CraftsmanId);
         if (craftsman == null)
         {
@@ -104,6 +110,12 @@ public class DealRepository : IDealRepository
         if (deal == null)
         {
             throw new RowNotInTableException("Deal does not exist.");
+        }
+
+        var service = _dbContext.OfferedServices.FirstOrDefault(s => s.OfferedServiceId == deal.OfferedServiceId);
+        if (service == null)
+        {
+            throw new RowNotInTableException("The service does not exist anymore.");
         }
 
         var user = await _userManager.FindByIdAsync(userId);

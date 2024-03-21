@@ -22,7 +22,7 @@ public static class DealMappers
             DealId = dealModel.DealId,
             ClientId = dealModel.ClientId,
             CraftsmanId = dealModel.CraftsmanId,
-            OfferedServiceId = dealModel.OfferedServiceId,
+            OfferedServiceId = (int)dealModel.OfferedServiceId,
             CreatedAt = dealModel.CreatedAt,
             IsAcceptedByCraftsman = dealModel.IsAcceptedByCraftsman,
             IsClosedByClient = dealModel.IsClosedByClient,
