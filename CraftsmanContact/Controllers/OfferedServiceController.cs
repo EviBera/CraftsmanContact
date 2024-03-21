@@ -37,7 +37,7 @@ public class OfferedServiceController : ControllerBase
         }
     }
 
-    [HttpGet("{id}")]
+    [HttpGet("{id:int}")]
     public async Task<ActionResult<OfferedServiceDto>> GetByIdAsync([Required, FromRoute]int id)
     {
         try
@@ -71,17 +71,17 @@ public class OfferedServiceController : ControllerBase
         }
     }
     
-    [HttpPatch("{id}")]
-    public async Task<ActionResult> UpdateOfferedServiceAsync([Required, FromRoute]int id, [FromBody]UpdateRequestOfferedServiceDto serviceDto)
+    [HttpPatch("{id:int}")]
+    public async Task<ActionResult> UpdateOfferedServiceAsync([Required, FromRoute]int serviceId, [FromBody]UpdateRequestOfferedServiceDto serviceDto)
     {
         try
         {
-            var service = await _offeredServiceRepository.UpdateAsync(id, serviceDto);
+            var service = await _offeredServiceRepository.UpdateAsync(serviceId, serviceDto);
             return Ok(service);
         }
         catch (Exception e)
         {
-            _logger.LogError(e, "Error updating the offered service id: " + id );
+            _logger.LogError(e, "Error updating the offered service id: " + serviceId );
             if (e is RowNotInTableException)
             {
                 return BadRequest($"This offered service does not exist.");
@@ -91,17 +91,17 @@ public class OfferedServiceController : ControllerBase
         }
     }
     
-    [HttpDelete("{id}")]
-    public async Task<ActionResult> DeleteOfferedServiceAsync([Required, FromRoute] int id)
+    [HttpDelete("{id:int}")]
+    public async Task<ActionResult> DeleteOfferedServiceAsync([Required, FromRoute] int serviceId)
     {
         try
         {
-            await _offeredServiceRepository.DeleteAsync(id);
+            await _offeredServiceRepository.DeleteAsync(serviceId);
             return Ok("Service deleted successfully");
         }
         catch (Exception e)
         {
-            _logger.LogError(e, "Error deleting the offered service id: " + id);
+            _logger.LogError(e, "Error deleting the offered service id: " + serviceId);
             if (e is RowNotInTableException)
             {
                 return BadRequest("Invalid Id");

@@ -40,7 +40,7 @@ public class UserController : ControllerBase
         }
     }
 
-    [HttpDelete("{userId}")]
+    [HttpDelete("{userId:guid}")]
     public async Task<IActionResult> DeleteUserAsync([FromRoute] string userId)
     {
         try
@@ -59,7 +59,7 @@ public class UserController : ControllerBase
         }
     }
 
-    [HttpPut("{userId}")]
+    [HttpPut("{userId:guid}")]
     public async Task<IActionResult> UpdateUserAsync([FromRoute] string userId, [FromBody] UpdateUserRequestDto requestDto)
     {
         try
@@ -78,7 +78,7 @@ public class UserController : ControllerBase
         }
     }
 
-    [HttpGet("{userId}")]
+    [HttpGet("{userId:guid}")]
     public async Task<ActionResult<UserDto?>> GetUserByIdAsync([FromRoute] string userId)
     {
         try
@@ -97,7 +97,7 @@ public class UserController : ControllerBase
         }
     }
 
-    [HttpPatch("registerservice/{userId}/{serviceId}")]
+    [HttpPatch("registerservice/{userId:guid}/{serviceId:int}")]
     public async Task<IActionResult> RegisterServiceAsOfferedByUserAsync([FromRoute] string userId,
         [FromRoute] int serviceId)
     {
@@ -117,7 +117,7 @@ public class UserController : ControllerBase
         }
     }
 
-    [HttpPatch("removeservice/{userId}/{serviceId}")]
+    [HttpPatch("removeservice/{userId:guid}/{serviceId:int}")]
     public async Task<IActionResult> RemoveOfferedServiceFromCraftsmanAsync([FromRoute] string userId, [FromRoute] int serviceId)
     {
         try
@@ -136,7 +136,7 @@ public class UserController : ControllerBase
         }
     }
 
-    [HttpGet("craftsmenbyservice/{serviceId}")]
+    [HttpGet("craftsmenbyservice/{serviceId:int}")]
     public async Task<ActionResult<IEnumerable<UserDto>>> GetCraftsmenByServiceAsync([FromRoute] int serviceId)
     {
         try
@@ -155,7 +155,7 @@ public class UserController : ControllerBase
         }
     }
 
-    [HttpGet("services/{userId}")]
+    [HttpGet("services/{userId:guid}")]
     public async Task<ActionResult<OfferedServiceDto>> GetServicesOfUserAsync([FromRoute] string userId)
     {
         try

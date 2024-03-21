@@ -19,7 +19,7 @@ public class DealController : ControllerBase
     }
 
 
-    [HttpGet("byuser/{userId}")]
+    [HttpGet("byuser/{userId:guid}")]
     public async Task<ActionResult<List<DealDto>>> GetDealsByUserAsync([FromRoute]string userId)
     {
         try
@@ -40,7 +40,7 @@ public class DealController : ControllerBase
         }
     }
 
-    [HttpGet("byid/{dealId}")]
+    [HttpGet("byid/{dealId:int}")]
     public async Task<ActionResult<DealDto>> GetDealByIdAsync([FromRoute]int dealId)
     {
         try
@@ -53,7 +53,7 @@ public class DealController : ControllerBase
             _logger.LogError(e, $"Error getting deal by Id {dealId}.");
             if (e is RowNotInTableException)
             {
-                return BadRequest("Invalid Id");
+                return BadRequest("This deal does not exist.");
             }
             return StatusCode(500, $"Error getting deal.");
         }
@@ -78,7 +78,7 @@ public class DealController : ControllerBase
         }
     }
 
-    [HttpPatch("accept/{craftsmanId}/{dealId}")]
+    [HttpPatch("accept/{craftsmanId:guid}/{dealId:int}")]
     public async Task<ActionResult> AcceptDealAsync([FromRoute] string craftsmanId, [FromRoute]int dealId)
     {
         try
@@ -97,7 +97,7 @@ public class DealController : ControllerBase
         }
     }
 
-    [HttpPatch("close/{dealId}/{userId}")]
+    [HttpPatch("close/{dealId:int}/{userId:guid}")]
     public async Task<ActionResult> CloseDealAsync([FromRoute] int dealId, [FromRoute] string userId)
     {
         try
