@@ -476,4 +476,85 @@ public class DealControllerUnitTests
         // Verify that the SetDealClosedAsync method was called on the repository
         _dealRepositoryMock.Verify(repository => repository.SetDealClosedAsync(dealId, userId), Times.Once);
     }
+
+    
+    [Test]
+    public async Task GetDeadDealsAsync_ReturnsOk_IfRepositoryDoesNotThrowException()
+    {
+        //Arrange
+        var mockData = new List<DealDto>
+        {
+            new DealDto
+            {
+                DealId = 1,
+                ClientId = "Test Id 1",
+                CraftsmanId = "Test Id 2",
+                OfferedServiceId = 1,
+                CreatedAt = new DateTime(2024, 3, 22),
+                IsAcceptedByCraftsman = true,
+                IsClosedByCraftsman = false,
+                IsClosedByClient = false
+            },
+            new DealDto
+            {
+                DealId = 2,
+                ClientId = "Test Id 3",
+                CraftsmanId = "Test Id 4",
+                OfferedServiceId = 1,
+                CreatedAt = new DateTime(2024, 3, 22),
+                IsAcceptedByCraftsman = false,
+                IsClosedByCraftsman = false,
+                IsClosedByClient = false
+            },
+            new DealDto
+            {
+                DealId = 3,
+                ClientId = "Test Id 5",
+                CraftsmanId = "Test Id 2",
+                OfferedServiceId = 1,
+                CreatedAt = new DateTime(2024, 3, 22),
+                IsAcceptedByCraftsman = false,
+                IsClosedByCraftsman = false,
+                IsClosedByClient = false
+            }
+        };
+        _dealRepositoryMock.Setup(repository => repository.GetDeadDealsAsync()).ReturnsAsync(mockData);
+
+        //Act
+        var result = await _controller.GetDeadDealsAsync();
+
+        //Assert
+        Assert.IsNotNull(result);
+        var objectResult = result.Result as OkObjectResult;
+        Assert.IsNotNull(objectResult);
+        Assert.That(objectResult.StatusCode, Is.EqualTo(200));
+        var returnedData = objectResult.Value as List<DealDto>;
+        Assert.IsNotNull(returnedData);
+        Assert.That(returnedData.Count, Is.EqualTo(mockData.Count));
+        
+        // Verify that the GetDeadDealsAsync method was called on the repository
+        _dealRepositoryMock.Verify(repository => repository.GetDeadDealsAsync(), Times.Once);
+    }
+    
+    
+    [Test]
+    public async Task GetDeadDealsAsync_ReturnsInternalServerError_IfRepositoryThrowsException()
+    {
+        //Arrange
+        var errorMessage = "Test message.";
+        _dealRepositoryMock.Setup(repository => repository.GetDeadDealsAsync()).ThrowsAsync(new Exception(errorMessage));
+
+        //Act
+        var result = await _controller.GetDeadDealsAsync();
+
+        //Assert
+        Assert.IsNotNull(result);
+        var objectResult = result.Result as ObjectResult;
+        Assert.IsNotNull(objectResult);
+        Assert.That(objectResult.StatusCode, Is.EqualTo(500));
+        Assert.IsTrue(objectResult.Value.ToString().Contains("Test message"));
+        
+        // Verify that the GetDeadDealsAsync method was called on the repository
+        _dealRepositoryMock.Verify(repository => repository.GetDeadDealsAsync(), Times.Once);
+    }
 }
