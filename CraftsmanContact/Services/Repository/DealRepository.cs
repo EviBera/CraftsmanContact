@@ -5,6 +5,7 @@ using CraftsmanContact.Mappers;
 using CraftsmanContact.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 
 namespace CraftsmanContact.Services.Repository;
 
@@ -139,4 +140,21 @@ public class DealRepository : IDealRepository
 
         await _dbContext.SaveChangesAsync();
     }
+
+    public async Task<IEnumerable<DealDto>> GetDeadDealsAsync()
+    {
+        var deals = _dbContext.Deals.AsQueryable();
+        var dealsWithoutService = deals
+            .Where(d => !_dbContext.OfferedServices.Any(service => service.OfferedServiceId == d.OfferedServiceId));
+        var dealsWithoutCraftsman = deals
+            .Where(d => !_userManager.Users.Any(u => u.Id == d.CraftsmanId));
+        var dealsWithoutClient = deals
+            .Where(d => !_userManager.Users.Any(u => u.Id == d.ClientId));
+
+        var deadDeals = await dealsWithoutService.Concat(dealsWithoutCraftsman).Concat(dealsWithoutClient)
+            .Distinct().OrderBy(d => d.DealId).Select(d => d.ToDealDto()).ToListAsync();
+
+        return deadDeals;
+    }
+
 }

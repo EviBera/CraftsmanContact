@@ -131,4 +131,23 @@ public class DealController : ControllerBase
             return StatusCode(500, "Something went wrong.");
         }
     }
+
+    //The Deal is 'dead' if (one of the) parters or the service is deleted
+    [HttpGet("dead-deals")]
+    public async Task<ActionResult<List<DealDto>>> GetDeadDealsAsync()
+    {
+        if (!ModelState.IsValid)
+            return StatusCode(418, ModelState);
+
+        try
+        {
+            var deadDeals = await _dealRepository.GetDeadDealsAsync();
+            return Ok(deadDeals);
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "Error getting the dead deals.");
+            return StatusCode(500, $"Something went wrong. {e.Message}");
+        }
+    }
 }

@@ -9,4 +9,5 @@ public interface IDealRepository
     Task<DealDto> GetDealByIdAsync(int dealId);
     Task SetDealToAcceptedAsync(string craftsmanId, int dealId);
     Task SetDealClosedAsync(int dealId, string userId);
+    Task<IEnumerable<DealDto>> GetDeadDealsAsync();
 }
