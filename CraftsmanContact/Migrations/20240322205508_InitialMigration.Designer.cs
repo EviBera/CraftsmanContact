@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CraftsmanContact.Migrations
 {
     [DbContext(typeof(CraftsmanContactContext))]
-    [Migration("20240321151554_InitialMigration")]
+    [Migration("20240322205508_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
