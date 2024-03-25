@@ -39,3 +39,5 @@ app.MapControllers();
 app.MapGroup("/identity").MapIdentityApi<AppUser>();
 
 app.Run();
+
+public partial class Program { }
