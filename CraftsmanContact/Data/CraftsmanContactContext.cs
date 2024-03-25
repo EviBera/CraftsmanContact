@@ -8,18 +8,9 @@ public class CraftsmanContactContext : IdentityDbContext<AppUser>
 {
     public DbSet<OfferedService> OfferedServices { get; set; }
     public DbSet<Deal> Deals { get; set; }
-    //public DbSet<UserOfferedService> UsersAndServicesJoinedTable { get; set; }
-    private readonly IConfiguration _configuration;
 
-    public CraftsmanContactContext(IConfiguration configuration)
+    public CraftsmanContactContext(DbContextOptions<CraftsmanContactContext> options) : base(options)
     {
-        _configuration = configuration;
-    }
-
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        var connectionString = _configuration.GetConnectionString("dbConnectionString");
-        optionsBuilder.UseSqlServer(connectionString);
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
