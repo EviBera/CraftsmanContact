@@ -1,10 +1,10 @@
 using System.Net;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using CraftsmanContact.Data;
 using CraftsmanContact.DTOs.OfferedService;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CraftsmanContactIntegrationTests;
@@ -23,7 +23,7 @@ public class OfferedServiceControllerTests : IClassFixture<CraftsmanContactWebAp
     
     
     [Fact]
-    public async Task GetAllAsync_ReturnsOk_WithAllServices()
+    public async Task GetAllAsync_ReturnsOk_WithAllOfferedServices()
     {
         //Arrange
         _factory.ResetDatabase();
@@ -46,7 +46,7 @@ public class OfferedServiceControllerTests : IClassFixture<CraftsmanContactWebAp
     
     
     [Fact]
-    public async Task GetByIdAsync_ReturnsOk_IfServiceIsFoundInDB()
+    public async Task GetByIdAsync_ReturnsOk_IfOfferedServiceExists()
     {
         //Arrange
         _factory.ResetDatabase();
@@ -60,7 +60,22 @@ public class OfferedServiceControllerTests : IClassFixture<CraftsmanContactWebAp
         var returnedService = await response.Content.ReadFromJsonAsync<OfferedServiceDto>();
         Assert.NotNull(returnedService);
     }
+    
+    
+    [Fact]
+    public async Task GetByIdAsync_ReturnsNotFound_IfOfferedServiceDoesNotExist()
+    {
+        // Arrange
+        _factory.ResetDatabase();
+        var nonExistentServiceId = 999;
 
+        // Act
+        var response = await _client.GetAsync($"/api/offeredservice/{nonExistentServiceId}");
+
+        // Assert
+        Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+    }
+    
     
     [Fact]
     public async Task RegisterNewOfferedServiceAsync_AddsNewOfferedServiceToDb()
@@ -88,7 +103,29 @@ public class OfferedServiceControllerTests : IClassFixture<CraftsmanContactWebAp
     
     
     [Fact]
-    public async Task UpdateOfferedServiceAsync_ReturnsOk_IfServiceIsFoundInDB()
+    public async Task RegisterNewOfferedServiceAsync_ReturnsBadRequest_IfDataIsInvalid()
+    {
+        // Arrange
+        var invalidServiceDto = new CreateRequestOfferedServiceDto
+        {
+            OfferedServiceName = "",
+            OfferedServiceDescription = "Name is missing, so the request is invalid."
+        };
+        _client.DefaultRequestHeaders
+            .Accept
+            .Add(new MediaTypeWithQualityHeaderValue("application/json"));
+        var content = JsonContent.Create(invalidServiceDto);
+
+        // Act
+        var response = await _client.PostAsync("/api/offeredservice", content);
+
+        // Assert
+        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+    }
+
+    
+    [Fact]
+    public async Task UpdateOfferedServiceAsync_ReturnsOk_IfOfferedServiceExists()
     {
         // Arrange
         _factory.ResetDatabase();
@@ -112,7 +149,7 @@ public class OfferedServiceControllerTests : IClassFixture<CraftsmanContactWebAp
     
     
     [Fact]
-    public async Task DeleteOfferedServiceAsync_ReturnsOkAndDeletesService_IfServiceExists()
+    public async Task DeleteOfferedServiceAsync_ReturnsOkAndDeletesService_IfOfferedServiceExists()
     {
         // Arrange
         _factory.ResetDatabase();
@@ -142,4 +179,20 @@ public class OfferedServiceControllerTests : IClassFixture<CraftsmanContactWebAp
             Assert.False(serviceExistsAfterDelete, "Service exists after deletion.");
         }
     }
+    
+    
+    [Fact]
+    public async Task DeleteOfferedServiceAsync_ReturnsBadRequest_IfOfferedServiceDoesNotExist()
+    {
+        // Arrange
+        _factory.ResetDatabase();
+        var nonExistentServiceId = 999;
+
+        // Act
+        var response = await _client.DeleteAsync($"/api/offeredservice/{nonExistentServiceId}");
+
+        // Assert
+        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+    }
+
 }
