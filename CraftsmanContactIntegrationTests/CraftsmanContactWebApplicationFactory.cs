@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Logging;
 
 namespace CraftsmanContactIntegrationTests;
 
@@ -39,13 +40,23 @@ public class CraftsmanContactWebApplicationFactory : WebApplicationFactory<Progr
             {
                 var scopedServices = scope.ServiceProvider;
                 var db = scopedServices.GetRequiredService<CraftsmanContactContext>();
+                var logger = scopedServices
+                    .GetRequiredService<ILogger<CraftsmanContactWebApplicationFactory>>();
                 
                 // Ensure the database is created.
                 db.Database.EnsureCreated();
+                
+                try
+                {
+                    // Seed the database with test data.
+                    Utilities.InitializeDbForTests(db);
+                }
+                catch (Exception ex)
+                {
+                    logger.LogError(ex, "An error occurred seeding the database with test offered services. Error: {Message}", ex.Message);
+                }
             }
         });
     }
-
-
 }
 
