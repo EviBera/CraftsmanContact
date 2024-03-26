@@ -5,6 +5,7 @@ using CraftsmanContact.DTOs.User;
 using CraftsmanContact.Mappers;
 using CraftsmanContact.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace CraftsmanContact.Services.Repository;
 
@@ -58,7 +59,9 @@ public class UserRepository : IUserRepository
 
     public async Task<UserDto> GetUserByIdAsync(string userId)
     {
-        var user = await _userManager.FindByIdAsync(userId);
+        var user = await _dbContext.Users
+            .Include(u => u.OfferedServices)
+            .FirstOrDefaultAsync(u => u.Id == userId);
 
         if (user == null)
         {
