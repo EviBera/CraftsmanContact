@@ -69,7 +69,8 @@ public class OfferedServiceRepository : IOfferedServiceRepository
             throw new RowNotInTableException();
         }
 
-        await _dbContext.OfferedServices.Where(item => item.OfferedServiceId == id).ExecuteDeleteAsync();
+        _dbContext.OfferedServices.Remove(serviceToDelete);
+        await _dbContext.SaveChangesAsync();
 
     }
     
