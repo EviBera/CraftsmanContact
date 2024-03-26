@@ -58,5 +58,19 @@ public class CraftsmanContactWebApplicationFactory : WebApplicationFactory<Progr
             }
         });
     }
+    
+    public void ResetDatabase()
+    {
+        using (var scope = this.Services.CreateScope())
+        {
+            var scopedServices = scope.ServiceProvider;
+            var db = scopedServices.GetRequiredService<CraftsmanContactContext>();
+            db.Database.EnsureDeleted();
+            db.Database.EnsureCreated();
+            
+            Utilities.InitializeDbForTests(db);
+        }
+    }
+
 }
 

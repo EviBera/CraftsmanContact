@@ -25,7 +25,9 @@ public class OfferedServiceControllerTests : IClassFixture<CraftsmanContactWebAp
     [Fact]
     public async Task GetAllAsync_ReturnsOk_WithAllServices()
     {
-        //Arrange - the seeded DB contains 2 entities
+        //Arrange
+        _factory.ResetDatabase();
+        //The seeded DB contains 2 entities
         int expectedCount = 2;
         
         // Act
@@ -40,7 +42,6 @@ public class OfferedServiceControllerTests : IClassFixture<CraftsmanContactWebAp
         Assert.Equal(expectedCount, returnedServices.Count);
         returnedServices[0].OfferedServiceName.Should().Contain("Update this");
         returnedServices[1].OfferedServiceName.Should().Contain("Delete this");
-
     }
     
     
@@ -48,7 +49,8 @@ public class OfferedServiceControllerTests : IClassFixture<CraftsmanContactWebAp
     public async Task GetByIdAsync_ReturnsOk_IfServiceIsFoundInDB()
     {
         //Arrange
-        var serviceId = 1; // Assuming this is the ID you're using in your seeder
+        _factory.ResetDatabase();
+        var serviceId = 1;
 
         // Act
         var response = await _client.GetAsync($"/api/offeredservice/{serviceId}");
@@ -64,6 +66,7 @@ public class OfferedServiceControllerTests : IClassFixture<CraftsmanContactWebAp
     public async Task RegisterNewOfferedServiceAsync_AddsNewOfferedServiceToDb()
     {
         //Arrange
+        _factory.ResetDatabase();
         CreateRequestOfferedServiceDto newService = new CreateRequestOfferedServiceDto
         {
             OfferedServiceName = "Test Name 1",
@@ -88,6 +91,7 @@ public class OfferedServiceControllerTests : IClassFixture<CraftsmanContactWebAp
     public async Task UpdateOfferedServiceAsync_ReturnsOk_IfServiceIsFoundInDB()
     {
         // Arrange
+        _factory.ResetDatabase();
         var updateServiceDto = new UpdateRequestOfferedServiceDto
         {
             OfferedServiceName = "Updated name",
@@ -111,6 +115,7 @@ public class OfferedServiceControllerTests : IClassFixture<CraftsmanContactWebAp
     public async Task DeleteOfferedServiceAsync_ReturnsOkAndDeletesService_IfServiceExists()
     {
         // Arrange
+        _factory.ResetDatabase();
         var serviceId = 2;
         
         // Verify the service exists before deletion
