@@ -7,6 +7,10 @@ public static class Utilities
 {
     public static void InitializeDbForTests(CraftsmanContactContext db)
     {
+        db.Users.RemoveRange(db.Users);
+        db.OfferedServices.RemoveRange(db.OfferedServices);
+        db.SaveChanges();
+        
         var os1 = new OfferedService
         {
             OfferedServiceId = 11,
