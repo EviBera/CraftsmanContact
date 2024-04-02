@@ -31,7 +31,7 @@ public class CraftsmanContactWebApplicationFactory : WebApplicationFactory<Progr
 
             // Build the service provider.
             var sp = services.BuildServiceProvider();
-
+            
             // Create a scope to obtain a reference to the database context (CraftsmanContactContext).
             using (var scope = sp.CreateScope())
             {

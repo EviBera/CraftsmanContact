@@ -27,8 +27,8 @@ public class OfferedServiceControllerTests : IClassFixture<CraftsmanContactWebAp
     {
         //Arrange
         _factory.ResetDatabase();
-        //The seeded DB contains 2 entities
-        int expectedCount = 2;
+        //The seeded DB contains 3 entities
+        int expectedCount = 3;
         
         // Act
         var response = await _client.GetAsync("/api/offeredservice/all");
@@ -36,12 +36,12 @@ public class OfferedServiceControllerTests : IClassFixture<CraftsmanContactWebAp
         // Assert
         response.EnsureSuccessStatusCode();
         var returnedServices = await response.Content.ReadFromJsonAsync<List<OfferedServiceDto>>();
-    
-        // Assuming you know the exact count of services you've seeded.
+        
         Assert.NotNull(returnedServices);
         Assert.Equal(expectedCount, returnedServices.Count);
-        returnedServices[0].OfferedServiceName.Should().Contain("Update this");
+        returnedServices[0].OfferedServiceName.Should().Contain("Test service 1");
         returnedServices[1].OfferedServiceName.Should().Contain("Delete this");
+        returnedServices[2].OfferedServiceName.Should().Contain("Update this");
     }
     
     
@@ -59,6 +59,7 @@ public class OfferedServiceControllerTests : IClassFixture<CraftsmanContactWebAp
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         var returnedService = await response.Content.ReadFromJsonAsync<OfferedServiceDto>();
         Assert.NotNull(returnedService);
+        returnedService.OfferedServiceName.Should().Contain("Test service 1");
     }
     
     
@@ -129,6 +130,7 @@ public class OfferedServiceControllerTests : IClassFixture<CraftsmanContactWebAp
     {
         // Arrange
         _factory.ResetDatabase();
+        var serviceId = 11;
         var updateServiceDto = new UpdateRequestOfferedServiceDto
         {
             OfferedServiceName = "Updated name",
@@ -137,7 +139,7 @@ public class OfferedServiceControllerTests : IClassFixture<CraftsmanContactWebAp
         var content = JsonContent.Create(updateServiceDto);
 
         // Act
-        var response = await _client.PatchAsync($"/api/offeredservice/1", content);
+        var response = await _client.PatchAsync($"/api/offeredservice/{serviceId}", content);
 
         // Assert
         response.EnsureSuccessStatusCode();
