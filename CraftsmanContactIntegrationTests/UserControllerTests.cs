@@ -42,7 +42,7 @@ public class UserControllerTests : IClassFixture<CraftsmanContactWebApplicationF
     {
         //Arrange
         _factory.ResetDatabase();
-        var serviceId = 1;
+        var serviceId = 11;
 
         //Act
         var result = await _client.GetAsync($"api/user/craftsmenbyservice/{serviceId}");
@@ -63,7 +63,7 @@ public class UserControllerTests : IClassFixture<CraftsmanContactWebApplicationF
     {
         //Arrange
         _factory.ResetDatabase();
-        var serviceId = 2;
+        var serviceId = 12;
 
         //Act
         var result = await _client.GetAsync($"api/user/craftsmenbyservice/{serviceId}");

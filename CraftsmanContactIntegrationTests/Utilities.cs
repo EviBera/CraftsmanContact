@@ -9,21 +9,21 @@ public static class Utilities
     {
         var os1 = new OfferedService
         {
-            OfferedServiceId = 1,
+            OfferedServiceId = 11,
             OfferedServiceName = "Test service 1",
             OfferedServiceDescription = "Service 1"
         };
 
         var os2 = new OfferedService
         {
-            OfferedServiceId = 2,
+            OfferedServiceId = 12,
             OfferedServiceName = "Delete this",
             OfferedServiceDescription = "Service to delete"
         };
         
         var os11 = new OfferedService
         {
-            OfferedServiceId = 11,
+            OfferedServiceId = 13,
             OfferedServiceName = "Update this",
             OfferedServiceDescription = "Service to update"
         };

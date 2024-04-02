@@ -50,7 +50,7 @@ public class OfferedServiceControllerTests : IClassFixture<CraftsmanContactWebAp
     {
         //Arrange
         _factory.ResetDatabase();
-        var serviceId = 1;
+        var serviceId = 11;
 
         // Act
         var response = await _client.GetAsync($"/api/offeredservice/{serviceId}");
@@ -155,7 +155,7 @@ public class OfferedServiceControllerTests : IClassFixture<CraftsmanContactWebAp
     {
         // Arrange
         _factory.ResetDatabase();
-        var serviceId = 2;
+        var serviceId = 12;
         
         // Verify the service exists before deletion
         using (var scope = _factory.Services.CreateScope())
