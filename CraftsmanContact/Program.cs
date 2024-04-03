@@ -1,13 +1,11 @@
 using CraftsmanContact.Data;
 using CraftsmanContact.Models;
 using CraftsmanContact.Services.Repository;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
@@ -23,6 +21,17 @@ builder.Services.AddDbContext<CraftsmanContactContext>(options => options.UseSql
 builder.Services.AddIdentityApiEndpoints<AppUser>()
     .AddEntityFrameworkStores<CraftsmanContactContext>();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: "AllowSpecificOrigin",
+        policy =>
+        {
+            policy.WithOrigins("*")
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+        });
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -33,7 +42,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseCors("AllowSpecificOrigin");
 app.UseAuthorization();
+
 app.MapControllers();   
 
 app.MapGroup("/identity").MapIdentityApi<AppUser>();
