@@ -1,6 +1,11 @@
 
 const OfferedServiceTable = (offeredServices) => {
 
+    console.log("services:" + Object.keys(offeredServices));
+    let items = Object.values(offeredServices)[0];
+    console.log(items);
+    console.log(items[0]);
+
     return (
         <div>
             <table>
@@ -11,10 +16,10 @@ const OfferedServiceTable = (offeredServices) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {offeredServices.map((offeredService) => (
-                        <tr key={offeredService.OfferedServiceId}>
-                            <td>{offeredService.OfferedServiceName}</td>
-                            <td>{offeredService.OfferedServiceDescription}</td>
+                    {items.map((offeredService) => (
+                        <tr key={offeredService.offeredServiceId}>
+                            <td>{offeredService.offeredServiceName}</td>
+                            <td>{offeredService.offeredServiceDescription}</td>
                         </tr>
                     ))}
                 </tbody>
