@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './Pages/App';
 import reportWebVitals from './reportWebVitals';
-import {createBrowserRouter, RouterProvider} from 'react-router-dom';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import LandingPage from './Pages/LandingPage';
 import ErrorPage from './Pages/ErrorPage';
 import OfferedServiceList from './Pages/OfferedServiceList';
@@ -15,16 +15,17 @@ const router = createBrowserRouter([
     path: "/",
     element: <App />,
     errorElement: <ErrorPage />,
+    children: [
+      {
+        path: "/services",
+        element: <OfferedServiceList />,
+      },
+      {
+        path: "/craftsmen/:service",
+        element: <CraftsmenByServiceList />,
+      },
+    ]
   },
-  {
-    path: "/services",
-    element: <OfferedServiceList />,
-  },
-  {
-    path: "/craftsmen/:service",
-    element: <CraftsmenByServiceList />,
-  },
-    
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

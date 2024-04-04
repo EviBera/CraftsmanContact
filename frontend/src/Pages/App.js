@@ -6,13 +6,13 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        
         <p>
-          Hello world!
+          Welcome to the Craftsman Contact app!
         </p>
-        
       </header>
-      
+      <div>
+        <Outlet/>
+      </div>
     </div>
   );
 }

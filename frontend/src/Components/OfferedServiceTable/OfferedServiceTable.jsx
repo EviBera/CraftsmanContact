@@ -1,13 +1,34 @@
+import "./OfferedServiceTable.css";
 
 const OfferedServiceTable = (offeredServices) => {
 
-    console.log("services:" + Object.keys(offeredServices));
     let items = Object.values(offeredServices)[0];
-    console.log(items);
-    console.log(items[0]);
 
     return (
         <div>
+
+            <div class="dropdown">
+                <button class="dropbtn">What kind of service do you need?</button>
+                <div class="dropdown-content">
+                    {items.map((offeredService) =>
+                    (
+                        <div key={offeredService.offeredServiceId}>
+                            <a href={`/craftsmen/:${offeredService.offeredServiceId}`}>{offeredService.offeredServiceName}
+                                <span className="description">{offeredService.offeredServiceDescription}</span>
+                            </a>
+                        </div>
+                    ))}
+                </div>
+                <hr />
+            </div>
+
+            {/* 
+            
+            <div class="dropdown-description">
+                                <p>{offeredService.offeredServiceDescription}</p>
+                            </div>
+            
+            
             <table>
                 <thead>
                     <tr>
@@ -23,7 +44,7 @@ const OfferedServiceTable = (offeredServices) => {
                         </tr>
                     ))}
                 </tbody>
-            </table>
+            </table> */}
         </div>
     );
 
