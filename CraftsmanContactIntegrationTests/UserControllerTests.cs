@@ -5,6 +5,8 @@ using FluentAssertions;
 
 namespace CraftsmanContactIntegrationTests;
 
+
+[Collection("Integration tests")]
 public class UserControllerTests : IClassFixture<CraftsmanContactWebApplicationFactory>
 {
     private readonly HttpClient _client;

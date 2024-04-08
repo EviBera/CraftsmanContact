@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace CraftsmanContactIntegrationTests;
 
+[Collection(("Integration tests"))]
 public class OfferedServiceControllerTests : IClassFixture<CraftsmanContactWebApplicationFactory>
 {
     
