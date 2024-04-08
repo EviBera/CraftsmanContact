@@ -1,6 +1,7 @@
 import logo from '../logo.svg';
 import './App.css';
-import { Outlet } from 'react-router-dom';
+//import { Outlet } from 'react-router-dom';
+import OfferedServiceList from './OfferedServiceList';
 
 function App() {
   return (
@@ -10,9 +11,11 @@ function App() {
           Welcome to the Craftsman Contact app!
         </p>
       </header>
-      <div>
-        <Outlet/>
-      </div>
+      <body>
+        <OfferedServiceList />
+      </body>
+        
+      
     </div>
   );
 }

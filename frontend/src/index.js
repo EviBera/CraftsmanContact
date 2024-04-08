@@ -15,7 +15,7 @@ const router = createBrowserRouter([
     path: "/",
     element: <App />,
     errorElement: <ErrorPage />,
-    children: [
+    /* children: [
       {
         path: "/services",
         element: <OfferedServiceList />,
@@ -24,7 +24,7 @@ const router = createBrowserRouter([
         path: "/craftsmen/:service",
         element: <CraftsmenByServiceList />,
       },
-    ]
+    ] */
   },
 ]);
 
