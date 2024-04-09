@@ -10,13 +10,14 @@ const fetchServices = (url) => {
 const OfferedServiceList = () => {
     const [loading, setLoading] = useState(true);
     const [offeredServices, setOfferedServices] = useState(null);
+   
 
     const url = "http://localhost:5213/api/offeredservice/all";
 
     useEffect(() => {
         fetchServices(url)
         .then((offeredServices) => {
-            setLoading(false);
+            setTimeout(() => setLoading(false), 1500) ;
             setOfferedServices(offeredServices);
         })
     }, []);
@@ -25,7 +26,10 @@ const OfferedServiceList = () => {
         return < Loading />
     }
 
-    return < OfferedServiceTable offeredServices = {offeredServices}/>;
+    return (
+            <OfferedServiceTable offeredServices = {offeredServices}/>
+    );
+    
 };
 
 export default OfferedServiceList;
