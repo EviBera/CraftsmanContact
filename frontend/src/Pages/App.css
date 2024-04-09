@@ -13,15 +13,9 @@
 }
 
 .error-page {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  text-align: center;
-  margin: auto;
-  margin-top: 10%;
   background-color: #f8bc63;
-  max-width: 75%;
+  margin-top: 15%;
+  text-align: center;
 }
 
 body {
