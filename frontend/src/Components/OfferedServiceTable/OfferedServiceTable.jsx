@@ -1,12 +1,12 @@
 import "./OfferedServiceTable.css";
-import { useState } from "react";
+import { useState, useContext } from "react";
+import IDContext from '../../Pages/IDContext';
 
 const OfferedServiceTable = (offeredServices) => {
 
     let items = Object.values(offeredServices)[0];
 
-    const [serviceId, setServiceId] = useState(null);
-    console.log(serviceId);
+    const { setSelectedId } = useContext(IDContext);
 
     return (
         <div>
@@ -17,7 +17,7 @@ const OfferedServiceTable = (offeredServices) => {
                     {items.map((offeredService) =>
                     (
                         <div key={offeredService.offeredServiceId}>
-                            <button className="dropdown-item" onClick={() => setServiceId(offeredService.offeredServiceId)}>{offeredService.offeredServiceName}
+                            <button className="dropdown-item" onClick={() => setSelectedId(offeredService.offeredServiceId)}>{offeredService.offeredServiceName}
                                 <span className="description">{offeredService.offeredServiceDescription}</span>
                             </button>
                         </div>

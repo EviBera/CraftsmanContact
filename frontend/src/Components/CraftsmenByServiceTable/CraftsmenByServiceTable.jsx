@@ -1,6 +1,10 @@
+import { useContext } from "react";
+import IDContext from '../../Pages/IDContext';
+
 const CraftsmenByServiceTable = (craftsmen) => {
 
-    let masters = Object.values(craftsmen);
+    let masters = Object.values(craftsmen)[0];
+    let first = masters[0];
 
     return (
         <div>
@@ -8,7 +12,7 @@ const CraftsmenByServiceTable = (craftsmen) => {
                 <thead>
                     <tr>
                         <th>
-                            Service : {}
+                            Service : { }
                         </th>
                     </tr>
                     <tr>
@@ -17,12 +21,18 @@ const CraftsmenByServiceTable = (craftsmen) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {masters.map((master) => (
-                        <tr key={master.id}>
-                            <td>{master.firstname} {master.lastName}</td>
-                            <td>{master.email}</td>
+                    {first ? (
+                        masters.map((master) => (
+                            <tr key={master.id}>
+                                <td>{master.firstName} {master.lastName}</td>
+                                <td>{master.email}</td>
+                            </tr>
+                        ))
+                    ) : (
+                        <tr>
+                            <td colSpan="2">Sorry, we cannot offer a craftsman.</td>
                         </tr>
-                    ))}
+                    )}
                 </tbody>
             </table>
         </div>
