@@ -16,11 +16,12 @@ const CraftsmenByServiceList = () => {
     const { selectedId } = useContext(IDContext);
 
     const url = "http://localhost:5213/api/user/craftsmenbyservice/" + selectedId;
+    const name = "Specific service";
 
     useEffect(() => {
         fetchCraftsmenByService(url)
         .then((craftsmen) => {
-            setTimeout(() => setLoading(false), 2000) ;
+            setTimeout(() => setLoading(false), 1000) ;
             setCraftsmen(craftsmen);
         })
     }, [url]);
@@ -30,7 +31,7 @@ const CraftsmenByServiceList = () => {
     }
 
     return (
-        <CraftsmenByServiceTable craftsmen = {craftsmen}/>
+        <CraftsmenByServiceTable craftsmen = {{craftsmen, name}}/>
     )
 }
 

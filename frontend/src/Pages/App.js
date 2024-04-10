@@ -18,12 +18,12 @@ function App() {
           Welcome to the Craftsman Contact app!
         </p>
       </header>
-      <body>
+      <div className='main'>
         <IDContext.Provider value={{ selectedId, setSelectedId }}>
           <OfferedServiceList />
           {selectedId && <CraftsmenByServiceList />}
         </IDContext.Provider>
-      </body>
+      </div>
     </div>
   );
 }
