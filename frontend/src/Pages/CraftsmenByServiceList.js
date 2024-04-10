@@ -16,7 +16,6 @@ const CraftsmenByServiceList = () => {
     const { selectedId } = useContext(IDContext);
 
     const url = "http://localhost:5213/api/user/craftsmenbyservice/" + selectedId;
-    console.log("craftsmenbyservice url:" + url);
 
     useEffect(() => {
         fetchCraftsmenByService(url)

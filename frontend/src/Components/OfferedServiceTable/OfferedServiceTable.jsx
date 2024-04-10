@@ -25,30 +25,6 @@ const OfferedServiceTable = (offeredServices) => {
                 </div>
                 <hr />
             </div>
-
-            {/* 
-            
-            <div class="dropdown-description">
-                                <p>{offeredService.offeredServiceDescription}</p>
-                            </div>
-            
-            
-            <table>
-                <thead>
-                    <tr>
-                        <th>Offered service</th>
-                        <th>Description</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {items.map((offeredService) => (
-                        <tr key={offeredService.offeredServiceId}>
-                            <td>{offeredService.offeredServiceName}</td>
-                            <td>{offeredService.offeredServiceDescription}</td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table> */}
         </div>
     );
 
