@@ -13,6 +13,7 @@ public static class UserMappers
             FirstName = userModel.FirstName,
             LastName = userModel.LastName,
             Email = userModel.Email,
+            Phone = userModel.PhoneNumber,
             OfferedServices = userModel.OfferedServices.Select(os => os.ToOfferedServiceDto()).ToList()
         };
     }
