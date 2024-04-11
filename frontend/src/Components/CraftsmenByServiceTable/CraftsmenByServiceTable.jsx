@@ -1,6 +1,8 @@
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import Card from 'react-bootstrap/Card';
+import ListGroup from 'react-bootstrap/ListGroup';
 
 const CraftsmenByServiceTable = (props) => {
 
@@ -13,19 +15,17 @@ const CraftsmenByServiceTable = (props) => {
                 <Col>Service : {props.craftsmen.name}</Col>
             </Row>
             {first ? (
-                <>
-                    <Row>
-                        <Col>Name</Col>
-                        <Col>Email</Col>
-                    </Row>
-
+                <Row xs={1} md={2} className="g-4">
                     {masters.map((master) => (
-                        <Row key={master.id}>
-                            <Col >{master.firstName} {master.lastName}</Col>
-                            <Col>{master.email}</Col>
-                        </Row>
+                        <Card style={{ width: '18rem' }}>
+                        <ListGroup variant="flush" key={master.id}>
+                          <ListGroup.Item>Name: {master.firstName} {master.lastName}</ListGroup.Item>
+                          <ListGroup.Item>Email: {master.email}</ListGroup.Item>
+                          <ListGroup.Item>Phone: {master.phone}</ListGroup.Item>
+                        </ListGroup>
+                      </Card>
                     ))}
-                </>
+                </Row>
             ) : (
                 <Row>
                     <Col>Sorry, we cannot offer a craftsman.</Col>

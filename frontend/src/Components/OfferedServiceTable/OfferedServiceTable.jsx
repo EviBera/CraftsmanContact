@@ -1,5 +1,5 @@
 import "./OfferedServiceTable.css";
-import { useState, useContext } from "react";
+import { useContext } from "react";
 import IDContext from '../../Pages/IDContext';
 
 const OfferedServiceTable = (offeredServices) => {
