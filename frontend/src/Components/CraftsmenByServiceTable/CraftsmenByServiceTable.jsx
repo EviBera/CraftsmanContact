@@ -13,13 +13,13 @@ const CraftsmenByServiceTable = (props) => {
 
     return (
         <Container className='cards'>
-            <Row className='label'>
+            <Row className='label mb-3'>
                 <Col>Service : {props.craftsmen.serviceName}</Col>
             </Row>
             {first ? (
-                <Row xs={1} md={2} className="g-4 justify-content-center">
+                <Row xs={1} md={2} className="g-4 justify-content-center mt-3">
                     {masters.map((master) => (
-                        <Card style={{ width: '18rem' }} key={master.id}>
+                        <Card style={{ width: '18rem' }} key={master.id} className='card m-2'>
                             <Card.Title className='title'>{master.firstName} {master.lastName}</Card.Title>
                             <ListGroup variant="flush" >
                                 <ListGroup.Item>Email: {master.email}</ListGroup.Item>

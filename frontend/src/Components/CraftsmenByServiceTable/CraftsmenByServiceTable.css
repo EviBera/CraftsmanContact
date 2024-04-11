@@ -3,7 +3,6 @@
 }
 
 .label{
-    margin: 20px;
     font-weight: bold;
 }
 
@@ -11,6 +10,7 @@
     background-color: #e68a00;
     border-color: #e68a00;
     color: white;
+    border-radius: 2px;
     
 }
 
@@ -21,4 +21,8 @@
 
 .title{
     padding-top: 10px;
+}
+
+.card{
+    border-radius: 2px;
 }
