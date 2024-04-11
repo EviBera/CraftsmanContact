@@ -1,0 +1,24 @@
+.cards{
+    color: #282c34;
+}
+
+.label{
+    margin: 20px;
+    font-weight: bold;
+}
+
+.btn{
+    background-color: #e68a00;
+    border-color: #e68a00;
+    color: white;
+    
+}
+
+.btn:hover, .btn:active, .btn:focus{
+    background-color: #f8bc63;
+    border-color: #f8bc63;
+}
+
+.title{
+    padding-top: 10px;
+}
