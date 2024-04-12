@@ -14,9 +14,9 @@
     
 }
 
-.btn:hover, .btn:active, .btn:focus{
-    background-color: #f8bc63;
-    border-color: #f8bc63;
+.btn:hover, .btn:active{
+    background-color: #f8bc63 !important;
+    border-color: #f8bc63 !important;
 }
 
 .title{
