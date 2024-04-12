@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 import Loading from "../Components/Loading";
 import CraftsmenByServiceTable from "../Components/CraftsmenByServiceTable";
-import IDContext from './IDContext';
+import OfferedServiceContext from './OfferedServiceContext';
 
 
 const fetchCraftsmenByService = (url) => {
@@ -13,10 +13,10 @@ const CraftsmenByServiceList = () => {
     const [loading, setLoading] = useState(true);
     const [craftsmen, setCraftsmen] = useState(null);
 
-    const { selectedId } = useContext(IDContext);
+    const { selectedService } = useContext(OfferedServiceContext);
 
-    const url = "http://localhost:5213/api/user/craftsmenbyservice/" + selectedId;
-    const serviceName = "Specific service";
+    const url = "http://localhost:5213/api/user/craftsmenbyservice/" + selectedService.offeredServiceId;
+    const serviceName = selectedService.offeredServiceName;
 
     useEffect(() => {
         fetchCraftsmenByService(url)

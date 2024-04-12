@@ -1,5 +1,5 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import IDContext from './IDContext';
+import OfferedServiceContext from './OfferedServiceContext';
 import { useState } from 'react';
 import logo from '../logo.svg';
 import './App.css';
@@ -10,7 +10,7 @@ import NavigationBar from './NavigationBar';
 
 function App() {
 
-  const [selectedId, setSelectedId] = useState(null);
+  const [selectedService, setSelectedService] = useState(null);
 
   return (
     <div className="App">
@@ -18,10 +18,10 @@ function App() {
       <NavigationBar/>
       
       <div className='main'>
-        <IDContext.Provider value={{ selectedId, setSelectedId }}>
+        <OfferedServiceContext.Provider value={{ selectedService, setSelectedService }}>
           <OfferedServiceList />
-          {selectedId && <CraftsmenByServiceList />}
-        </IDContext.Provider>
+          {selectedService && <CraftsmenByServiceList />}
+        </OfferedServiceContext.Provider>
       </div>
       
     </div>
