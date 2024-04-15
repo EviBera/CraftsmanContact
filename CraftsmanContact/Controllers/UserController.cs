@@ -30,7 +30,7 @@ public class UserController : ControllerBase
             var result = await _userRepository.RegisterUserAsync(requestDto);
             if (!result.Succeeded)
             {
-                return BadRequest(result);
+                return StatusCode(500, result.Errors);
             }
 
             return Ok("User registered successfully.");

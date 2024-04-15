@@ -24,8 +24,15 @@ public class UserRepository : IUserRepository
     
     public async Task<IdentityResult> RegisterUserAsync(RegisterUserRequestDto requestDto)
     {
-        var user = requestDto.ToAppUserFromRegisterUserRequestDto();
-        var result = await _userManager.CreateAsync(user, user.PasswordHash);
+        var newUser = requestDto.ToAppUserFromRegisterUserRequestDto();
+        var result = await _userManager.CreateAsync(newUser, newUser.PasswordHash);
+
+        if (result.Succeeded)
+        {
+            var roleResult = await _userManager.AddToRoleAsync(newUser, "User");
+            return roleResult;
+        }
+        
         return result;
     }
 
