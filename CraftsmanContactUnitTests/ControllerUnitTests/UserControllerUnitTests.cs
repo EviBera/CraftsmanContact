@@ -59,7 +59,7 @@ public class UserControllerUnitTests
     
     
     [Test]
-    public async Task RegisterAsync_ReturnsBadRequest_IfRepositoryDoesNotProvidesSucceededResult()
+    public async Task RegisterAsync_ReturnsInternalServerError_IfRepositoryDoesNotProvidesSucceededResult()
     {
         var requestDto = new RegisterUserRequestDto
         {
@@ -70,26 +70,22 @@ public class UserControllerUnitTests
             Password = "TestPassword!0"
         };
         
-        var errors = new[] { new IdentityError { Code = "TestError", Description = "Test error description" } };
-        var failureResult = IdentityResult.Failed(errors);
+        var identityResult = IdentityResult.Failed(new IdentityError { Description = "Test Error" });
         
         _userRepositoryMock.Setup(repository => repository.RegisterUserAsync(It.IsAny<RegisterUserRequestDto>()))
-            .ReturnsAsync(failureResult);
+            .ReturnsAsync(identityResult);
 
         // Act
         var result = await _controller.RegisterAsync(requestDto);
 
         // Assert
         Assert.IsNotNull(result);
-        var badRequestResult = result as BadRequestObjectResult;
-        Assert.IsNotNull(badRequestResult);
-        Assert.That(badRequestResult.StatusCode, Is.EqualTo(400));
-
-        // Ensure the result contains the errors from the IdentityResult
-        var resultValue = badRequestResult.Value as IdentityResult;
-        Assert.IsNotNull(resultValue);
-        Assert.IsFalse(resultValue.Succeeded);
-        Assert.Contains(errors[0], resultValue.Errors.ToList());
+        Assert.That(result, Is.TypeOf<ObjectResult>());
+        var objectResult = (ObjectResult)result;
+        Assert.That(objectResult.StatusCode, Is.EqualTo(500));
+        var errors = objectResult.Value as IEnumerable<IdentityError>;
+        Assert.IsNotNull(errors);
+        Assert.That(errors.Any(e => e.Description.Contains("Test Error")), "Expected error message not found.");
         
         // Verify that the RegisterUserAsync method was called on the repository
         _userRepositoryMock.Verify(repository => repository.RegisterUserAsync(It.IsAny<RegisterUserRequestDto>()), Times.Once);
