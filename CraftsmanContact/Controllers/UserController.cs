@@ -19,30 +19,7 @@ public class UserController : ControllerBase
         _logger = logger;
     }
 
-    [HttpPost("register")]
-    public async Task<IActionResult> RegisterAsync([FromBody]RegisterUserRequestDto requestDto)
-    {
-        if (!ModelState.IsValid)
-            return StatusCode(418, ModelState); 
-        
-        try
-        {
-            var result = await _userRepository.RegisterUserAsync(requestDto);
-            if (!result.Succeeded)
-            {
-                return StatusCode(500, result.Errors);
-            }
-
-            return Ok("User registered successfully.");
-
-        }
-        catch (Exception e)
-        {
-            _logger.LogError(e, "Registering new user has failed.");
-            return StatusCode(500, $"Something went wrong., {e.Message}");
-        }
-    }
-
+    
     [HttpDelete("{userId}")]
     public async Task<IActionResult> DeleteUserAsync([FromRoute] string userId)
     {
