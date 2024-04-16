@@ -1,5 +1,6 @@
 using CraftsmanContact.Data;
 using CraftsmanContact.Models;
+using CraftsmanContact.Services.AuthService;
 using CraftsmanContact.Services.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -15,6 +16,7 @@ builder.Services.AddControllers();
 builder.Services.AddScoped<IOfferedServiceRepository, OfferedServiceRepository>();
 builder.Services.AddScoped<IDealRepository, DealRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddDbContext<CraftsmanContactContext>(options => options.UseSqlServer(
     builder.Configuration.GetConnectionString("DefaultConnectionString")));
 
@@ -29,6 +31,7 @@ builder.Services.AddIdentity<AppUser, IdentityRole>(options =>
         options.Password.RequireUppercase = true;
         options.Password.RequireNonAlphanumeric = true;
         options.SignIn.RequireConfirmedEmail = false;
+        options.User.RequireUniqueEmail = true;
     })
     .AddEntityFrameworkStores<CraftsmanContactContext>()
     .AddDefaultUI();
