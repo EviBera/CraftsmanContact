@@ -27,3 +27,7 @@ jobs:
       run: dotnet build --no-restore
     - name: Test
       run: dotnet test --no-build --verbosity normal
+      env:
+        JWT_ISSUER: ${{ secrets.JWT_ISSUER }}
+        JWT_AUDIENCE: ${{ secrets.JWT_AUDIENCE }}
+        JWT_SIGNINGKEY: ${{ secrets.JWT_SIGNINGKEY }}
