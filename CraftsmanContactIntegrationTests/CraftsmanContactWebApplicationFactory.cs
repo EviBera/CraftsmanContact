@@ -2,6 +2,7 @@ using CraftsmanContact.Data;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
@@ -11,6 +12,14 @@ public class CraftsmanContactWebApplicationFactory : WebApplicationFactory<Progr
 {
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
+        builder.ConfigureAppConfiguration((context, config) =>
+        {
+            // Remove the default configuration sources
+            config.Sources.Clear();
+            config.AddJsonFile("appsettings.json", optional: true);
+            config.AddJsonFile("appsettings.test.json", optional: true);
+        });
+        
         builder.ConfigureServices(services =>
         {
             // Remove the app's CraftsmanContactContext registration.
