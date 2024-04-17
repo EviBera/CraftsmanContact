@@ -117,8 +117,47 @@ app.UseAuthorization();
 
 app.MapControllers();   
 
-app.MapGroup("/identity").MapIdentityApi<AppUser>();
+//app.MapGroup("/identity").MapIdentityApi<AppUser>();
+
+AddAdmin();
 
 app.Run();
+
+
+void AddAdmin()
+{
+    var tAdmin = CreateAdminIfNotExists();
+    tAdmin.Wait();
+}
+
+async Task CreateAdminIfNotExists()
+{
+    var email = builder.Configuration["Admin:Email"];
+    var firstname = builder.Configuration["Admin:FirstName"];
+    var lastname = builder.Configuration["Admin:LastName"];
+    var phone = builder.Configuration["Admin:PhoneNumber"];
+    var pw = builder.Configuration["Admin:Password"];
+    
+    using var scope = app.Services.CreateScope();
+    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<AppUser>>();
+    var adminInDb = await userManager.FindByEmailAsync(email);
+    if (adminInDb == null)
+    {
+        var admin = new AppUser
+        {
+            UserName = "admin", 
+            Email = email,
+            FirstName = firstname,
+            LastName = lastname,
+            PhoneNumber = phone
+        };
+        var adminCreated = await userManager.CreateAsync(admin, pw);
+
+        if (adminCreated.Succeeded)
+        {
+            await userManager.AddToRoleAsync(admin, "Admin");
+        }
+    }
+}
 
 public partial class Program { }
