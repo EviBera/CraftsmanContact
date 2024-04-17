@@ -3,6 +3,7 @@ using CraftsmanContact.Models;
 using CraftsmanContact.Services.AuthService;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace CraftsmanContact.Controllers;
 
@@ -11,12 +12,14 @@ namespace CraftsmanContact.Controllers;
 public class AuthController : ControllerBase
 {
     private readonly UserManager<AppUser> _userManager;
+    private readonly SignInManager<AppUser> _signInManager;
     private readonly ILogger<AuthController> _logger;
     private readonly ITokenService _tokenService;
 
-    public AuthController(UserManager<AppUser> userManager, ILogger<AuthController> logger, ITokenService tokenService)
+    public AuthController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, ILogger<AuthController> logger, ITokenService tokenService)
     {
         _userManager = userManager;
+        _signInManager = signInManager;
         _logger = logger;
         _tokenService = tokenService;
     }
@@ -70,5 +73,36 @@ public class AuthController : ControllerBase
             _logger.LogError(e, "Registering new user has failed.");
             return StatusCode(500, $"Something went wrong., {e.Message}");
         }
+    }
+
+    [HttpPost("login")]
+    public async Task<IActionResult> LoginAsync([FromBody] LoginDto loginDto)
+    {
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
+
+        var user = await _userManager.Users.FirstOrDefaultAsync(x => x.Email == loginDto.Email);
+
+        if (user == null)
+        {
+            return Unauthorized("Invalid email or password");
+        }
+
+        var result = await _signInManager.CheckPasswordSignInAsync(user, loginDto.Password, false);
+
+        if (!result.Succeeded)
+        {
+            return Unauthorized("Invalid email or password");
+        }
+
+        return Ok(
+            new NewUserDto
+            {
+                Email = user.Email,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                UserName = user.Email,
+                Token = _tokenService.CreateToken(user)
+            });
     }
 }
