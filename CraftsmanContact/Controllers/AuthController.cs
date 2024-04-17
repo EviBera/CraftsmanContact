@@ -55,7 +55,7 @@ public class AuthController : ControllerBase
                             Email = appUser.Email,
                             LastName = appUser.LastName,
                             FirstName = appUser.FirstName,
-                            Token = _tokenService.CreateToken(appUser)
+                            Token = _tokenService.CreateToken(appUser, "User")
                         });
                 }
                 else
@@ -94,7 +94,9 @@ public class AuthController : ControllerBase
         {
             return Unauthorized("Invalid email or password");
         }
-
+        
+        var roles = await _userManager.GetRolesAsync(user);
+        
         return Ok(
             new NewUserDto
             {
@@ -102,7 +104,7 @@ public class AuthController : ControllerBase
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 UserName = user.Email,
-                Token = _tokenService.CreateToken(user)
+                Token = _tokenService.CreateToken(user, roles[0])
             });
     }
 }

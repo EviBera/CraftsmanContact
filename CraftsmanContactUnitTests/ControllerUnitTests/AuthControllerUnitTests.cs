@@ -62,7 +62,7 @@ public class AuthControllerUnitTests
             .ReturnsAsync(IdentityResult.Success);
         _userManagerMock.Setup(x => x.AddToRoleAsync(It.IsAny<AppUser>(), It.IsAny<string>()))
             .ReturnsAsync(IdentityResult.Success);
-        _tokenServiceMock.Setup(x => x.CreateToken(It.IsAny<AppUser>()))
+        _tokenServiceMock.Setup(x => x.CreateToken(It.IsAny<AppUser>(), It.IsAny<String>()))
             .Returns("MockToken");
 
         // Act
