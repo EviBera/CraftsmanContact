@@ -13,6 +13,7 @@ namespace CraftsmanContactUnitTests.ControllerUnitTests;
 public class AuthControllerUnitTests
 {
     private Mock<UserManager<AppUser>> _userManagerMock;
+    private Mock<SignInManager<AppUser>> _signInManagerMock;
     private Mock<ILogger<AuthController>> _loggerMock;
     private Mock<ITokenService> _tokenServiceMock;
     private AuthController _controller;
@@ -22,9 +23,10 @@ public class AuthControllerUnitTests
     {
         var userStoreMock = new Mock<IUserStore<AppUser>>();
         _userManagerMock = new Mock<UserManager<AppUser>>(userStoreMock.Object, null, null, null, null, null, null, null, null);
+        _signInManagerMock = new Mock<SignInManager<AppUser>>();
         _loggerMock = new Mock<ILogger<AuthController>>();
         _tokenServiceMock = new Mock<ITokenService>();
-        _controller = new AuthController(_userManagerMock.Object, _loggerMock.Object, _tokenServiceMock.Object);
+        _controller = new AuthController(_userManagerMock.Object, _signInManagerMock.Object, _loggerMock.Object, _tokenServiceMock.Object);
     }
    
     
