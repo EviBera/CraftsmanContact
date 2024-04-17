@@ -2,6 +2,7 @@ using System.Data;
 using CraftsmanContact.DTOs.OfferedService;
 using CraftsmanContact.DTOs.User;
 using CraftsmanContact.Services.Repository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CraftsmanContact.Controllers;
@@ -20,7 +21,7 @@ public class UserController : ControllerBase
     }
 
     
-    [HttpDelete("{userId}")]
+    [HttpDelete("{userId}"), Authorize(Roles="User, Admin")]
     public async Task<IActionResult> DeleteUserAsync([FromRoute] string userId)
     {
         if (!ModelState.IsValid)
@@ -42,7 +43,7 @@ public class UserController : ControllerBase
         }
     }
 
-    [HttpPut("{userId}")]
+    [HttpPut("{userId}"), Authorize(Roles="User, Admin")]
     public async Task<IActionResult> UpdateUserAsync([FromRoute] string userId, [FromBody] UpdateUserRequestDto requestDto)
     {
         if (!ModelState.IsValid)
@@ -64,7 +65,7 @@ public class UserController : ControllerBase
         }
     }
 
-    [HttpGet("{userId}")]
+    [HttpGet("{userId}"), Authorize(Roles="User, Admin")]
     public async Task<ActionResult<UserDto?>> GetUserByIdAsync([FromRoute] string userId)
     {
         if (!ModelState.IsValid)
@@ -86,7 +87,7 @@ public class UserController : ControllerBase
         }
     }
 
-    [HttpPatch("registerservice/{userId}/{serviceId:int}")]
+    [HttpPatch("registerservice/{userId}/{serviceId:int}"), Authorize(Roles="User, Admin")]
     public async Task<IActionResult> RegisterServiceAsOfferedByUserAsync([FromRoute] string userId,
         [FromRoute] int serviceId)
     {
@@ -109,7 +110,7 @@ public class UserController : ControllerBase
         }
     }
 
-    [HttpPatch("removeservice/{userId}/{serviceId:int}")]
+    [HttpPatch("removeservice/{userId}/{serviceId:int}"), Authorize(Roles="User, Admin")]
     public async Task<IActionResult> RemoveOfferedServiceFromCraftsmanAsync([FromRoute] string userId, [FromRoute] int serviceId)
     {
         if (!ModelState.IsValid)
@@ -131,7 +132,7 @@ public class UserController : ControllerBase
         }
     }
 
-    [HttpGet("craftsmenbyservice/{serviceId:int}")]
+    [HttpGet("craftsmenbyservice/{serviceId:int}"), Authorize(Roles="User, Admin")]
     public async Task<ActionResult<IEnumerable<UserDto>>> GetCraftsmenByServiceAsync([FromRoute] int serviceId)
     {
         if (!ModelState.IsValid)
@@ -153,7 +154,7 @@ public class UserController : ControllerBase
         }
     }
 
-    [HttpGet("services/{userId}")]
+    [HttpGet("services/{userId}"), Authorize(Roles="User, Admin")]
     public async Task<ActionResult<OfferedServiceDto>> GetServicesOfUserAsync([FromRoute] string userId)
     {
         if (!ModelState.IsValid)
@@ -174,5 +175,4 @@ public class UserController : ControllerBase
             return StatusCode(500, "Error getting services of craftsman.");
         }
     }
-    
 }   

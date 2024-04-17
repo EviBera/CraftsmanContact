@@ -1,6 +1,7 @@
 using System.Data;
 using CraftsmanContact.DTOs.Deal;
 using CraftsmanContact.Services.Repository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CraftsmanContact.Controllers;
@@ -19,7 +20,7 @@ public class DealController : ControllerBase
     }
 
 
-    [HttpGet("byuser/{userId}")]
+    [HttpGet("byuser/{userId}"), Authorize(Roles="User, Admin")]
     public async Task<ActionResult<List<DealDto>>> GetDealsByUserAsync([FromRoute]string userId)
     {
         if (!ModelState.IsValid)
@@ -43,7 +44,7 @@ public class DealController : ControllerBase
         }
     }
 
-    [HttpGet("byid/{dealId:int}")]
+    [HttpGet("byid/{dealId:int}"), Authorize(Roles="User, Admin")]
     public async Task<ActionResult<DealDto>> GetDealByIdAsync([FromRoute]int dealId)
     {
         if (!ModelState.IsValid)
@@ -65,7 +66,7 @@ public class DealController : ControllerBase
         }
     }
 
-    [HttpPost]
+    [HttpPost, Authorize(Roles="User")]
     public async Task<ActionResult> AddNewDealAsync([FromBody] CreateDealRequestDto dealDto)
     {
         if (!ModelState.IsValid)
@@ -87,7 +88,7 @@ public class DealController : ControllerBase
         }
     }
 
-    [HttpPatch("accept/{craftsmanId}/{dealId:int}")]
+    [HttpPatch("accept/{craftsmanId}/{dealId:int}"), Authorize(Roles="User")]
     public async Task<ActionResult> AcceptDealAsync([FromRoute] string craftsmanId, [FromRoute]int dealId)
     {
         if (!ModelState.IsValid)
@@ -109,7 +110,7 @@ public class DealController : ControllerBase
         }
     }
 
-    [HttpPatch("close/{dealId:int}/{userId}")]
+    [HttpPatch("close/{dealId:int}/{userId}"), Authorize(Roles="User, Admin")]
     public async Task<ActionResult> CloseDealAsync([FromRoute] int dealId, [FromRoute] string userId)
     {
         if (!ModelState.IsValid)
@@ -133,7 +134,7 @@ public class DealController : ControllerBase
     }
 
     //The Deal is 'dead' if (one of the) parters or the service is deleted
-    [HttpGet("dead-deals")]
+    [HttpGet("dead-deals"), Authorize(Roles="Admin")]
     public async Task<ActionResult<List<DealDto>>> GetDeadDealsAsync()
     {
         if (!ModelState.IsValid)

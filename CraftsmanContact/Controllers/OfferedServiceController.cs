@@ -3,6 +3,7 @@ using System.Data;
 using CraftsmanContact.DTOs.OfferedService;
 using CraftsmanContact.Mappers;
 using CraftsmanContact.Services.Repository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CraftsmanContact.Controllers;
@@ -62,7 +63,7 @@ public class OfferedServiceController : ControllerBase
         }
     }
     
-    [HttpPost]
+    [HttpPost, Authorize(Roles="Admin")]
     public async Task<ActionResult<OfferedServiceDto>> RegisterNewOfferedServiceAsync([FromBody]CreateRequestOfferedServiceDto serviceDto)
     {
         if (!ModelState.IsValid)
@@ -80,7 +81,7 @@ public class OfferedServiceController : ControllerBase
         }
     }
     
-    [HttpPatch("{serviceId:int}")]
+    [HttpPatch("{serviceId:int}"), Authorize(Roles="Admin")]
     public async Task<ActionResult> UpdateOfferedServiceAsync([Required, FromRoute]int serviceId, [FromBody]UpdateRequestOfferedServiceDto serviceDto)
     {
         if (!ModelState.IsValid)
@@ -103,7 +104,7 @@ public class OfferedServiceController : ControllerBase
         }
     }
     
-    [HttpDelete("{serviceId:int}")]
+    [HttpDelete("{serviceId:int}"), Authorize(Roles="Admin")]
     public async Task<ActionResult> DeleteOfferedServiceAsync([Required, FromRoute] int serviceId)
     {
         if (!ModelState.IsValid)
