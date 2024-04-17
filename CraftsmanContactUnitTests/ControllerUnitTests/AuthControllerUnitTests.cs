@@ -2,9 +2,12 @@ using CraftsmanContact.Controllers;
 using CraftsmanContact.DTOs.User;
 using CraftsmanContact.Models;
 using CraftsmanContact.Services.AuthService;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Moq;
 
 namespace CraftsmanContactUnitTests.ControllerUnitTests;
@@ -23,7 +26,19 @@ public class AuthControllerUnitTests
     {
         var userStoreMock = new Mock<IUserStore<AppUser>>();
         _userManagerMock = new Mock<UserManager<AppUser>>(userStoreMock.Object, null, null, null, null, null, null, null, null);
-        _signInManagerMock = new Mock<SignInManager<AppUser>>();
+        
+        var contextAccessorMock = new Mock<IHttpContextAccessor>();
+        var userPrincipalFactoryMock = new Mock<IUserClaimsPrincipalFactory<AppUser>>();
+        var optionsMock = new Mock<IOptions<IdentityOptions>>();
+        var loggerMock = new Mock<ILogger<SignInManager<AppUser>>>();
+        var schemesMock = new Mock<IAuthenticationSchemeProvider>();
+        _signInManagerMock = new Mock<SignInManager<AppUser>>(_userManagerMock.Object, 
+            contextAccessorMock.Object, 
+            userPrincipalFactoryMock.Object, 
+            optionsMock.Object, 
+            loggerMock.Object,
+            schemesMock.Object,
+            null);
         _loggerMock = new Mock<ILogger<AuthController>>();
         _tokenServiceMock = new Mock<ITokenService>();
         _controller = new AuthController(_userManagerMock.Object, _signInManagerMock.Object, _loggerMock.Object, _tokenServiceMock.Object);
