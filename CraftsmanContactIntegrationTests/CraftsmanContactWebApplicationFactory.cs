@@ -24,9 +24,9 @@ public class CraftsmanContactWebApplicationFactory : WebApplicationFactory<Progr
             config.AddJsonFile("appsettings.test.json", optional: true);
             
             var builtConfig = config.Build();
-            JwtIssuer = builtConfig["JWT:Issuer"];
-            JwtAudience = builtConfig["JWT:Audience"];
-            JwtSigningKey = builtConfig["JWT:SigningKey"];
+            JwtIssuer = Environment.GetEnvironmentVariable("JWT_ISSUER") ?? builtConfig["JWT:Issuer"];
+            JwtAudience = Environment.GetEnvironmentVariable("JWT_AUDIENCE") ?? builtConfig["JWT:Audience"];
+            JwtSigningKey = Environment.GetEnvironmentVariable("JWT_SIGNINGKEY") ?? builtConfig["JWT:SigningKey"];
         });
         
         builder.ConfigureServices(services =>
