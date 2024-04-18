@@ -10,6 +10,10 @@ namespace CraftsmanContactIntegrationTests;
 
 public class CraftsmanContactWebApplicationFactory : WebApplicationFactory<Program>
 {
+    
+    public string JwtIssuer { get; private set; }
+    public string JwtAudience { get; private set; }
+    public string JwtSigningKey { get; private set; }
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
         builder.ConfigureAppConfiguration((context, config) =>
@@ -18,6 +22,11 @@ public class CraftsmanContactWebApplicationFactory : WebApplicationFactory<Progr
             config.Sources.Clear();
             config.AddJsonFile("appsettings.json", optional: true);
             config.AddJsonFile("appsettings.test.json", optional: true);
+            
+            var builtConfig = config.Build();
+            JwtIssuer = builtConfig["JWT:Issuer"];
+            JwtAudience = builtConfig["JWT:Audience"];
+            JwtSigningKey = builtConfig["JWT:SigningKey"];
         });
         
         builder.ConfigureServices(services =>

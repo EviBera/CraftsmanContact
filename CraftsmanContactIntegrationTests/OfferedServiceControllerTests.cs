@@ -84,13 +84,20 @@ public class OfferedServiceControllerTests : IClassFixture<CraftsmanContactWebAp
     {
         //Arrange
         _factory.ResetDatabase();
+        var token = JwtTokenGenerator.GenerateJwtToken(
+            "Admin",
+            _factory.JwtIssuer,
+            _factory.JwtAudience,
+            _factory.JwtSigningKey
+        );
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
         CreateRequestOfferedServiceDto newService = new CreateRequestOfferedServiceDto
         {
             OfferedServiceName = "Test Name 1",
             OfferedServiceDescription = "Test Description 1"
         };
         var request = JsonContent.Create(newService);
-
+        
         //Act
         var response = await _client.PostAsync("/api/offeredservice", request);
 
@@ -117,6 +124,13 @@ public class OfferedServiceControllerTests : IClassFixture<CraftsmanContactWebAp
             .Accept
             .Add(new MediaTypeWithQualityHeaderValue("application/json"));
         var content = JsonContent.Create(invalidServiceDto);
+        var token = JwtTokenGenerator.GenerateJwtToken(
+            "Admin",
+            _factory.JwtIssuer,
+            _factory.JwtAudience,
+            _factory.JwtSigningKey
+        );
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
         // Act
         var response = await _client.PostAsync("/api/offeredservice", content);
@@ -138,6 +152,13 @@ public class OfferedServiceControllerTests : IClassFixture<CraftsmanContactWebAp
             OfferedServiceDescription = "Test description."
         };
         var content = JsonContent.Create(updateServiceDto);
+        var token = JwtTokenGenerator.GenerateJwtToken(
+            "Admin",
+            _factory.JwtIssuer,
+            _factory.JwtAudience,
+            _factory.JwtSigningKey
+        );
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
         // Act
         var response = await _client.PatchAsync($"/api/offeredservice/{serviceId}", content);
@@ -157,6 +178,13 @@ public class OfferedServiceControllerTests : IClassFixture<CraftsmanContactWebAp
         // Arrange
         _factory.ResetDatabase();
         var serviceId = 12;
+        var token = JwtTokenGenerator.GenerateJwtToken(
+            "Admin",
+            _factory.JwtIssuer,
+            _factory.JwtAudience,
+            _factory.JwtSigningKey
+        );
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
         
         // Verify the service exists before deletion
         using (var scope = _factory.Services.CreateScope())
@@ -190,6 +218,13 @@ public class OfferedServiceControllerTests : IClassFixture<CraftsmanContactWebAp
         // Arrange
         _factory.ResetDatabase();
         var nonExistentServiceId = 999;
+        var token = JwtTokenGenerator.GenerateJwtToken(
+            "Admin",
+            _factory.JwtIssuer,
+            _factory.JwtAudience,
+            _factory.JwtSigningKey
+        );
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
         // Act
         var response = await _client.DeleteAsync($"/api/offeredservice/{nonExistentServiceId}");

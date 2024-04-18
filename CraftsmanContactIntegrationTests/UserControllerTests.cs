@@ -1,4 +1,5 @@
 using System.Net;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using CraftsmanContact.DTOs.User;
 using FluentAssertions;
@@ -25,6 +26,13 @@ public class UserControllerTests : IClassFixture<CraftsmanContactWebApplicationF
         //Arrange
         _factory.ResetDatabase();
         var userId = "user2";
+        var token = JwtTokenGenerator.GenerateJwtToken(
+            "User",
+            _factory.JwtIssuer,
+            _factory.JwtAudience,
+            _factory.JwtSigningKey
+        );
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
         //Act
         var result = await _client.GetAsync($"api/user/{userId}");
@@ -45,6 +53,13 @@ public class UserControllerTests : IClassFixture<CraftsmanContactWebApplicationF
         //Arrange
         _factory.ResetDatabase();
         var serviceId = 11;
+        var token = JwtTokenGenerator.GenerateJwtToken(
+            "User",
+            _factory.JwtIssuer,
+            _factory.JwtAudience,
+            _factory.JwtSigningKey
+        );
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
         //Act
         var result = await _client.GetAsync($"api/user/craftsmenbyservice/{serviceId}");
@@ -66,6 +81,13 @@ public class UserControllerTests : IClassFixture<CraftsmanContactWebApplicationF
         //Arrange
         _factory.ResetDatabase();
         var serviceId = 12;
+        var token = JwtTokenGenerator.GenerateJwtToken(
+            "Admin",
+            _factory.JwtIssuer,
+            _factory.JwtAudience,
+            _factory.JwtSigningKey
+        );
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
         //Act
         var result = await _client.GetAsync($"api/user/craftsmenbyservice/{serviceId}");
@@ -84,6 +106,13 @@ public class UserControllerTests : IClassFixture<CraftsmanContactWebApplicationF
         //Arrange
         _factory.ResetDatabase();
         var serviceId = 3;
+        var token = JwtTokenGenerator.GenerateJwtToken(
+            "Admin",
+            _factory.JwtIssuer,
+            _factory.JwtAudience,
+            _factory.JwtSigningKey
+        );
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
         //Act
         var result = await _client.GetAsync($"api/user/craftsmenbyservice/{serviceId}");
