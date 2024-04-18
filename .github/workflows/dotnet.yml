@@ -31,3 +31,8 @@ jobs:
         JWT_ISSUER: ${{ secrets.JWT_ISSUER }}
         JWT_AUDIENCE: ${{ secrets.JWT_AUDIENCE }}
         JWT_SIGNINGKEY: ${{ secrets.JWT_SIGNINGKEY }}
+        ADMIN_EMAIL: ${{ secrets.ADMIN_EMAIL }}
+        ADMIN_FIRSTNAME: ${{ secrets.ADMIN_FIRSTNAME }}
+        ADMIN_LASTNAME: ${{ secrets.ADMIN_LASTNAME }}
+        ADMIN_PHONENUMBER: ${{ secrets.ADMIN_PHONENUMBER }}
+        ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
