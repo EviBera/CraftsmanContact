@@ -132,11 +132,11 @@ void AddAdmin()
 
 async Task CreateAdminIfNotExists()
 {
-    var email = builder.Configuration["Admin:Email"];
-    var firstname = builder.Configuration["Admin:FirstName"];
-    var lastname = builder.Configuration["Admin:LastName"];
-    var phone = builder.Configuration["Admin:PhoneNumber"];
-    var pw = builder.Configuration["Admin:Password"];
+    var email = Environment.GetEnvironmentVariable("ADMIN_EMAIL") ?? builder.Configuration["Admin:Email"];
+    var firstname = Environment.GetEnvironmentVariable("ADMIN_FIRSTNAME") ?? builder.Configuration["Admin:FirstName"];
+    var lastname = Environment.GetEnvironmentVariable("ADMIN_LASTNAME") ?? builder.Configuration["Admin:LastName"];
+    var phone = Environment.GetEnvironmentVariable("ADMIN_PHONENUMBER") ?? builder.Configuration["Admin:PhoneNumber"];
+    var pw = Environment.GetEnvironmentVariable("ADMIN_PASSWORD") ?? builder.Configuration["Admin:Password"];
     
     using var scope = app.Services.CreateScope();
     var userManager = scope.ServiceProvider.GetRequiredService<UserManager<AppUser>>();
