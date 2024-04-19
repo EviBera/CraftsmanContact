@@ -9,7 +9,7 @@ import ErrorPage from './Pages/ErrorPage';
 import OfferedServiceList from './Pages/OfferedServiceList';
 import CraftsmenByServiceList from './Pages/CraftsmenByServiceList';
 import Login from './Pages/Login';
-import Register from './Pages/Register';
+import Registration from './Pages/Registration';
 
 
 const router = createBrowserRouter([
@@ -35,7 +35,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/register",
-    element : <Register />,
+    element : <Registration />,
     errorElement: <ErrorPage />,
   }
 ]);
