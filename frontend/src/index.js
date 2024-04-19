@@ -8,6 +8,8 @@ import LandingPage from './Pages/LandingPage';
 import ErrorPage from './Pages/ErrorPage';
 import OfferedServiceList from './Pages/OfferedServiceList';
 import CraftsmenByServiceList from './Pages/CraftsmenByServiceList';
+import Login from './Pages/Login';
+import Register from './Pages/Register';
 
 
 const router = createBrowserRouter([
@@ -26,6 +28,16 @@ const router = createBrowserRouter([
       },
     ] */
   },
+  {
+    path: "/login",
+    element : <Login />,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: "/register",
+    element : <Register />,
+    errorElement: <ErrorPage />,
+  }
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

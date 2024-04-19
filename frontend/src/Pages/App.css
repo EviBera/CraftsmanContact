@@ -24,19 +24,58 @@ body {
 
 .navbar {
   background-color: #282c34;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
   font-size: calc(10px + 2vmin);
+  width: 100%;
 }
 
-.navbar-text{
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.custom-nav {
+  display: flex;
+}
+
+.nav-link{
+  color: white;
+  font-size: calc(5px + 2vmin);
+  margin-right: 10px;
+}
+
+.nav-link:hover{
+  color: #e68a00;
+}
+
+.navbar-center-text {
+  flex-grow: 1;
+  text-align: center;
   color: white;
 }
 
-.navbar .container {
-  display: flex;
-  justify-content: center;
+/* Invisible spacers to balance the layout */
+.invisible-spacer .nav-link.invisible {
+  visibility: hidden;
+}
 
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .nav-container {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .navbar-center-text {
+    order: -1; /* Moves text above links */
+    text-align: center;
+    margin-left: 0;
+    margin-right: 0;
+    flex-grow: 0;
+  }
+
+  .invisible-spacer {
+    display: none; /* No need for spacers on small screens */
+  }
 }
