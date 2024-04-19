@@ -132,7 +132,7 @@ public class UserController : ControllerBase
         }
     }
 
-    [HttpGet("craftsmenbyservice/{serviceId:int}"), Authorize(Roles="User, Admin")]
+    [HttpGet("craftsmenbyservice/{serviceId:int}")]
     public async Task<ActionResult<IEnumerable<UserDto>>> GetCraftsmenByServiceAsync([FromRoute] int serviceId)
     {
         if (!ModelState.IsValid)
