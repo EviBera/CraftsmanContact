@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import FloatingLabel from 'react-bootstrap/FloatingLabel';
+import './RegistrationForm.css';
+import { Container } from 'react-bootstrap';
 
 
 const RegistrationForm = ({ setRequest }) => {
@@ -27,56 +30,83 @@ const RegistrationForm = ({ setRequest }) => {
     }
 
     return (
-        <Form onSubmit={handleSubmit}>
-            <Form.Group>
-                <Form.Label>Enter your firstname:</Form.Label>
-                <Form.Control 
-                    type="text"
-                    name="FirstName"
-                    value={userInput.FirstName}
-                    onChange={handleChange}
-                    placeholder="Enter your firstname" />
-            </Form.Group>
-            <Form.Group>
-                <Form.Label>Enter your lastname:</Form.Label>
-                <Form.Control 
-                    type="text"
-                    name="LastName"
-                    value={userInput.LastName}
-                    onChange={handleChange}
-                    placeholder="Enter your lasttname" />
-            </Form.Group>
-            <Form.Group>
-                <Form.Label>Enter your email address:</Form.Label>
-                <Form.Control 
-                    type="email"
-                    name="Email"
-                    value={userInput.Email}
-                    onChange={handleChange}
-                    placeholder="Enter your your email address" />
-            </Form.Group>
-            <Form.Group>
-                <Form.Label>Enter your phone number:</Form.Label>
-                <Form.Control 
-                    type="text" 
-                    name="PhoneNumber"
-                    value={userInput.PhoneNumber}
-                    onChange={handleChange}
-                    placeholder="Enter your pone number" />
-            </Form.Group>
-            <Form.Group>
-                <Form.Label>Enter your password:</Form.Label>
-                <Form.Control 
-                    type="text"
-                    name="Password"
-                    value={userInput.Password}
-                    onChange={handleChange}
-                    placeholder="Enter your password" />
-            </Form.Group>
-            <Button variant="primary" type="submit" >
-                Click here to submit form
-            </Button>
-        </Form>
+        <Container className='form-container'>
+            <h2>Registration form</h2>
+            <Form onSubmit={handleSubmit}>
+                <Form.Group>
+                    <FloatingLabel
+                        controlId="floatingInput3"
+                        label="Your firsname"
+                        className="mb-3">
+                        <Form.Control
+                            type="text"
+                            name="FirstName"
+                            value={userInput.FirstName}
+                            onChange={handleChange}
+                            placeholder="Enter your firstname" />
+                    </FloatingLabel>
+                </Form.Group>
+
+                <Form.Group>
+                    <FloatingLabel
+                        controlId="floatingInput4"
+                        label="Your lastname"
+                        className="mb-3">
+                        <Form.Control
+                            type="text"
+                            name="LastName"
+                            value={userInput.LastName}
+                            onChange={handleChange}
+                            placeholder="Enter your lasttname" />
+                    </FloatingLabel>
+                </Form.Group>
+
+                <Form.Group>
+                    <FloatingLabel
+                        controlId="floatingInput5"
+                        label="Your email address"
+                        className="mb-3">
+                        <Form.Control
+                            type="email"
+                            name="Email"
+                            value={userInput.Email}
+                            onChange={handleChange}
+                            placeholder="Enter your your email address" />
+                    </FloatingLabel>
+                </Form.Group>
+
+                <Form.Group>
+                    <FloatingLabel
+                        controlId="floatingInput6"
+                        label="Your phone numbe"
+                        className="mb-3">
+                        <Form.Control
+                            type="text"
+                            name="PhoneNumber"
+                            value={userInput.PhoneNumber}
+                            onChange={handleChange}
+                            placeholder="Enter your pone number" />
+                    </FloatingLabel>
+                </Form.Group>
+
+                <Form.Group>
+                    <FloatingLabel
+                        controlId="floatingInput7"
+                        label="Your password"
+                        className="mb-3">
+                        <Form.Control
+                            type="password"
+                            name="Password"
+                            value={userInput.Password}
+                            onChange={handleChange}
+                            placeholder="Enter your password" />
+                    </FloatingLabel>
+                </Form.Group>
+                <Button variant="primary" type="submit" >
+                    Register
+                </Button>
+            </Form>
+        </Container>
     );
 }
 

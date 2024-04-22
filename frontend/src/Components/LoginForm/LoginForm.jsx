@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import FloatingLabel from 'react-bootstrap/FloatingLabel';
+import { Container } from 'react-bootstrap';
+import './LoginForm.css';
 
 
 const LoginForm = ({ setRequest }) => {
@@ -24,31 +27,44 @@ const LoginForm = ({ setRequest }) => {
     }
 
     return (
-        <Form onSubmit={handleSubmit}>
-            
-            <Form.Group>
-                <Form.Label>Enter your email address:</Form.Label>
-                <Form.Control 
-                    type="email"
-                    name="Email"
-                    value={userInput.Email}
-                    onChange={handleChange}
-                    placeholder="Enter your your email address" />
-            </Form.Group>
-            
-            <Form.Group>
-                <Form.Label>Enter your password:</Form.Label>
-                <Form.Control 
-                    type="text"
-                    name="Password"
-                    value={userInput.Password}
-                    onChange={handleChange}
-                    placeholder="Enter your password" />
-            </Form.Group>
-            <Button variant="primary" type="submit" >
-                Login
-            </Button>
-        </Form>
+        <Container className='form-container'>
+            <h2>Login</h2>
+            <Form onSubmit={handleSubmit}>
+
+                <Form.Group>
+                    <FloatingLabel
+                        controlId="floatingInput1"
+                        label="Your email address"
+                        className="mb-3">
+
+                        <Form.Control
+                            type="email"
+                            name="Email"
+                            value={userInput.Email}
+                            onChange={handleChange}
+                            placeholder="Enter your your email address" />
+                    </FloatingLabel>
+                </Form.Group>
+
+                <Form.Group>
+                    <FloatingLabel
+                        controlId="floatingInput2"
+                        label="Your password"
+                        className="mb-3">
+                        <Form.Control
+                            type="password"
+                            name="Password"
+                            value={userInput.Password}
+                            onChange={handleChange}
+                            placeholder="Enter your password" />
+                    </FloatingLabel>
+                </Form.Group>
+
+                <Button variant="primary" type="submit" >
+                    Login
+                </Button>
+            </Form>
+        </Container>
     );
 }
 

@@ -1,0 +1,23 @@
+.form-container{
+    margin-top: 15%;
+    width: 80%;
+    background-color: #282c34;
+    border: #f8bc63 2px;
+    border-radius: 2px;
+}
+
+@media (min-width: 992px) { 
+    .form-container {
+      width: 50%;
+    }
+}
+
+form{
+    padding: 20px;
+}
+
+h2{
+    text-align: center;
+    color: #f8bc63;
+    padding-top: 30px;
+}
