@@ -79,3 +79,22 @@ body {
     display: none; /* No need for spacers on small screens */
   }
 }
+
+.login-message {
+  background-color: #282c34;
+  font-size: calc(10px + 2vmin);
+  padding: 20px;
+}
+
+.login-message > h2{
+  margin: 0%;
+  padding: 0%;
+}
+
+a {
+  color: white;
+}
+
+a:hover{
+  color: #e68a00;
+}
