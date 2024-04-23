@@ -55,7 +55,8 @@ public class AuthController : ControllerBase
                             Email = appUser.Email,
                             LastName = appUser.LastName,
                             FirstName = appUser.FirstName,
-                            Token = _tokenService.CreateToken(appUser, "User")
+                            Token = _tokenService.CreateToken(appUser, "User"),
+                            Id = appUser.Id
                         });
                 }
                 else
@@ -104,7 +105,8 @@ public class AuthController : ControllerBase
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 UserName = user.Email,
-                Token = _tokenService.CreateToken(user, roles[0])
+                Token = _tokenService.CreateToken(user, roles[0]),
+                Id = user.Id
             });
     }
 }
