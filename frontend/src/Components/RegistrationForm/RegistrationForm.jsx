@@ -101,6 +101,9 @@ const RegistrationForm = ({ setRequest }) => {
                             onChange={handleChange}
                             placeholder="Enter your password" />
                     </FloatingLabel>
+                    <p className='info'>Password must be at least 8 characters, must contain lower case letter (a-z), 
+                        upper case letter (A-Z), digit (0-9) and a symbol(#&@+!%).
+                    </p>
                 </Form.Group>
                 <Button variant="primary" type="submit" >
                     Register

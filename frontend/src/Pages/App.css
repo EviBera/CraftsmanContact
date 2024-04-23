@@ -98,3 +98,22 @@ a {
 a:hover{
   color: #e68a00;
 }
+
+.alert-container {
+  margin: 20px, auto;
+  background-color: #f8bc63;
+  color: #282c34;
+  width: 80%;;
+}
+
+@media (min-width: 992px) { 
+  .alert-container {
+    width: 50%;
+  }
+}
+
+.alert {
+  background-color: #f8bc63;
+  color: #282c34;
+  border: 0;
+}
