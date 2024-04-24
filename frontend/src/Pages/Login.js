@@ -33,8 +33,7 @@ const Login = () => {
                         body: JSON.stringify(request),
                     });
 
-                    console.log("res: ");
-                    console.log(response);
+                    //console.log(response);
 
                     if (response.ok) {
                         setSetsuccess(true);
@@ -46,11 +45,10 @@ const Login = () => {
                     const data = await response.json();
                     localStorage.setItem('loggedInUser', JSON.stringify(data));
 
-                    console.log("data: ");
-                    console.log(data);
+                    //console.log(data);
 
-                    console.log(localStorage);
-                    console.log(localStorage.loggedInUser);
+                    //console.log(localStorage);
+                    //console.log(localStorage.loggedInUser);
                     
 
                 } catch (error) {

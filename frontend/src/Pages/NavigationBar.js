@@ -11,6 +11,9 @@ function NavigationBar() {
 
     const handleLogout = () => {
         localStorage.removeItem('loggedInUser');
+        localStorage.removeItem('selectedServiceId');
+        localStorage.removeItem('serviceName');
+        localStorage.removeItem('craftsmanName');
     }
 
     return (

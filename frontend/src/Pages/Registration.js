@@ -8,7 +8,6 @@ import Button from 'react-bootstrap/Button';
 import './App.css';
 
 
-
 const Register = () => {
 
     const [loading, setLoading] = useState(false);
