@@ -8,6 +8,11 @@ const OfferedServiceTable = (offeredServices) => {
 
     const { setSelectedService } = useContext(OfferedServiceContext);
 
+    const handleClick = (item) => {
+        setSelectedService(item);
+        localStorage.setItem('selectedServiceId', item.offeredServiceId);
+    }
+
     return (
         <div>
 
@@ -17,7 +22,7 @@ const OfferedServiceTable = (offeredServices) => {
                     {items.map((offeredService) =>
                     (
                         <div key={offeredService.offeredServiceId}>
-                            <button className="dropdown-item" onClick={() => setSelectedService(offeredService)}>{offeredService.offeredServiceName}
+                            <button className="dropdown-item" onClick={() => handleClick(offeredService)}>{offeredService.offeredServiceName}
                                 <span className="description">{offeredService.offeredServiceDescription}</span>
                             </button>
                         </div>
