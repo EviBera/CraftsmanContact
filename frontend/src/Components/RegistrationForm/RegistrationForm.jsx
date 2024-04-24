@@ -78,14 +78,14 @@ const RegistrationForm = ({ setRequest }) => {
                 <Form.Group>
                     <FloatingLabel
                         controlId="floatingInput6"
-                        label="Your phone numbe"
+                        label="Your phone number"
                         className="mb-3">
                         <Form.Control
                             type="text"
                             name="PhoneNumber"
                             value={userInput.PhoneNumber}
                             onChange={handleChange}
-                            placeholder="Enter your pone number" />
+                            placeholder="Enter your phone number" />
                     </FloatingLabel>
                 </Form.Group>
 
@@ -101,8 +101,9 @@ const RegistrationForm = ({ setRequest }) => {
                             onChange={handleChange}
                             placeholder="Enter your password" />
                     </FloatingLabel>
-                    <p className='info'>Password must be at least 8 characters, must contain lower case letter (a-z), 
-                        upper case letter (A-Z), digit (0-9) and a symbol(#&@+!%).
+                    <p className='info'>Password must be at least 8 characters, 
+                    must contain at least one lower case letter (a-z), 
+                    upper case letter (A-Z), digit (0-9) and symbol (#&@+!%).
                     </p>
                 </Form.Group>
                 <Button variant="primary" type="submit" >

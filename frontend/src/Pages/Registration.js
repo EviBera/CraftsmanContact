@@ -22,7 +22,7 @@ const Register = () => {
             setLoading(true);
             const fetchData = async () => {
                 try {
-                    console.log(request);
+                    console.log("request" + request);
                     const response = await fetch('http://localhost:5213/api/auth/register', {
                         method: 'POST',
                         headers: {
@@ -31,15 +31,15 @@ const Register = () => {
                         body: JSON.stringify(request),
                     });
 
+                    console.log("response: " + response);
+                    
                     if (response.ok) {
                         setSetsuccess(true);
                     } else {
                         setErrorMessage(await response.text());
                     }
 
-                    const data = await response.json();
 
-                    console.log(data);
                 } catch (error) {
                     console.error('Error:', error);
                 }
@@ -49,7 +49,7 @@ const Register = () => {
         }
     }, [request]);
 
-    if (loading) {
+    if (loading) { 
         return < Loading />
     };
 

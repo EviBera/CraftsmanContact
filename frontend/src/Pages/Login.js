@@ -33,7 +33,8 @@ const Login = () => {
                         body: JSON.stringify(request),
                     });
 
-                    //console.log(response);
+                    console.log("res: ");
+                    console.log(response);
 
                     if (response.ok) {
                         setSetsuccess(true);
@@ -41,9 +42,17 @@ const Login = () => {
                     } else {
                         setErrorMessage(await response.text());
                     }
-                    const data = await response.json();
 
-                    //console.log(data);
+                    const data = await response.json();
+                    localStorage.setItem('loggedInUser', JSON.stringify(data));
+
+                    console.log("data: ");
+                    console.log(data);
+
+                    console.log(localStorage);
+                    console.log(localStorage.loggedInUser);
+                    
+
                 } catch (error) {
                     console.error('Error:', error);
                 }
@@ -59,24 +68,24 @@ const Login = () => {
 
     return (
         <>
-            {!success && < LoginForm setRequest={setRequest} />}
-            {success &&
-                <Container fluid className="login-message">
-                    <h2 >You are logged in!</h2>
-                </Container>}
-            {errorMessage &&
-                <Container className="alert-container">
-                    <Alert className="alert">
-                        <Alert.Heading>Oh snap! You got an error!</Alert.Heading>
-                        <p>{errorMessage}</p>
-                        <hr />
-                        <div className="d-flex justify-content-end">
-                            <Button onClick={() => setErrorMessage("")} variant="outline-success">
-                                Close
-                            </Button>
-                        </div>
-                    </Alert>
-                </Container>}
+                {!success && < LoginForm setRequest={setRequest} />}
+                {success &&
+                    <Container fluid className="login-message">
+                        <h2 >You are logged in!</h2>
+                    </Container>}
+                {errorMessage &&
+                    <Container className="alert-container">
+                        <Alert className="alert">
+                            <Alert.Heading>Oh snap! You got an error!</Alert.Heading>
+                            <p>{errorMessage}</p>
+                            <hr />
+                            <div className="d-flex justify-content-end">
+                                <Button onClick={() => setErrorMessage("")} variant="outline-success">
+                                    Close
+                                </Button>
+                            </div>
+                        </Alert>
+                    </Container>}
         </>
 
     );
