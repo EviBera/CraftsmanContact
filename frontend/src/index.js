@@ -5,10 +5,9 @@ import App from './Pages/App';
 import reportWebVitals from './reportWebVitals';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import ErrorPage from './Pages/ErrorPage';
-import OfferedServiceList from './Pages/OfferedServiceList';
-import CraftsmenByServiceList from './Pages/CraftsmenByServiceList';
 import Login from './Pages/Login';
 import Registration from './Pages/Registration';
+import Contact from './Pages/Contact'
 
 
 const router = createBrowserRouter([
@@ -35,6 +34,11 @@ const router = createBrowserRouter([
   {
     path: "/register",
     element : <Registration />,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: "/contact",
+    element : <Contact />,
     errorElement: <ErrorPage />,
   }
 ]);
