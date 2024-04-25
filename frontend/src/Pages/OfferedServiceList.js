@@ -17,7 +17,7 @@ const OfferedServiceList = () => {
     useEffect(() => {
         fetchServices(url)
         .then((offeredServices) => {
-            setTimeout(() => setLoading(false), 1500) ;
+            setTimeout(() => setLoading(false), 1000) ;
             setOfferedServices(offeredServices);
         })
     }, []);

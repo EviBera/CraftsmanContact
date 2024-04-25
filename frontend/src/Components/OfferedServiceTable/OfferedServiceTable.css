@@ -3,7 +3,7 @@
   background-color: #e68a00;
   color: white;
   padding: 16px;
-  font-size: 16px;
+  font-size: calc(10px + 2vmin);
   border: none;
   cursor: pointer;
   border-radius: 2px;

@@ -120,7 +120,7 @@ a:hover{
 
 .contact-message {
   background-color: #e68a00;
-  color: #282c34;
+  color: white;
   font-size: calc(10px + 2vmin);
   padding: 20px;
   text-align: center;

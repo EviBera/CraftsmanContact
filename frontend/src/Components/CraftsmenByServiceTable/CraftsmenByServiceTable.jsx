@@ -49,7 +49,7 @@ const CraftsmenByServiceTable = (props) => {
 
                     </Row>
                     {!storedLoggedInUserString &&
-                        <Container>
+                        <Container fluid className='warning'>
                             If you would like to contact the craftsman, you have to log in.
                         </Container>
                     }

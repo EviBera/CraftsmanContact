@@ -72,11 +72,21 @@ const Contact = () => {
     return (
         <>
             <NavigationBar />
-            {!message && <ContactForm setSubmitted={setSubmitted} />}
+
+            {!message &&
+                <ContactForm setSubmitted={setSubmitted} />
+            }
+
             {message &&
-                <Container className="contact-message">
-                    {message}
-                </Container>}
+                <>
+                    <Container className="contact-message">
+                        {message}
+                    </Container>
+                    <Container>
+                        <hr />
+                    </Container>
+                </>
+            }
 
         </>
     )
