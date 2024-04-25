@@ -14,8 +14,6 @@ const OfferedServiceTable = (offeredServices) => {
     }
 
     return (
-        <div>
-
             <div className="dropdown">
                 <button className="dropbtn">What kind of service do you need?</button>
                 <div className="dropdown-content">
@@ -30,7 +28,6 @@ const OfferedServiceTable = (offeredServices) => {
                 </div>
                 <hr />
             </div>
-        </div>
     );
 
 }

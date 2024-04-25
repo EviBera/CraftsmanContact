@@ -56,7 +56,7 @@
 .description {
   visibility: hidden;
   width: 120px;
-  height: fit-content;
+  min-height: fit-content;
   background-color: #e68a00;
   color: #fff;
   text-align: center;
@@ -65,11 +65,15 @@
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
 
   /* Position the text */
+  display: block;
   position: absolute;
   z-index: 1;
   bottom: 100%;
   left: 100%;
-  margin-left: -60px;
+  transform: translateX(-50%);
+  margin-left: 0;
+  overflow: visible; /* Ensure that text is not clipped */
+  white-space: normal; /* Allow text to wrap within the tooltip */
 
   /* Fade in description */
   opacity: 0;
