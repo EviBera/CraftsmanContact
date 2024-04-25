@@ -117,3 +117,12 @@ a:hover{
   color: #282c34;
   border: 0;
 }
+
+.contact-message {
+  background-color: #e68a00;
+  color: #282c34;
+  font-size: calc(10px + 2vmin);
+  padding: 20px;
+  text-align: center;
+  border-radius: 2px;
+}
