@@ -10,6 +10,14 @@ import { useNavigate } from 'react-router-dom';
 const CraftsmenByServiceTable = (props) => {
 
     let masters = Object.values(props.craftsmen)[0];
+    masters.sort(function (a, b) {
+        let x = a.lastName;
+        let y = b.lastName;
+        if (x < y) { return -1; }
+        if (x > y) { return 1; }
+        return 0;
+    });
+
     let first = masters[0];
 
     const storedLoggedInUserString = localStorage.getItem('loggedInUser');
@@ -40,7 +48,7 @@ const CraftsmenByServiceTable = (props) => {
                                     <ListGroup variant="flush" >
                                         <ListGroup.Item>Email: {master.email}</ListGroup.Item>
                                         <ListGroup.Item>Phone: {master.phone}</ListGroup.Item>
-                                        <ListGroup.Item><Button className='btn' onClick={() => 
+                                        <ListGroup.Item><Button className='btn' onClick={() =>
                                             handleClick(master.id, props.craftsmen.serviceName, master.firstName + " " + master.lastName)}>Contact</Button></ListGroup.Item>
                                     </ListGroup>
                                 }
