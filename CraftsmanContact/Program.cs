@@ -68,7 +68,7 @@ builder.Services.AddIdentity<AppUser, IdentityRole>(options =>
 
 var jwtIssuer = Environment.GetEnvironmentVariable("JWT_ISSUER") ?? builder.Configuration["JWT:Issuer"];
 var jwtAudience = Environment.GetEnvironmentVariable("JWT_AUDIENCE") ?? builder.Configuration["JWT:Audience"];
-var jwtSigningKey = Environment.GetEnvironmentVariable("JWT_SIGNINGKEY") ?? builder.Configuration["JWT:SigningKey"];
+var jwtSigningKey = builder.Configuration["JWT:SigningKey"] ?? Environment.GetEnvironmentVariable("JWT_SIGNINGKEY");
 
 builder.Services.AddAuthentication(options =>
 {
