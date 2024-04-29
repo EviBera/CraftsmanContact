@@ -7,7 +7,8 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import ErrorPage from './Pages/ErrorPage';
 import Login from './Pages/Login';
 import Registration from './Pages/Registration';
-import Contact from './Pages/Contact'
+import Contact from './Pages/Contact';
+import DealList from './Pages/DealList';
 
 
 const router = createBrowserRouter([
@@ -39,6 +40,11 @@ const router = createBrowserRouter([
   {
     path: "/contact",
     element : <Contact />,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: "/deals",
+    element : <DealList />,
     errorElement: <ErrorPage />,
   }
 ]);
