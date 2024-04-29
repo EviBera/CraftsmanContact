@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import Loading from "../Components/Loading";
 import NavigationBar from "./NavigationBar";
+import DealTable from "../Components/DealTable";
 
 
 const DealList = () => {
@@ -32,9 +33,7 @@ const DealList = () => {
     return (
         <>
         <NavigationBar/>
-        <h1>Deal List</h1>
-        <h3>{storedLoggedInUser.id}</h3>
-        {deals && deals.map(deal => <p>{deal.dealId}, {deal.clientId}, {deal.craftsmanId}, {deal.cretedAt}</p>)}
+        <DealTable deals = {deals}/>
         </>
     )
 }
