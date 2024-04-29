@@ -1,0 +1,15 @@
+.title{
+    margin: 40px, auto;
+    position: relative;
+}
+
+h1{
+    text-align: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
+    padding: 20px;
+    background-color: #e68a00;
+    max-width: 30%;
+    position: relative;
+    left: 35%;
+}

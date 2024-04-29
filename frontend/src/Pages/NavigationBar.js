@@ -36,7 +36,7 @@ function NavigationBar() {
                     <Nav.Link href="/" className="nav-link" onClick={handleLogout}>Logout</Nav.Link>
                 </Nav>
                 <Navbar.Text className="navbar-center-text">Nice to see you, {storedLoggedInUser.firstName}!</Navbar.Text>
-                <Nav className="ms-auto custom-nav invisible-spacer"> {/* Invisible Spacer */}
+                <Nav className="ms-auto custom-nav">
                     <Nav.Link href="/deals" className="nav-link">My deals</Nav.Link>
                 </Nav>
             </Container>}
