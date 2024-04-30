@@ -49,7 +49,7 @@ function NavigationBar() {
                                 <Nav.Link href="/" className="nav-link" onClick={handleLogout}>Logout</Nav.Link>
                             </Nav>
                         </Col>
-                        <Col xs={12} sm={12} md={6} lg={8} order={{ xs: 1, md: 2 }}>
+                        <Col xs={12} sm={12} md={6} lg={8} order={{ xs: 1, md: 2 }} className="navbar-welcome-text">
                             <Navbar.Text className="navbar-center-text">Nice to see you, {storedLoggedInUser.firstName}!</Navbar.Text>
                         </Col>
                         <Col>

@@ -56,6 +56,11 @@ body {
   color: white;
 }
 
+.navbar-welcome-text{
+  display: flex;
+  justify-content: center;
+}
+
 /* Invisible spacers to balance the layout */
 .invisible-spacer .nav-link.invisible {
   visibility: hidden;
