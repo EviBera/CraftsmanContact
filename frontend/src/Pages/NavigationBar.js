@@ -44,16 +44,17 @@ function NavigationBar() {
             {storedLoggedInUser &&
                 <Container fluid className="nav-container">
                     <Row>
-                        <Col xs={6} sm={6} md={3} lg={2} order={{ xs: 2, md: 1 }}>
+                        <Col xs={6} sm={6} md={3} lg={3} order={{ xs: 2, md: 1 }}>
                             <Nav>
                                 <Nav.Link href="/" className="nav-link" onClick={handleLogout}>Logout</Nav.Link>
                             </Nav>
                         </Col>
-                        <Col xs={12} sm={12} md={6} lg={8} order={{ xs: 1, md: 2 }} className="navbar-welcome-text">
+                        <Col xs={12} sm={12} md={6} lg={6} order={{ xs: 1, md: 2 }} className="navbar-welcome-text">
                             <Navbar.Text className="navbar-center-text">Nice to see you, {storedLoggedInUser.firstName}!</Navbar.Text>
                         </Col>
                         <Col>
-                            <Nav xs={6} sm={6} md={3} lg={2} order={{ xs: 3, md: 3 }}>
+                            <Nav xs={6} sm={6} md={3} lg={3} order={{ xs: 3, md: 3 }} className="links-on-right">
+                                <Nav.Link href="/" className="nav-link">Home</Nav.Link>
                                 <Nav.Link href="/deals" className="nav-link">My deals</Nav.Link>
                             </Nav>
                         </Col>

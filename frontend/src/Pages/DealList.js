@@ -20,10 +20,9 @@ const DealList = () => {
         fetch(url, { headers })
         .then(response => response.json())
         .then(data => setDeals(data))
-        .then(() => {
+        .then(() =>
             setLoading(false)
-            console.log(deals)
-        })
+        )
     }, [url]);
 
     if(loading){

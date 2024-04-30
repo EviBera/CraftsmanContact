@@ -61,6 +61,10 @@ body {
   justify-content: center;
 }
 
+.links-on-right{
+  justify-content: right;
+}
+
 /* Invisible spacers to balance the layout */
 .invisible-spacer .nav-link.invisible {
   visibility: hidden;
