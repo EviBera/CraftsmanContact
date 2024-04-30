@@ -1,21 +1,35 @@
 .title{
-    margin: 40px, auto;
-    position: relative;
-}
-
-h1{
     text-align: center;
     font-size: calc(10px + 2vmin);
     color: white;
     padding: 20px;
     background-color: #e68a00;
-    max-width: 30%;
-    position: relative;
-    left: 35%;
+}
+
+table{
+    margin: 20px auto;
+    width: 95%;
+    border-radius: 2px;
+    border: 1px solid #282c34;
+    background-color: white;
     box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
 }
 
-.table{
-    margin: 20px auto;
-    width: 95%;
+th{
+    border: 1px solid #282c34;
+    text-align: center;
 }
+
+td{
+    border: 1px solid #282c34;
+    text-align: center;
+}
+
+tr:nth-child(even) {
+    background-color: #f1f1f1;
+}
+
+tbody > tr:hover{
+    background-color: #f8bc63
+}
+
