@@ -8,6 +8,7 @@ const DealList = () => {
 
     const storedLoggedInUserString = localStorage.getItem('loggedInUser');
     const storedLoggedInUser = JSON.parse(storedLoggedInUserString);
+    const headers = { 'Authorization': 'Bearer ' + storedLoggedInUser.token };
 
     const [loading, setLoading] = useState(false);
     const [deals, setDeals] = useState(null);
@@ -16,7 +17,6 @@ const DealList = () => {
 
     useEffect(() => {
         setLoading(true);
-        const headers = { 'Authorization': 'Bearer ' + storedLoggedInUser.token };
         fetch(url, { headers })
         .then(response => response.json())
         .then(data => setDeals(data))
@@ -32,7 +32,7 @@ const DealList = () => {
     return (
         <>
         <NavigationBar/>
-        <DealTable deals = {deals}/>
+        <DealTable props = {{deals, headers}}/>
         </>
     )
 }
