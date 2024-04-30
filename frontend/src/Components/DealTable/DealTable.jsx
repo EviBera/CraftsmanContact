@@ -1,5 +1,5 @@
 import { Container } from 'react-bootstrap';
-import Accordion from 'react-bootstrap/Accordion';
+import Table from 'react-bootstrap/Table';
 import "./DealTable.css";
 
 const DealTable = (props) => {
@@ -7,6 +7,13 @@ const DealTable = (props) => {
     console.log(props);
     const deals = props.deals;
     console.log(deals);
+
+    const ConvertBoolToString = (bool) => {
+        if(bool) 
+            return 'Yes'
+        else
+         return 'Not yet.'
+    }
 
     return (
         /*         <>
@@ -17,44 +24,29 @@ const DealTable = (props) => {
             <Container className='title'>
                 <h1>My deals</h1>
             </Container>
-            <Accordion>
-                <Accordion.Item eventKey="0">
-                    <Accordion.Header>Every deal</Accordion.Header>
-                    <Accordion.Body>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                        eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-                        minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                        aliquip ex ea commodo consequat. Duis aute irure dolor in
-                        reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-                        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-                        culpa qui officia deserunt mollit anim id est laborum.
-                    </Accordion.Body>
-                </Accordion.Item>
-                <Accordion.Item eventKey="1">
-                    <Accordion.Header>Current deals</Accordion.Header>
-                    <Accordion.Body>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                        eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-                        minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                        aliquip ex ea commodo consequat. Duis aute irure dolor in
-                        reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-                        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-                        culpa qui officia deserunt mollit anim id est laborum.
-                    </Accordion.Body>
-                </Accordion.Item>
-                <Accordion.Item eventKey="2">
-                    <Accordion.Header>Closed deals</Accordion.Header>
-                    <Accordion.Body>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                        eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-                        minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                        aliquip ex ea commodo consequat. Duis aute irure dolor in
-                        reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-                        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-                        culpa qui officia deserunt mollit anim id est laborum.
-                    </Accordion.Body>
-                </Accordion.Item>
-            </Accordion>
+            <Table striped bordered hover>
+                <thead>
+                    <tr>
+                        <th>No.</th>
+                        <th>Craftsman</th>
+                        <th>Service</th>
+                        <th>Datum of request</th>
+                        <th>Is it accepted by the craftsman?</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {deals && deals.map((deal) => (
+                        <tr key={deal.dealId}>
+                            <td></td>
+                            <td>{deal.craftsmanId}</td>
+                            <td>{deal.offeredServiceId}</td>
+                            <td>{deal.createdAt}</td>
+                            <td>{ConvertBoolToString(deal.isAcceptedByCraftsman)}</td>
+                        </tr>
+                    ))}
+                </tbody>
+            </Table>
+
         </>)
 }
 
