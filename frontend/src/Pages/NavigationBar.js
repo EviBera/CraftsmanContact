@@ -32,10 +32,10 @@ function NavigationBar() {
                         <Col xs={12} sm={12} md={6} lg={8} order={{ xs: 1, md: 2 }}>
                             <Navbar.Text className="navbar-center-text">Welcome to the Craftsman Contact app!</Navbar.Text>
                         </Col>
-                        <Col xs={6} sm={6} md={3} lg={2} className="invisible-spacer" order={{ xs: 3, md: 3 }}>
+                        <Col xs={6} sm={6} md={3} lg={2} className="auth-links" order={{ xs: 3, md: 3 }}>
                             <Nav> {/* Invisible Spacer */}
-                                <Nav.Link href="#" className="nav-link invisible">Login</Nav.Link>
-                                <Nav.Link href="#" className="nav-link invisible">Register</Nav.Link>
+                                <Nav.Link href="#" className="nav-link-invisible">Login</Nav.Link>
+                                <Nav.Link href="#" className="nav-link-invisible">Register</Nav.Link>
                             </Nav>
                         </Col>
                     </Row>

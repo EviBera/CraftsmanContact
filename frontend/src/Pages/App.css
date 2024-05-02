@@ -35,16 +35,17 @@ body {
 }
 
 .row{
-  width: 100%;
-}
-
-.auth-links{
-  justify-content: left;
+  width: 110%;
 }
 
 .nav-link{
   color: white;
   font-size: calc(5px + 2vmin);
+}
+
+.nav-link-invisible{
+  font-size: calc(5px + 2vmin);
+  visibility: hidden;
 }
 
 .nav-link:hover{
@@ -64,12 +65,6 @@ body {
 .links-on-right{
   justify-content: right;
 }
-
-/* Invisible spacers to balance the layout */
-.invisible-spacer .nav-link.invisible {
-  visibility: hidden;
-}
-
 
 .login-message {
   background-color: #282c34;
