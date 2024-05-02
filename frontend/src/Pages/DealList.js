@@ -14,6 +14,7 @@ const DealList = () => {
     const [deals, setDeals] = useState(null);
     const [serviceNames, setServiceNames] = useState({});
     const [craftsmenNames, setCraftsmenNames] = useState({});
+    const [clientNames, setClientNames] = useState({});
 
 
     useEffect(() => {
@@ -41,7 +42,15 @@ const DealList = () => {
                 })
             );
 
-            return Promise.all([...servicePromises, ...craftsmenPromises]);
+            const clientPromises = deals.map(deal => 
+                fetch(`http://localhost:5213/api/user/${deal.clientId}`, { headers })
+                .then(response => response.json())
+                .then(clientData => {
+                    setClientNames(prev => ({...prev, [deal.clientId]: `${clientData.firstName} ${clientData.lastName}`}));
+                })
+            );
+
+            return Promise.all([...servicePromises, ...craftsmenPromises, ...clientPromises]);
         })
         .then(() => {
             setLoading(false); 
@@ -59,7 +68,7 @@ const DealList = () => {
     return (
         <>
         <NavigationBar/>
-        <DealTable props = {{deals, serviceNames, craftsmenNames}}/>
+        <DealTable props = {{deals, serviceNames, craftsmenNames, clientNames, storedLoggedInUser}}/>
         </>
     )
 }
