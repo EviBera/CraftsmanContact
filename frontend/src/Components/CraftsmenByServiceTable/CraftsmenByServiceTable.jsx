@@ -43,7 +43,7 @@ const CraftsmenByServiceTable = (props) => {
                     <Row xs={1} md={2} className="g-4 justify-content-center mt-3">
                         {masters.map((master) => (
                             <Card style={{ width: '18rem' }} key={master.id} className='card m-2'>
-                                <Card.Title className='title'>{master.firstName} {master.lastName}</Card.Title>
+                                <Card.Title className='card-title'>{master.firstName} {master.lastName}</Card.Title>
                                 {storedLoggedInUserString &&
                                     <ListGroup variant="flush" >
                                         <ListGroup.Item>Email: {master.email}</ListGroup.Item>
