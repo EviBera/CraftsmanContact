@@ -24,6 +24,9 @@ const ErrorPage = () => {
           </p>
         </Col>
       </Row>
+      <Row>
+        <a href="/">Home</a>
+      </Row>
     </Container>
   )
 
