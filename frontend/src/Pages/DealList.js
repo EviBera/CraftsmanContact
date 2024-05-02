@@ -10,20 +10,47 @@ const DealList = () => {
     const storedLoggedInUser = JSON.parse(storedLoggedInUserString);
     const headers = { 'Authorization': 'Bearer ' + storedLoggedInUser.token };
 
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [deals, setDeals] = useState(null);
+    const [serviceNames, setServiceNames] = useState({});
+    const [craftsmenNames, setCraftsmenNames] = useState({});
 
-    const url = "http://localhost:5213/api/deal/byuser/" + storedLoggedInUser.id;
 
     useEffect(() => {
-        setLoading(true);
-        fetch(url, { headers })
+
+        fetch(`http://localhost:5213/api/deal/byuser/${storedLoggedInUser.id}`, { headers })
         .then(response => response.json())
-        .then(data => setDeals(data))
-        .then(() =>
-            setLoading(false)
-        )
-    }, [url]);
+        .then(data => {
+            setDeals(data);
+            return data;
+        })
+        .then(deals => {
+            const servicePromises = deals.map(deal =>
+                fetch(`http://localhost:5213/api/offeredservice/${deal.offeredServiceId}`, { headers })
+                .then(response => response.json())
+                .then(serviceData => {
+                    setServiceNames(prev => ({...prev, [deal.offeredServiceId]: serviceData.offeredServiceName}));
+                })
+            );
+
+            const craftsmenPromises = deals.map(deal =>
+                fetch(`http://localhost:5213/api/user/${deal.craftsmanId}`, { headers })
+                .then(response => response.json())
+                .then(craftsmanData => {
+                    setCraftsmenNames(prev => ({...prev, [deal.craftsmanId]: `${craftsmanData.firstName} ${craftsmanData.lastName}`}));
+                })
+            );
+
+            return Promise.all([...servicePromises, ...craftsmenPromises]);
+        })
+        .then(() => {
+            setLoading(false); 
+        })
+        .catch(error => {
+            console.error('Failed to fetch data:', error);
+            setLoading(false);
+        });
+    }, []);
 
     if(loading){
         return < Loading />
@@ -32,7 +59,7 @@ const DealList = () => {
     return (
         <>
         <NavigationBar/>
-        <DealTable props = {{deals, headers}}/>
+        <DealTable props = {{deals, serviceNames, craftsmenNames}}/>
         </>
     )
 }

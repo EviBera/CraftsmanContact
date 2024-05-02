@@ -1,48 +1,18 @@
 import "./DealTable.css";
-import { useState, useEffect } from "react";
+
 
 const DealTable = (props) => {
 
     const deals = Array.isArray(props.props.deals) ? props.props.deals : [];
-    const headers = props.props.headers;
+    const first = deals[0];
+    const serviceNames = props.props.serviceNames;
+    const craftsmenNames = props.props.craftsmenNames;
 
-    const [serviceNames, setServiceNames] = useState({});
-    const [craftsmenNames, setCraftsmenNames] = useState({});
-
-    useEffect(() => {
-        if (deals.length > 0) {
-
-            const fetchServiceNames = async () => {
-                let names = {};
-                for (const deal of deals) {
-                    const url = `http://localhost:5213/api/offeredservice/${deal.offeredServiceId}`;
-                    const serviceData = await fetch(url, { headers });
-                    const serviceDataJson = await serviceData.json();
-                    names[deal.offeredServiceId] = serviceDataJson.offeredServiceName;
-                }
-                setServiceNames(names);
-            };
-
-            const fetchCraftsmenName = async () => {
-                let names = {};
-                for (const deal of deals){
-                    const url = `http://localhost:5213/api/user/${deal.craftsmanId}`;
-                    const craftsmanData = await fetch(url, { headers });
-                    const craftsmanDataJson = await craftsmanData.json();
-                    names[deal.craftsmanId] = craftsmanDataJson.firstName + " " + craftsmanDataJson.lastName;
-                }
-                setCraftsmenNames(names);
-            }
-
-            fetchServiceNames();
-            fetchCraftsmenName();
-        };
-    }, [deals, headers]);
 
     const DateConverter = (input) => {
         let date = new Date(input);
         let year = date.getFullYear();
-        let month = date.getMonth() +1;
+        let month = date.getMonth() + 1;
         let day = date.getDate();
 
         return day + "/" + month + "/" + year;
@@ -78,6 +48,12 @@ const DealTable = (props) => {
                         <td>{deal.isAcceptedByCraftsman ? 'Yessss!' : 'Not yet.'}</td>
                     </tr>
                 ))}
+                {!first &&
+                    <tr>
+                        <td colSpan="6" className="information">
+                            You don't have a deal yet.
+                        </td>
+                    </tr>}
             </tbody>
         </table>
     )
