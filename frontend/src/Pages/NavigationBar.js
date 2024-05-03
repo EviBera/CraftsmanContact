@@ -4,6 +4,7 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
+import { useLocation } from "react-router-dom";
 import './App.css';
 
 function NavigationBar() {
@@ -17,6 +18,9 @@ function NavigationBar() {
         localStorage.removeItem('serviceName');
         localStorage.removeItem('craftsmanName');
     }
+
+    const location = useLocation();
+    const isHome = location.pathname === '/';
 
     return (
         <Navbar className="navbar" sticky="top">
@@ -54,7 +58,7 @@ function NavigationBar() {
                         </Col>
                         <Col>
                             <Nav xs={6} sm={6} md={3} lg={3} order={{ xs: 3, md: 3 }} className="links-on-right">
-                                <Nav.Link href="/" className="nav-link">Home</Nav.Link>
+                                {!isHome && <Nav.Link href="/" className="nav-link">Home</Nav.Link>}
                                 <Nav.Link href="/deals" className="nav-link">My deals</Nav.Link>
                             </Nav>
                         </Col>
