@@ -71,6 +71,8 @@ tbody>tr:hover {
 .link-to-deal{
     color: #282c34;
     text-decoration: none;
+    border: none;
+    background-color: inherit;
 }
 
 .suggestion{
