@@ -24,6 +24,11 @@ const DealTable = (props) => {
     return (
         <>
             <h1 className="title">My deals</h1>
+            <div className="suggestion">
+                <p>
+                    If you would like to check the details, click the number at the beginning of the row!
+                </p>
+            </div>
             <Accordion className="accordion">
                 <Accordion.Item eventKey="0" className="accordion-item">
                     <Accordion.Header className="accordion-header">Every deal</Accordion.Header>
@@ -32,7 +37,6 @@ const DealTable = (props) => {
                             <thead>
                                 <tr>
                                     <th>No.</th>
-                                    {/* <th>Deal Id</th> */}
                                     <th>Craftsman</th>
                                     <th>Client</th>
                                     <th>Service</th>
@@ -43,8 +47,7 @@ const DealTable = (props) => {
                             <tbody>
                                 {deals && deals.map((deal) => (
                                     <tr key={deal.dealId}>
-                                        <td>{deals.indexOf(deal) + 1}</td>
-                                        {/* <td>{deal.dealId}</td> */}
+                                        <td><a href={`/deal/${deal.dealId}`} className="link-to-deal">{deals.indexOf(deal) + 1}</a></td>
                                         <td>{craftsmenNames[deal.craftsmanId]}</td>
                                         <td>{clientNames[deal.clientId]}</td>
                                         <td>{serviceNames[deal.offeredServiceId]}</td>
@@ -65,7 +68,7 @@ const DealTable = (props) => {
                 <Accordion.Item eventKey="1">
                     <Accordion.Header>I am the provider</Accordion.Header>
                     <Accordion.Body>
-                    <table>
+                        <table>
                             <thead>
                                 <tr>
                                     <th>No.</th>
@@ -78,14 +81,14 @@ const DealTable = (props) => {
                             <tbody>
                                 {deals && deals.filter((deal) => deal.craftsmanId === storedLoggedInUser.id).map((deal) => (
                                     <tr key={deal.dealId}>
-                                        <td>{deals.indexOf(deal) + 1}</td>
+                                        <td><a href={`/deal/${deal.dealId}`} className="link-to-deal">{deals.filter((deal) => deal.craftsmanId === storedLoggedInUser.id).indexOf(deal) + 1}</a></td>
                                         <td>{clientNames[deal.clientId]}</td>
                                         <td>{serviceNames[deal.offeredServiceId]}</td>
                                         <td>{DateConverter(deal.createdAt)}</td>
                                         <td>{deal.isAcceptedByCraftsman ? 'Yessss!' : 'Not yet.'}</td>
                                     </tr>
                                 ))}
-                                { (!first || deals.filter((deal) => deal.craftsmanId === storedLoggedInUser.id).length === 0) &&
+                                {(!first || deals.filter((deal) => deal.craftsmanId === storedLoggedInUser.id).length === 0) &&
                                     <tr>
                                         <td colSpan="6" className="information">
                                             You don't have such a deal yet.
@@ -98,7 +101,7 @@ const DealTable = (props) => {
                 <Accordion.Item eventKey="2">
                     <Accordion.Header>I am the client</Accordion.Header>
                     <Accordion.Body>
-                    <table>
+                        <table>
                             <thead>
                                 <tr>
                                     <th>No.</th>
@@ -111,14 +114,14 @@ const DealTable = (props) => {
                             <tbody>
                                 {deals && deals.filter((deal) => deal.clientId === storedLoggedInUser.id).map((deal) => (
                                     <tr key={deal.dealId}>
-                                        <td>{deals.indexOf(deal) + 1}</td>
+                                        <td><a href={`/deal/${deal.dealId}`} className="link-to-deal">{deals.filter((deal) => deal.clientId === storedLoggedInUser.id).indexOf(deal) + 1}</a></td>
                                         <td>{craftsmenNames[deal.craftsmanId]}</td>
                                         <td>{serviceNames[deal.offeredServiceId]}</td>
                                         <td>{DateConverter(deal.createdAt)}</td>
                                         <td>{deal.isAcceptedByCraftsman ? 'Yessss!' : 'Not yet.'}</td>
                                     </tr>
                                 ))}
-                                { (!first || deals.filter((deal) => deal.clientId === storedLoggedInUser.id).length === 0) &&
+                                {(!first || deals.filter((deal) => deal.clientId === storedLoggedInUser.id).length === 0) &&
                                     <tr>
                                         <td colSpan="6" className="information">
                                             You don't have such a deal yet.

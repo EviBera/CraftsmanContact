@@ -67,3 +67,14 @@ tbody>tr:hover {
 .accordion-button:not(.collapsed) {
     box-shadow: 0 0 0 0.25rem rgba(230, 138, 0, 0.5);
 }
+
+.link-to-deal{
+    color: #282c34;
+    text-decoration: none;
+}
+
+.suggestion{
+    margin: 60px auto 10px auto;
+    justify-content: center;
+    width: 95%;
+}
