@@ -24,7 +24,7 @@ const DealTable = (props) => {
     return (
         <>
             <h1 className="title">My deals</h1>
-            <Accordion defaultActiveKey="0" className="accordion">
+            <Accordion className="accordion">
                 <Accordion.Item eventKey="0" className="accordion-item">
                     <Accordion.Header className="accordion-header">Every deal</Accordion.Header>
                     <Accordion.Body>
