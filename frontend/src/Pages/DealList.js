@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Outlet } from "react-router-dom";
 import Loading from "../Components/Loading";
 import NavigationBar from "./NavigationBar";
 import DealTable from "../Components/DealTable";
@@ -20,55 +21,56 @@ const DealList = () => {
     useEffect(() => {
 
         fetch(`http://localhost:5213/api/deal/byuser/${storedLoggedInUser.id}`, { headers })
-        .then(response => response.json())
-        .then(data => {
-            setDeals(data);
-            return data;
-        })
-        .then(deals => {
-            const servicePromises = deals.map(deal =>
-                fetch(`http://localhost:5213/api/offeredservice/${deal.offeredServiceId}`, { headers })
-                .then(response => response.json())
-                .then(serviceData => {
-                    setServiceNames(prev => ({...prev, [deal.offeredServiceId]: serviceData.offeredServiceName}));
-                })
-            );
+            .then(response => response.json())
+            .then(data => {
+                setDeals(data);
+                return data;
+            })
+            .then(deals => {
+                const servicePromises = deals.map(deal =>
+                    fetch(`http://localhost:5213/api/offeredservice/${deal.offeredServiceId}`, { headers })
+                        .then(response => response.json())
+                        .then(serviceData => {
+                            setServiceNames(prev => ({ ...prev, [deal.offeredServiceId]: serviceData.offeredServiceName }));
+                        })
+                );
 
-            const craftsmenPromises = deals.map(deal =>
-                fetch(`http://localhost:5213/api/user/${deal.craftsmanId}`, { headers })
-                .then(response => response.json())
-                .then(craftsmanData => {
-                    setCraftsmenNames(prev => ({...prev, [deal.craftsmanId]: `${craftsmanData.firstName} ${craftsmanData.lastName}`}));
-                })
-            );
+                const craftsmenPromises = deals.map(deal =>
+                    fetch(`http://localhost:5213/api/user/${deal.craftsmanId}`, { headers })
+                        .then(response => response.json())
+                        .then(craftsmanData => {
+                            setCraftsmenNames(prev => ({ ...prev, [deal.craftsmanId]: `${craftsmanData.firstName} ${craftsmanData.lastName}` }));
+                        })
+                );
 
-            const clientPromises = deals.map(deal => 
-                fetch(`http://localhost:5213/api/user/${deal.clientId}`, { headers })
-                .then(response => response.json())
-                .then(clientData => {
-                    setClientNames(prev => ({...prev, [deal.clientId]: `${clientData.firstName} ${clientData.lastName}`}));
-                })
-            );
+                const clientPromises = deals.map(deal =>
+                    fetch(`http://localhost:5213/api/user/${deal.clientId}`, { headers })
+                        .then(response => response.json())
+                        .then(clientData => {
+                            setClientNames(prev => ({ ...prev, [deal.clientId]: `${clientData.firstName} ${clientData.lastName}` }));
+                        })
+                );
 
-            return Promise.all([...servicePromises, ...craftsmenPromises, ...clientPromises]);
-        })
-        .then(() => {
-            setLoading(false); 
-        })
-        .catch(error => {
-            console.error('Failed to fetch data:', error);
-            setLoading(false);
-        });
+                return Promise.all([...servicePromises, ...craftsmenPromises, ...clientPromises]);
+            })
+            .then(() => {
+                setLoading(false);
+            })
+            .catch(error => {
+                console.error('Failed to fetch data:', error);
+                setLoading(false);
+            });
     }, []);
 
-    if(loading){
+    if (loading) {
         return < Loading />
     }
 
     return (
         <>
-        <NavigationBar/>
-        <DealTable props = {{deals, serviceNames, craftsmenNames, clientNames, storedLoggedInUser}}/>
+            <NavigationBar />
+            <DealTable props={{ deals, serviceNames, craftsmenNames, clientNames, storedLoggedInUser }} />
+            <Outlet />
         </>
     )
 }

@@ -9,6 +9,7 @@ import Login from './Pages/Login';
 import Registration from './Pages/Registration';
 import Contact from './Pages/Contact';
 import DealList from './Pages/DealList';
+import SingleDeal from './Pages/SingleDeal';
 
 
 const router = createBrowserRouter([
@@ -46,6 +47,12 @@ const router = createBrowserRouter([
     path: "/deals",
     element : <DealList />,
     errorElement: <ErrorPage />,
+    children: [
+      {
+        path: ":id",
+        element: < SingleDeal />,
+      },
+    ]
   }
 ]);
 

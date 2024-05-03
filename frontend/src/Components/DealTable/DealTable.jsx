@@ -47,7 +47,7 @@ const DealTable = (props) => {
                             <tbody>
                                 {deals && deals.map((deal) => (
                                     <tr key={deal.dealId}>
-                                        <td><a href={`/deal/${deal.dealId}`} className="link-to-deal">{deals.indexOf(deal) + 1}</a></td>
+                                        <td><a href={`/deals/${deal.dealId}`} className="link-to-deal">{deals.indexOf(deal) + 1}</a></td>
                                         <td>{craftsmenNames[deal.craftsmanId]}</td>
                                         <td>{clientNames[deal.clientId]}</td>
                                         <td>{serviceNames[deal.offeredServiceId]}</td>
@@ -81,7 +81,7 @@ const DealTable = (props) => {
                             <tbody>
                                 {deals && deals.filter((deal) => deal.craftsmanId === storedLoggedInUser.id).map((deal) => (
                                     <tr key={deal.dealId}>
-                                        <td><a href={`/deal/${deal.dealId}`} className="link-to-deal">{deals.filter((deal) => deal.craftsmanId === storedLoggedInUser.id).indexOf(deal) + 1}</a></td>
+                                        <td><a href={`/deals/${deal.dealId}`} className="link-to-deal">{deals.filter((deal) => deal.craftsmanId === storedLoggedInUser.id).indexOf(deal) + 1}</a></td>
                                         <td>{clientNames[deal.clientId]}</td>
                                         <td>{serviceNames[deal.offeredServiceId]}</td>
                                         <td>{DateConverter(deal.createdAt)}</td>
@@ -114,7 +114,7 @@ const DealTable = (props) => {
                             <tbody>
                                 {deals && deals.filter((deal) => deal.clientId === storedLoggedInUser.id).map((deal) => (
                                     <tr key={deal.dealId}>
-                                        <td><a href={`/deal/${deal.dealId}`} className="link-to-deal">{deals.filter((deal) => deal.clientId === storedLoggedInUser.id).indexOf(deal) + 1}</a></td>
+                                        <td><a href={`/deals/${deal.dealId}`} className="link-to-deal">{deals.filter((deal) => deal.clientId === storedLoggedInUser.id).indexOf(deal) + 1}</a></td>
                                         <td>{craftsmenNames[deal.craftsmanId]}</td>
                                         <td>{serviceNames[deal.offeredServiceId]}</td>
                                         <td>{DateConverter(deal.createdAt)}</td>
