@@ -48,7 +48,7 @@ const DealTable = (props) => {
                     If you would like to check the details, click the number at the beginning of the row!
                 </p>
             </div>
-            <Accordion className="accordion">
+            <Accordion className="accordion" defaultActiveKey="0">
                 <Accordion.Item eventKey="0" className="accordion-item">
                     <Accordion.Header className="accordion-header">Every deal</Accordion.Header>
                     <Accordion.Body>
