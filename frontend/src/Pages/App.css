@@ -28,27 +28,27 @@ body {
   width: 100%;
 }
 
-.nav-container{
+.nav-container {
   padding: 0;
   margin: 0;
   width: 100%;
 }
 
-.row{
+.row {
   width: 110%;
 }
 
-.nav-link{
+.nav-link {
   color: white;
   font-size: calc(5px + 2vmin);
 }
 
-.nav-link-invisible{
+.nav-link-invisible {
   font-size: calc(5px + 2vmin);
   visibility: hidden;
 }
 
-.nav-link:hover{
+.nav-link:hover {
   color: #e68a00;
 }
 
@@ -57,12 +57,12 @@ body {
   color: white;
 }
 
-.navbar-welcome-text{
+.navbar-welcome-text {
   display: flex;
   justify-content: center;
 }
 
-.links-on-right{
+.links-on-right {
   justify-content: right;
 }
 
@@ -72,7 +72,7 @@ body {
   padding: 20px;
 }
 
-.login-message > h2{
+.login-message>h2 {
   margin: 0%;
   padding: 0%;
 }
@@ -81,7 +81,7 @@ a {
   color: white;
 }
 
-a:hover{
+a:hover {
   color: #e68a00;
 }
 
@@ -89,10 +89,11 @@ a:hover{
   margin: 20px, auto;
   background-color: #f8bc63;
   color: #282c34;
-  width: 80%;;
+  width: 80%;
+  ;
 }
 
-@media (min-width: 992px) { 
+@media (min-width: 992px) {
   .alert-container {
     width: 50%;
   }
@@ -112,4 +113,12 @@ a:hover{
   text-align: center;
   border-radius: 2px;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+}
+
+.selected-deal-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
 }
