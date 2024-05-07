@@ -18,7 +18,6 @@ const ContactForm = (props) => {
 
     const handleSubmit = () => {
         props.setSubmitted(true);
-        console.log("Submitted");
     }
 
 

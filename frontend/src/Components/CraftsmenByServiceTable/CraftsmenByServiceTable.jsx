@@ -26,7 +26,6 @@ const CraftsmenByServiceTable = (props) => {
 
     const handleClick = (id, serviceName, craftsmanName) => {
 
-        console.log(id);
         localStorage.setItem('craftsmanId', id);
         localStorage.setItem('serviceName', serviceName);
         localStorage.setItem('craftsmanName', craftsmanName);
