@@ -1,3 +1,4 @@
+import { useOutletContext } from 'react-router-dom';
 import { CardBody, CardText, CardTitle } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
@@ -9,6 +10,9 @@ const SingleDealCard = (props) => {
     const id = props.props.id;
     const selectedDeal = props.props.selectedDeal;
 
+    const context = useOutletContext();
+    const setSelectedDeal = context.setSelectedDeal;
+
     const DateConverter = (input) => {
         let date = new Date(input);
         let year = date.getFullYear();
@@ -19,7 +23,7 @@ const SingleDealCard = (props) => {
     }
 
     const handleClick = () => {
-        console.log("Close button clicked");
+        setSelectedDeal(null);
     }
 
     return (
@@ -27,7 +31,7 @@ const SingleDealCard = (props) => {
             <CardBody>
                 <CardTitle>
                     Single Deal page, id: {id}
-                    <CloseButton onClick={() => handleClick()} />
+                    <CloseButton onClick={handleClick} />
                 </CardTitle>
                 {selectedDeal &&
                     <>

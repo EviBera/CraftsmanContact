@@ -73,7 +73,7 @@ const DealList = () => {
             <DealTable props={{ deals, serviceNames, craftsmenNames, clientNames, storedLoggedInUser, setSelectedDeal }} />
             {selectedDeal && (
                 <div className="selected-deal-container">
-                    <Outlet context={selectedDeal} />
+                    <Outlet context={{selectedDeal, setSelectedDeal}} />
                 </div>
             )}
         </>

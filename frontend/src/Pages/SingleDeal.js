@@ -6,7 +6,8 @@ import SingleDealCard from "../Components/SingleDealCard";
 const SingleDeal = () => {
 
     const { id } = useParams();
-    const selectedDeal = useOutletContext();
+    const context = useOutletContext();
+    const selectedDeal = context.selectedDeal;
 
     return (
         <SingleDealCard props = {{id, selectedDeal}}/>
