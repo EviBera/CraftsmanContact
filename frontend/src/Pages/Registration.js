@@ -6,6 +6,7 @@ import { Container } from 'react-bootstrap';
 import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
 import './App.css';
+import { URLS } from "../Config/urls";
 
 
 const Register = () => {
@@ -22,7 +23,7 @@ const Register = () => {
             const fetchData = async () => {
                 try {
                     console.log("request" + request);
-                    const response = await fetch('http://localhost:5213/api/auth/register', {
+                    const response = await fetch(URLS.auth.registration, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',

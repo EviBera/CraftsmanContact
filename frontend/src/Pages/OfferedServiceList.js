@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Loading from "../Components/Loading";
 import OfferedServiceTable from "../Components/OfferedServiceTable";
+import { URLS } from "../Config/urls";
 
 
 const fetchServices = (url) => {
@@ -12,10 +13,8 @@ const OfferedServiceList = () => {
     const [offeredServices, setOfferedServices] = useState(null);
    
 
-    const url = "http://localhost:5213/api/offeredservice/all";
-
     useEffect(() => {
-        fetchServices(url)
+        fetchServices(URLS.offeredService.all)
         .then((offeredServices) => {
             setTimeout(() => setLoading(false), 1000) ;
             setOfferedServices(offeredServices);

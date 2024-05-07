@@ -5,6 +5,7 @@ import NavigationBar from './NavigationBar';
 import { Container } from 'react-bootstrap';
 import Loading from "../Components/Loading";
 import './App.css';
+import { URLS } from "../Config/urls";
 
 const Contact = () => {
 
@@ -18,9 +19,7 @@ const Contact = () => {
     const serviceId = localStorage.getItem('selectedServiceId');
     const clientString = localStorage.getItem('loggedInUser');
     const client = JSON.parse(clientString);
-    //console.log(craftsmanId + " .. " + serviceId);
 
-    const url = "http://localhost:5213/api/deal";
     const request = {
         "craftsmanId": craftsmanId,
         "clientId": client.id,
@@ -30,14 +29,11 @@ const Contact = () => {
     useEffect(() => {
         if (submitted) {
 
-            console.log("Going to fetch...");
-            console.log(request);
-
             setLoading(true);
 
             const fetchDeal = async () => {
                 try {
-                    const response = await fetch(url, {
+                    const response = await fetch(URLS.deal.addDeal, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -45,8 +41,6 @@ const Contact = () => {
                         },
                         body: JSON.stringify(request),
                     });
-
-                    console.log(response);
 
                     if (response.ok) {
                         setMessage("We've sent your demand to the craftsman.");

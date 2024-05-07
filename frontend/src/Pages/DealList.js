@@ -3,6 +3,7 @@ import { Outlet } from "react-router-dom";
 import Loading from "../Components/Loading";
 import NavigationBar from "./NavigationBar";
 import DealTable from "../Components/DealTable";
+import { URLS } from "../Config/urls";
 
 
 const DealList = () => {
@@ -21,7 +22,7 @@ const DealList = () => {
 
     useEffect(() => {
 
-        fetch(`http://localhost:5213/api/deal/byuser/${storedLoggedInUser.id}`, { headers })
+        fetch(URLS.deal.byUser(storedLoggedInUser.id), { headers })
             .then(response => response.json())
             .then(data => {
                 setDeals(data);
@@ -29,7 +30,7 @@ const DealList = () => {
             })
             .then(deals => {
                 const servicePromises = deals.map(deal =>
-                    fetch(`http://localhost:5213/api/offeredservice/${deal.offeredServiceId}`, { headers })
+                    fetch(URLS.offeredService.byServiceId(deal.offeredServiceId), { headers })
                         .then(response => response.json())
                         .then(serviceData => {
                             setServiceNames(prev => ({ ...prev, [deal.offeredServiceId]: serviceData.offeredServiceName }));
@@ -37,7 +38,7 @@ const DealList = () => {
                 );
 
                 const craftsmenPromises = deals.map(deal =>
-                    fetch(`http://localhost:5213/api/user/${deal.craftsmanId}`, { headers })
+                    fetch(URLS.user.byUserId(deal.craftsmanId), { headers })
                         .then(response => response.json())
                         .then(craftsmanData => {
                             setCraftsmenNames(prev => ({ ...prev, [deal.craftsmanId]: `${craftsmanData.firstName} ${craftsmanData.lastName}` }));
@@ -45,7 +46,7 @@ const DealList = () => {
                 );
 
                 const clientPromises = deals.map(deal =>
-                    fetch(`http://localhost:5213/api/user/${deal.clientId}`, { headers })
+                    fetch(URLS.user.byUserId(deal.clientId), { headers })
                         .then(response => response.json())
                         .then(clientData => {
                             setClientNames(prev => ({ ...prev, [deal.clientId]: `${clientData.firstName} ${clientData.lastName}` }));

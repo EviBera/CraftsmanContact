@@ -7,6 +7,7 @@ import { Container } from 'react-bootstrap';
 import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
 import './App.css';
+import { URLS } from "../Config/urls";
 
 
 const Login = () => {
@@ -24,16 +25,13 @@ const Login = () => {
             setLoading(true);
             const fetchData = async () => {
                 try {
-                    //console.log(request);
-                    const response = await fetch('http://localhost:5213/api/auth/login', {
+                    const response = await fetch(URLS.auth.login, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
                         },
                         body: JSON.stringify(request),
                     });
-
-                    //console.log(response);
 
                     if (response.ok) {
                         setSetsuccess(true);
@@ -44,12 +42,6 @@ const Login = () => {
 
                     const data = await response.json();
                     localStorage.setItem('loggedInUser', JSON.stringify(data));
-
-                    //console.log(data);
-
-                    //console.log(localStorage);
-                    //console.log(localStorage.loggedInUser);
-                    
 
                 } catch (error) {
                     console.error('Error:', error);
@@ -85,9 +77,7 @@ const Login = () => {
                         </Alert>
                     </Container>}
         </>
-
     );
-
 };
 
 export default Login;
