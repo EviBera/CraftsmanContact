@@ -18,6 +18,7 @@ const DealList = () => {
     const [craftsmenNames, setCraftsmenNames] = useState({});
     const [clientNames, setClientNames] = useState({});
     const [selectedDeal, setSelectedDeal] = useState({});
+    const [hasSingleDeal, setHasSingleDeal] = useState(false);
 
 
     useEffect(() => {
@@ -71,10 +72,10 @@ const DealList = () => {
     return (
         <>
             <NavigationBar />
-            <DealTable props={{ deals, serviceNames, craftsmenNames, clientNames, storedLoggedInUser, setSelectedDeal }} />
+            <DealTable props={{ deals, serviceNames, craftsmenNames, clientNames, storedLoggedInUser, setSelectedDeal, hasSingleDeal, setHasSingleDeal }} />
             {selectedDeal && (
                 <div className="selected-deal-container">
-                    <Outlet context={{selectedDeal, setSelectedDeal}} />
+                    <Outlet context={{selectedDeal, setSelectedDeal, setHasSingleDeal}} />
                 </div>
             )}
         </>

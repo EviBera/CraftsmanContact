@@ -12,6 +12,7 @@ const SingleDealCard = (props) => {
 
     const context = useOutletContext();
     const setSelectedDeal = context.setSelectedDeal;
+    const setHasSingleDeal = context.setHasSingleDeal;
 
     const DateConverter = (input) => {
         let date = new Date(input);
@@ -24,6 +25,7 @@ const SingleDealCard = (props) => {
 
     const handleClick = () => {
         setSelectedDeal(null);
+        setHasSingleDeal(false);
     }
 
     return (

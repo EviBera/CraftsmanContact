@@ -11,6 +11,8 @@ const DealTable = (props) => {
     const clientNames = props.props.clientNames;
     const storedLoggedInUser = props.props.storedLoggedInUser;
     const setSelectedDeal = props.props.setSelectedDeal;
+    const hasSingleDeal = props.props.hasSingleDeal;
+    const setHasSingleDeal = props.props.setHasSingleDeal;
     const navigate = useNavigate();
 
 
@@ -37,6 +39,7 @@ const DealTable = (props) => {
         }
 
         setSelectedDeal(dealWithNames);
+        setHasSingleDeal(true);
         navigate(`/deals/${deal.dealId}`);
     }
 
@@ -48,7 +51,7 @@ const DealTable = (props) => {
                     If you would like to check the details, click the number at the beginning of the row!
                 </p>
             </div>
-            <Accordion className="accordion" defaultActiveKey="0">
+            <Accordion className={hasSingleDeal? "accordion-blurred" : "accordion"} defaultActiveKey="0">
                 <Accordion.Item eventKey="0" className="accordion-item">
                     <Accordion.Header className="accordion-header">Every deal</Accordion.Header>
                     <Accordion.Body>
