@@ -6,10 +6,22 @@
     border: #e68a00 solid 5px;
 }
 
+.card-title > p{
+    margin-bottom: 5px;
+}
+
 .btn-close{
     position: absolute;
-    top: 10px;
-    right: 10px;
+    top: 5px;
+    right: 5px;
     cursor: pointer;
     --bs-btn-close-focus-shadow: 0 0 0 0.25rem rgba(248, 188, 99, 0.25);
+}
+
+.single-deal-button{
+    margin: 10px auto;
+    justify-content: center;
+    display: block;
+    background-color: #f8bc63;
+    border-radius: 2px;
 }

@@ -1,6 +1,5 @@
 import { useOutletContext } from 'react-router-dom';
 import { CardBody, CardText, CardTitle } from 'react-bootstrap';
-import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import CloseButton from 'react-bootstrap/CloseButton';
 import './SingleDealCard.css';
@@ -13,6 +12,7 @@ const SingleDealCard = (props) => {
     const context = useOutletContext();
     const setSelectedDeal = context.setSelectedDeal;
     const setHasSingleDeal = context.setHasSingleDeal;
+    const storedLoggedInUser = context.storedLoggedInUser;
 
     const DateConverter = (input) => {
         let date = new Date(input);
@@ -28,23 +28,62 @@ const SingleDealCard = (props) => {
         setHasSingleDeal(false);
     }
 
+    const handleAcceptance = () => {
+        console.log("Accept button is clicked");
+    }
+
+    const handleClose = () => {
+        console.log("Close button is clicked");
+    }
+
     return (
         <Card style={{ width: '28rem' }} className='single-deal-card'>
             <CardBody>
                 <CardTitle>
-                    Single Deal page, id: {id}
+                    <p>Requested service:</p>
+                    <p>{selectedDeal.offeredServiceId}</p>
                     <CloseButton onClick={handleClick} />
+                    <hr></hr>
                 </CardTitle>
                 {selectedDeal &&
                     <>
-                        <CardText>(deal id: {selectedDeal.dealId})</CardText>
                         <CardText>Craftsman: {selectedDeal.craftsmanId}</CardText>
                         <CardText>Client: {selectedDeal.clientId}</CardText>
-                        <CardText>Requested service: {selectedDeal.offeredServiceId}</CardText>
                         <CardText>Date of request: {DateConverter(selectedDeal.createdAt)}</CardText>
-                        <CardText>Has the craftsman accepted the request? {selectedDeal.isAcceptedByCraftsman ? 'yes' : 'no'}</CardText>
-                        <CardText>Has the craftsman closed this deal? {selectedDeal.isClosedByCraftsman ? 'yes' : 'no'}</CardText>
-                        <CardText>Has the client closed this deal? {selectedDeal.isClosedByClient ? 'yes' : 'no'}</CardText>
+                        <hr></hr>
+
+                        {selectedDeal.craftsmanId === storedLoggedInUser.firstName + " " + storedLoggedInUser.lastName ?
+                            <>
+                                <CardText>Have I accepted the request? {selectedDeal.isAcceptedByCraftsman ? 'Yes' :
+                                    <>
+                                        Not yet...
+                                        <button className="single-deal-button" onClick={handleAcceptance}>I accept this deal request</button>
+                                    </>}
+                                </CardText>
+                                <CardText>Have I closed this deal? {selectedDeal.isClosedByCraftsman ? 'Yes' :
+                                    <>
+                                        Not yet...
+                                        <button className="single-deal-button" onClick={handleClose}>I close this deal</button>
+                                    </>}
+                                </CardText>
+                            </> :
+                            <>
+                                <CardText>Has the craftsman accepted the request? {selectedDeal.isAcceptedByCraftsman ? 'Yes' : 'Not yet'}</CardText>
+                                <CardText>Has the craftsman closed this deal? {selectedDeal.isClosedByCraftsman ? 'Yes' : 'Not yet'}</CardText>
+                            </>
+                        }
+
+
+                        {selectedDeal.clientId === storedLoggedInUser.firstName + " " + storedLoggedInUser.lastName ?
+                            <>
+                                <CardText>Have I closed this deal? {selectedDeal.isClosedByClient ? 'Yes' :
+                                    <>
+                                        Not yet...
+                                        <button className="single-deal-button" onClick={handleClose}>I close this deal</button>
+                                    </>}
+                                </CardText>
+                            </> :
+                            <CardText>Has the client closed this deal? {selectedDeal.isClosedByClient ? 'Yes' : 'Not yet'}</CardText>}
                     </>
                 }
             </CardBody>
