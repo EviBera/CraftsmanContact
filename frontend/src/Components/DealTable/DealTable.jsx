@@ -29,9 +29,11 @@ const DealTable = (props) => {
 
         let dealWithNames = {
             "dealId": deal.dealId,
-            "craftsmanId": craftsmanName,
-            "clientId": clientName,
-            "offeredServiceId": serviceName,
+            "craftsmanName": craftsmanName,
+            "craftsmanId": deal.craftsmanId,
+            "clientName": clientName,
+            "clientId": deal.clientId,
+            "offeredServiceName": serviceName,
             "createdAt": deal.createdAt,
             "isAcceptedByCraftsman": deal.isAcceptedByCraftsman,
             "isClosedByCraftsman": deal.isClosedByCraftsman,

@@ -41,18 +41,18 @@ const SingleDealCard = (props) => {
             <CardBody>
                 <CardTitle>
                     <p>Requested service:</p>
-                    <p>{selectedDeal.offeredServiceId}</p>
+                    <p>{selectedDeal.offeredServiceName}</p>
                     <CloseButton onClick={handleClick} />
                     <hr></hr>
                 </CardTitle>
                 {selectedDeal &&
                     <>
-                        <CardText>Craftsman: {selectedDeal.craftsmanId}</CardText>
-                        <CardText>Client: {selectedDeal.clientId}</CardText>
+                        <CardText>Craftsman: {selectedDeal.craftsmanName}</CardText>
+                        <CardText>Client: {selectedDeal.clientName}</CardText>
                         <CardText>Date of request: {DateConverter(selectedDeal.createdAt)}</CardText>
                         <hr></hr>
 
-                        {selectedDeal.craftsmanId === storedLoggedInUser.firstName + " " + storedLoggedInUser.lastName ?
+                        {selectedDeal.craftsmanId === storedLoggedInUser.id ?
                             <>
                                 <CardText>Have I accepted the request? {selectedDeal.isAcceptedByCraftsman ? 'Yes' :
                                     <>
@@ -74,7 +74,7 @@ const SingleDealCard = (props) => {
                         }
 
 
-                        {selectedDeal.clientId === storedLoggedInUser.firstName + " " + storedLoggedInUser.lastName ?
+                        {selectedDeal.clientId === storedLoggedInUser.id ?
                             <>
                                 <CardText>Have I closed this deal? {selectedDeal.isClosedByClient ? 'Yes' :
                                     <>
