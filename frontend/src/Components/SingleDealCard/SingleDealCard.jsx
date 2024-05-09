@@ -6,7 +6,7 @@ import './SingleDealCard.css';
 
 const SingleDealCard = (props) => {
 
-    const { id, selectedDeal, handleAcceptDeal } = props.props;
+    const { id, selectedDeal, handleAcceptDeal, handleCloseDeal } = props.props;
 
     const context = useOutletContext();
     const setSelectedDeal = context.setSelectedDeal;
@@ -34,6 +34,7 @@ const SingleDealCard = (props) => {
 
     const handleClose = () => {
         console.log("Close button is clicked");
+        handleCloseDeal();
     }
 
     return (

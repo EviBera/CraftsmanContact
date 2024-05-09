@@ -34,9 +34,28 @@ const SingleDeal = () => {
 
     };
 
+    const handleCloseDeal = () => {
+        const request = {
+            "dealId": selectedDeal.dealId,
+            "userId": storedLoggedInUser.id
+        }
+
+        fetch(URLS.deal.close(selectedDeal.dealId, storedLoggedInUser.id), {
+            method: "PATCH",
+            headers,
+            body: JSON.stringify(request),
+        })
+        .then(response => response.text())
+        .then(data => {
+            console.log("Deal closed:", data);
+            triggerUpdate();
+        })
+        .catch(error => console.error('Error:', error));
+    };
+
 
     return (
-        <SingleDealCard props={{ id, selectedDeal, handleAcceptDeal}} />
+        <SingleDealCard props={{ id, selectedDeal, handleAcceptDeal, handleCloseDeal }} />
     )
 }
 

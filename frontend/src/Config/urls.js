@@ -1,11 +1,14 @@
 const BASE_URL = "http://localhost:5213/api";
+// for deploying need to implement not hardcoded base url!!! eg.: const BASE_URL = process.env.REACT_APP_BASE_URL
+// (maybe it needs exporting at start)
 
 export const URLS = {
 
     deal: {
         addDeal: `${BASE_URL}/deal`,
         byUser: (userId) => `${BASE_URL}/deal/byuser/${userId}`,
-        accept: (userId, dealId) => `${BASE_URL}/deal/accept/${userId}/${dealId}`
+        accept: (userId, dealId) => `${BASE_URL}/deal/accept/${userId}/${dealId}`,
+        close: (dealId, userId) => `${BASE_URL}/deal/close/${dealId}/${userId}`
     },
 
     user: {
