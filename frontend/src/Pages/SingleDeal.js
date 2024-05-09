@@ -11,6 +11,7 @@ const SingleDeal = () => {
     const selectedDeal = context.selectedDeal;
     const headers = context.headers;
     const storedLoggedInUser = context.storedLoggedInUser;
+    const triggerUpdate = context.triggerUpdate;
 
 
     const handleAcceptDeal = () => {
@@ -27,8 +28,10 @@ const SingleDeal = () => {
         .then(response => response.text())
         .then(data => {
             console.log("Deal accepted:", data);
+            triggerUpdate();
         })
         .catch(error => console.error('Error:', error));
+
     };
 
 

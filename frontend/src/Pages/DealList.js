@@ -19,6 +19,7 @@ const DealList = () => {
     const [clientNames, setClientNames] = useState({});
     const [selectedDeal, setSelectedDeal] = useState({});
     const [hasSingleDeal, setHasSingleDeal] = useState(false);
+    const [updateTrigger, setUpdateTrigger] = useState(0);
 
 
     useEffect(() => {
@@ -27,6 +28,23 @@ const DealList = () => {
             .then(response => response.json())
             .then(data => {
                 setDeals(data);
+
+                if (selectedDeal && data.some(deal => deal.dealId === selectedDeal.dealId)) {
+                    const updatedDeal = data.find(deal => deal.dealId === selectedDeal.dealId);
+
+                    // Preserve certain properties from the original selectedDeal
+                    const preservedProperties = {
+                        craftsmanName: selectedDeal.craftsmanName,
+                        clientName: selectedDeal.clientName
+                    };
+
+                    // Update selectedDeal merging new data with preserved properties
+                    setSelectedDeal({
+                        ...updatedDeal,
+                        ...preservedProperties
+                    });
+                }
+
                 return data;
             })
             .then(deals => {
@@ -63,7 +81,11 @@ const DealList = () => {
                 console.error('Failed to fetch data:', error);
                 setLoading(false);
             });
-    }, []);
+    }, [updateTrigger]);
+
+    const triggerUpdate = () => {
+        setUpdateTrigger(current => current + 1);
+    }
 
     if (loading) {
         return < Loading />
@@ -91,7 +113,8 @@ const DealList = () => {
                             setSelectedDeal,
                             setHasSingleDeal,
                             storedLoggedInUser,
-                            headers
+                            headers,
+                            triggerUpdate
                         }} />
                 </div>
             )}
