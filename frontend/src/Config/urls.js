@@ -4,7 +4,8 @@ export const URLS = {
 
     deal: {
         addDeal: `${BASE_URL}/deal`,
-        byUser: (userId) => `${BASE_URL}/deal/byuser/${userId}`
+        byUser: (userId) => `${BASE_URL}/deal/byuser/${userId}`,
+        accept: (userId, dealId) => `${BASE_URL}/deal/accept/${userId}/${dealId}`
     },
 
     user: {

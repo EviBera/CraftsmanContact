@@ -90,7 +90,8 @@ const DealList = () => {
                             selectedDeal,
                             setSelectedDeal,
                             setHasSingleDeal,
-                            storedLoggedInUser
+                            storedLoggedInUser,
+                            headers
                         }} />
                 </div>
             )}
