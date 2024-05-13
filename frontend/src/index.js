@@ -10,7 +10,7 @@ import Registration from './Pages/Registration';
 import Contact from './Pages/Contact';
 import DealList from './Pages/DealList';
 import SingleDeal from './Pages/SingleDeal';
-import ServiceList from './Pages/ServiceList';
+import ServiceHandler from './Pages/ServiceHandler';
 
 
 const router = createBrowserRouter([
@@ -18,16 +18,6 @@ const router = createBrowserRouter([
     path: "/",
     element: <App />,
     errorElement: <ErrorPage />,
-    /* children: [
-      {
-        path: "/services",
-        element: <OfferedServiceList />,
-      },
-      {
-        path: "/craftsmen/:service",
-        element: <CraftsmenByServiceList />,
-      },
-    ] */
   },
   {
     path: "/login",
@@ -57,7 +47,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/services",
-    element: <ServiceList />,
+    element: <ServiceHandler />,
     errorElement: <ErrorPage />,
   }
 ]);

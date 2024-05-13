@@ -1,6 +1,6 @@
 import NavigationBar from "./NavigationBar";
 
-const ServiceList = () => {
+const ServiceHandler = () => {
 
     return(
         <>
@@ -10,4 +10,4 @@ const ServiceList = () => {
     )
 }
 
-export default ServiceList;
+export default ServiceHandler;
