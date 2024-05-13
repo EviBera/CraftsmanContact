@@ -1,6 +1,4 @@
-const BASE_URL = "http://localhost:5213/api";
-// for deploying need to implement not hardcoded base url!!! eg.: const BASE_URL = process.env.REACT_APP_BASE_URL
-// (maybe it needs exporting at start)
+const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 export const URLS = {
 
