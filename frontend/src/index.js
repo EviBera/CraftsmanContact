@@ -1,9 +1,9 @@
 import React from 'react';
+import { ServiceProvider } from './Pages/OfferedServiceContext';
 import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './Pages/App';
 import reportWebVitals from './reportWebVitals';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import App from './Pages/App';
 import ErrorPage from './Pages/ErrorPage';
 import Login from './Pages/Login';
 import Registration from './Pages/Registration';
@@ -11,6 +11,7 @@ import Contact from './Pages/Contact';
 import DealList from './Pages/DealList';
 import SingleDeal from './Pages/SingleDeal';
 import ServiceHandler from './Pages/ServiceHandler';
+import './index.css';
 
 
 const router = createBrowserRouter([
@@ -21,22 +22,22 @@ const router = createBrowserRouter([
   },
   {
     path: "/login",
-    element : <Login />,
+    element: <Login />,
     errorElement: <ErrorPage />,
   },
   {
     path: "/register",
-    element : <Registration />,
+    element: <Registration />,
     errorElement: <ErrorPage />,
   },
   {
     path: "/contact",
-    element : <Contact />,
+    element: <Contact />,
     errorElement: <ErrorPage />,
   },
   {
     path: "/deals",
-    element : <DealList />,
+    element: <DealList />,
     errorElement: <ErrorPage />,
     children: [
       {
@@ -55,7 +56,9 @@ const router = createBrowserRouter([
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <ServiceProvider>
+      <RouterProvider router={router} />
+    </ServiceProvider>
   </React.StrictMode>
 );
 
