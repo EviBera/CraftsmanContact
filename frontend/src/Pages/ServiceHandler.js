@@ -1,11 +1,19 @@
+import { useContext } from "react";
+import { OfferedServiceContext } from './OfferedServiceContext';
 import NavigationBar from "./NavigationBar";
+import ServiceHandlerTable from '../Components/ServiceHandlerTable'
 
 const ServiceHandler = () => {
+
+    const { offeredServices } = useContext(OfferedServiceContext);
 
     return(
         <>
         <NavigationBar />
-        <h1>Here comes the list with setting functionalities</h1>
+        {offeredServices && offeredServices.map((service) => (
+            <div key={service.offeredServiceId}>{service.offeredServiceName}</div>
+        ))}
+        <ServiceHandlerTable />
         </>
     )
 }
