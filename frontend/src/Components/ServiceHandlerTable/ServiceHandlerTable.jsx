@@ -24,27 +24,34 @@ const ServiceHandlerTable = (servicesOfUser) => {
     return (
         <>
             <h1 className="title">My services</h1>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Service name</th>
-                        <th>Do I offer this service?</th>
-                        <th>I'd like to modify</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {offeredServices && offeredServices.map((service) => (
-                        <tr key={service.offeredServiceId}>
-                            <td>{service.offeredServiceName}</td>
-                            <td>{listOfServiceIds.indexOf(service.offeredServiceId) === -1 ? 'No' : 'Yes'}</td>
-                            <td>{listOfServiceIds.indexOf(service.offeredServiceId) === -1 ?
-                                <button className='servicehandler-btn'>Add service</button> :
-                                <button className='servicehandler-btn'>Remove service</button>}</td>
+            <form>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Service name</th>
+                            <th>Do I offer this service?</th>
+                            <th>I'd like to modify</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
-
+                    </thead>
+                    <tbody>
+                        {offeredServices && offeredServices.map((service) => (
+                            <tr key={service.offeredServiceId}>
+                                <td>{service.offeredServiceName}</td>
+                                <td>{listOfServiceIds.indexOf(service.offeredServiceId) === -1 ? 'No' : 'Yes'}</td>
+                                <td>
+                                    <input type="checkbox" id={`service${service.offeredServiceId}`} name={`service${service.offeredServiceId}`} value={service.offeredServiceId} />
+                                </td>
+                            </tr>
+                        ))}
+                        <tr className="lastRow">
+                            <td colSpan="2"></td>
+                            <td >
+                                <input type="submit" value="Submit" className="submit-btn"></input>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </form>
             <hr></hr>
             {servicesOfUser.servicesOfUser && servicesOfUser.servicesOfUser.map((service) => (
                 <div key={`service${service.offeredServiceId}`}>{service.offeredServiceName} .. {service.offeredServiceId}</div>

@@ -1,5 +1,15 @@
-.servicehandler-btn{
-    border: 0px;
-    width: 100%;
-    background-color: inherit;
+.submit-btn{
+    background-color: #f8bc63;
+}
+
+.submit-btn:hover{
+    background-color: #e68a00;
+}
+
+.lastRow{
+    background-color: #282c34;
+}
+
+.lastRow:hover{
+    background-color: #282c34;
 }

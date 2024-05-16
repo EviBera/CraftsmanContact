@@ -12,7 +12,9 @@ export const URLS = {
     user: {
         craftsmenByService: (serviceId) => `${BASE_URL}/user/craftsmenbyservice/${serviceId}`,
         byUserId: (userId) => `${BASE_URL}/user/${userId}`,
-        servicesByUser: (userId) => `${BASE_URL}/user/services/${userId}`
+        servicesByUser: (userId) => `${BASE_URL}/user/services/${userId}`,
+        registerService: (userId, serviceId) => `${BASE_URL}/user/registerservice/${userId}/${serviceId}`,
+        removeService: (userId, serviceId) => `${BASE_URL}/user/removeservice/${userId}/${serviceId}`
     },
 
     offeredService: {
