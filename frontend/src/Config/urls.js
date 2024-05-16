@@ -11,7 +11,8 @@ export const URLS = {
 
     user: {
         craftsmenByService: (serviceId) => `${BASE_URL}/user/craftsmenbyservice/${serviceId}`,
-        byUserId: (userId) => `${BASE_URL}/user/${userId}`
+        byUserId: (userId) => `${BASE_URL}/user/${userId}`,
+        servicesByUser: (userId) => `${BASE_URL}/user/services/${userId}`
     },
 
     offeredService: {

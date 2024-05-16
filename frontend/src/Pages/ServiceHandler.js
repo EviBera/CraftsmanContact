@@ -1,19 +1,30 @@
-import { useContext } from "react";
-import { OfferedServiceContext } from './OfferedServiceContext';
+import React, { useEffect, useState } from "react";
 import NavigationBar from "./NavigationBar";
 import ServiceHandlerTable from '../Components/ServiceHandlerTable'
+import { URLS } from "../Config/urls";
 
 const ServiceHandler = () => {
 
-    const { offeredServices } = useContext(OfferedServiceContext);
+    const storedLoggedInUserString = localStorage.getItem('loggedInUser');
+    const storedLoggedInUser = JSON.parse(storedLoggedInUserString);
+    const headers = { 'Authorization': 'Bearer ' + storedLoggedInUser.token };
+
+    const [servicesOfUser, setServicesOfUser] = useState(null);
+
+
+    useEffect(() => {
+
+      fetch(URLS.user.servicesByUser(storedLoggedInUser.id), { headers })
+        .then(response => response.json())
+        .then(data => {
+            setServicesOfUser(data)})
+    }, []);
+    
 
     return(
         <>
         <NavigationBar />
-        {offeredServices && offeredServices.map((service) => (
-            <div key={service.offeredServiceId}>{service.offeredServiceName}</div>
-        ))}
-        <ServiceHandlerTable />
+        <ServiceHandlerTable servicesOfUser = { servicesOfUser } />
         </>
     )
 }
