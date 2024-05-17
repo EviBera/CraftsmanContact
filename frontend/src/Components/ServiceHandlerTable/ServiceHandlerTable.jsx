@@ -9,7 +9,7 @@ const ServiceHandlerTable = (servicesOfUser) => {
     const { offeredServices } = useContext(OfferedServiceContext);
 
     const listOfServices = servicesOfUser.servicesOfUser;
-    console.log(listOfServices);
+    //console.log(listOfServices);
     const listOfServiceIds = [];
 
     if (listOfServices) {
@@ -18,13 +18,38 @@ const ServiceHandlerTable = (servicesOfUser) => {
             listOfServiceIds.push(element.offeredServiceId)
         });
 
-        console.log(listOfServiceIds);
+        //console.log(listOfServiceIds);
+    }
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        console.log("clicked");
+
+        const formData = new FormData(e.target);
+        const selectedServices = formData.getAll('service');
+
+        console.log('Selected services:', selectedServices);
+
+        let servicesToRegister = [];
+        let servicesToRemove = [];
+
+        selectedServices.forEach(service => {
+            service = parseInt(service);
+            if(listOfServiceIds.indexOf(service) === -1){
+                servicesToRegister.push(service);
+            } else {
+                servicesToRemove.push(service);
+            }
+        });
+
+        console.log("add: " + servicesToRegister);
+        console.log("remove: " + servicesToRemove);
     }
 
     return (
         <>
             <h1 className="title">My services</h1>
-            <form>
+            <form onSubmit={(e) => handleSubmit(e)}>
                 <table>
                     <thead>
                         <tr>
@@ -39,7 +64,7 @@ const ServiceHandlerTable = (servicesOfUser) => {
                                 <td>{service.offeredServiceName}</td>
                                 <td>{listOfServiceIds.indexOf(service.offeredServiceId) === -1 ? 'No' : 'Yes'}</td>
                                 <td>
-                                    <input type="checkbox" id={`service${service.offeredServiceId}`} name={`service${service.offeredServiceId}`} value={service.offeredServiceId} />
+                                    <input type="checkbox" id={`service${service.offeredServiceId}`} name="service" value={service.offeredServiceId} />
                                 </td>
                             </tr>
                         ))}
