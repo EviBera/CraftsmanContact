@@ -1,20 +1,19 @@
 import React from "react";
 import { useContext, useState } from "react";
 import { OfferedServiceContext } from '../../Pages/OfferedServiceContext';
-import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import './ServiceHandlerTable.css';
-import { CardText, CardTitle } from "react-bootstrap";
+import Modal from 'react-bootstrap/Modal';
 
 
-const ServiceHandlerTable = ({ props: { servicesOfUser, setRemovables, setRecordables, triggerUpdate } }) => {
+const ServiceHandlerTable = ({ props: { servicesOfUser, setRemovables, setRecordables } }) => {
 
     const { offeredServices } = useContext(OfferedServiceContext);
     const [toBeRemoved, setToBeRemoved] = useState(null);
     const [toBeRegistered, setToBeRegistered] = useState(null);
-    const [showSummary, setShowSummary] = useState(false);
+    const [show, setShow] = useState(false);
     const [checkedState, setCheckedState] = useState({});
 
     const listOfServiceIds = servicesOfUser ? servicesOfUser.map(element => element.offeredServiceId) : [];
@@ -36,12 +35,9 @@ const ServiceHandlerTable = ({ props: { servicesOfUser, setRemovables, setRecord
             }
         });
 
-        console.log("add: " + servicesToRegister);
-        console.log("remove: " + servicesToRemove);
         setToBeRemoved(servicesToRemove);
         setToBeRegistered(servicesToRegister);
-        setShowSummary(true);
-        triggerUpdate();
+        setShow(true);
     }
 
     const findName = (serviceId) => {
@@ -53,20 +49,16 @@ const ServiceHandlerTable = ({ props: { servicesOfUser, setRemovables, setRecord
     }
 
     const handleClick = () => {
-        console.log('Clicked: OK');
         setRecordables(toBeRegistered);
         setRemovables(toBeRemoved);
-        setShowSummary(false);
-        triggerUpdate();
+        setShow(false);
         resetCheckboxes();
     }
 
     const handleCancel = () => {
-        console.log('Clicked: Cancel');
         setToBeRegistered(null);
         setToBeRemoved(null);
-        setShowSummary(false);
-        triggerUpdate();
+        setShow(false);
         resetCheckboxes();
     }
 
@@ -85,6 +77,7 @@ const ServiceHandlerTable = ({ props: { servicesOfUser, setRemovables, setRecord
             [serviceId]: event.target.checked,
         }));
     };
+
 
     return (
         <>
@@ -126,46 +119,48 @@ const ServiceHandlerTable = ({ props: { servicesOfUser, setRemovables, setRecord
             </form>
             <hr></hr>
 
-            {showSummary &&
-                <Row className='justify-content-center'>
-                    <Card style={{ width: '28rem' }} className='g-4 justify-content-center'>
-                        <CardTitle className="card-title">
-                            Modifications
+            
+                    <Modal show={show}  >
+                        <Modal.Header>
+                            <Modal.Title >Modifications</Modal.Title>
                             <hr></hr>
-                        </CardTitle>
-                        <CardText><strong>Add</strong></CardText>
-                        {toBeRegistered.length > 0 ?
+                        </Modal.Header>
+                        <Modal.Body>
+                            <strong>Add</strong>
+                        {toBeRegistered && toBeRegistered.length > 0 ?  
                             <>
                                 {toBeRegistered.length === 1 ?
-                                    <CardText>
+                                    <p>
                                         You would like to register this service:
-                                    </CardText> :
-                                    <CardText>
+                                    </p> :
+                                    <p>
                                         You would like to register these services:
-                                    </CardText>}
+                                    </p>}
                                 {toBeRegistered.map((service) =>
-                                    <CardText key={service}>
+                                    <p key={service}>
                                         {findName(service)}
-                                    </CardText>)}
-                            </> : <CardText>-</CardText>}
+                                    </p>)}
+                            </> :
+                            <p>-</p> }
                         <hr></hr>
-                        <CardText><strong>Remove</strong></CardText>
-                        {toBeRemoved.length > 0 ?
+                        <strong>Remove</strong>
+                        {toBeRemoved && toBeRemoved.length > 0 ?
                             <>
                                 {toBeRemoved.length === 1 ?
-                                    <CardText>
+                                    <p>
                                         You would like to cancel this service:
-                                    </CardText> :
-                                    <CardText>
+                                    </p> :
+                                    <p>
                                         You would like to cancel these services:
-                                    </CardText>}
+                                    </p>}
                                 {toBeRemoved.map((service) =>
-                                    <CardText key={service}>
+                                    <p key={service}>
                                         {findName(service)}
-                                    </CardText>
+                                    </p>
                                 )}
-                            </> : <CardText>-</CardText>}
-                        <Row className='mb-3'>
+                            </> : 
+                            <p>-</p> }
+                        <Row className='m-3'>
                             <Col>
                                 <Button className='btn' onClick={() => handleClick()}>OK</Button>
                             </Col>
@@ -173,9 +168,9 @@ const ServiceHandlerTable = ({ props: { servicesOfUser, setRemovables, setRecord
                                 <Button className='btn' onClick={() => handleCancel()}>Cancel</Button>
                             </Col>
                         </Row>
-                    </Card>
-                </Row>
-            }
+                        </Modal.Body>
+                    </Modal>
+            
         </>
     )
 }
