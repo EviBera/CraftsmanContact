@@ -8,8 +8,11 @@ const ServiceHandler = () => {
     const storedLoggedInUserString = localStorage.getItem('loggedInUser');
     const storedLoggedInUser = JSON.parse(storedLoggedInUserString);
     const headers = { 'Authorization': 'Bearer ' + storedLoggedInUser.token };
-
+    
     const [servicesOfUser, setServicesOfUser] = useState(null);
+    const [removables, setRemovables] = useState(null);
+    const [recordables, setRecordables] = useState(null);
+    const [updateTrigger, setUpdateTrigger] = useState(0);
 
 
     useEffect(() => {
@@ -20,11 +23,17 @@ const ServiceHandler = () => {
             setServicesOfUser(data)})
     }, []);
     
+    console.log(removables);
+    console.log(recordables);
+
+    const triggerUpdate = () => {
+        setUpdateTrigger(current => current + 1);
+    }
 
     return(
         <>
         <NavigationBar />
-        <ServiceHandlerTable servicesOfUser = { servicesOfUser } />
+        <ServiceHandlerTable props = { { servicesOfUser, setRemovables, setRecordables, triggerUpdate } } />
         </>
     )
 }

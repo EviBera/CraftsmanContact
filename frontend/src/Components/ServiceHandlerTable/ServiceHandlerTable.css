@@ -13,3 +13,7 @@
 .lastRow:hover{
     background-color: #282c34;
 }
+
+.card-title{
+    text-align: center;
+}
