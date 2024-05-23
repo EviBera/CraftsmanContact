@@ -46,7 +46,7 @@ builder.Services.AddScoped<IOfferedServiceRepository, OfferedServiceRepository>(
 builder.Services.AddScoped<IDealRepository, DealRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ITokenService, TokenService>();
-builder.Services.AddDbContext<CraftsmanContactContext>(options => options.UseSqlServer(
+builder.Services.AddDbContext<CraftsmanContactContext>(options => options.UseNpgsql(
     builder.Configuration.GetConnectionString("DefaultConnectionString")));
 
 
