@@ -1,7 +1,7 @@
 # This workflow will build a .NET project
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
 
-name: .NET
+name: .NET CI/CD
 
 on:
   push:
@@ -16,15 +16,20 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 8.0.x
+        
     - name: Restore dependencies
       run: dotnet restore
+      
     - name: Build
       run: dotnet build --no-restore
+      
     - name: Test
       run: dotnet test --no-build --verbosity normal
       env:
@@ -36,3 +41,41 @@ jobs:
         ADMIN_LASTNAME: ${{ secrets.ADMIN_LASTNAME }}
         ADMIN_PHONENUMBER: ${{ secrets.ADMIN_PHONENUMBER }}
         ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
+
+  docker:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v1
+
+    - name: Login to Docker Hub
+      uses: docker/login-action@v1
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Build and push Docker image
+      uses: docker/build-push-action@v2
+      with:
+        context: .
+        file: ./CraftsmanContact/Dockerfile
+        push: true
+        tags: your-dockerhub-username/craftsmen-backend:latest
+
+  deploy:
+    needs: docker
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Trigger Render Deployment
+      run: |
+        curl -X POST \
+        -H "Accept: application/json" \
+        -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}" \
+        -d '' \
+        https://api.render.com/v1/services/SERVICE_ID/deploys
