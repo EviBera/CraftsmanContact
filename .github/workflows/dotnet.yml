@@ -65,7 +65,7 @@ jobs:
         context: ./CraftsmanContact
         file: ./CraftsmanContact/Dockerfile
         push: true
-        tags: your-dockerhub-username/craftsmen-backend:latest
+        tags: evib/craftsmen-backend:latest
 
   deploy:
     needs: docker
