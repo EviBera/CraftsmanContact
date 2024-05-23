@@ -62,8 +62,8 @@ jobs:
     - name: Build and push Docker image
       uses: docker/build-push-action@v2
       with:
-        context: .
-        file: ./CraftsmanContact/Dockerfile
+        context: ./CraftsmanContact
+        file: ./CraftsmanContact/CraftsmanContact/Dockerfile
         push: true
         tags: your-dockerhub-username/craftsmen-backend:latest
 
