@@ -114,7 +114,8 @@ jobs:
         file: ./frontend/Dockerfile
         push: true
         tags: evib/craftsmen-frontend:latest
-
+        build-args: |
+          REACT_APP_BASE_URL: ${{ secrets.REACT_APP_BASE_URL }}
 
   deploy_backend:
     needs: docker_backend
