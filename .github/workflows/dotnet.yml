@@ -113,7 +113,7 @@ jobs:
         context: ./frontend
         file: ./frontend/Dockerfile
         push: true
-        tags: your-dockerhub-username/craftsmen-frontend:latest
+        tags: evib/craftsmen-frontend:latest
 
 
   deploy_backend:
