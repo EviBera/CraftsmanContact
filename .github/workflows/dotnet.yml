@@ -88,7 +88,6 @@ jobs:
         file: ./CraftsmanContact/Dockerfile
         push: true
         tags: evib/craftsmen-backend:latest
-        no-cache: true
 
   docker_frontend:
     needs: build_frontend
@@ -114,9 +113,6 @@ jobs:
         file: ./frontend/Dockerfile
         push: true
         tags: evib/craftsmen-frontend:latest
-        build-args: |
-          REACT_APP_BASE_URL: ${{ secrets.REACT_APP_BASE_URL }}
-        no-cache: true
 
   deploy_backend:
     needs: docker_backend
