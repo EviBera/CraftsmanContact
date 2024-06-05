@@ -10,6 +10,8 @@ This full-stack application was made with the intension to contact different kin
 
 The application includes user authentication and authorization, and allows admins to manage users and their services.
 
+I have deployed the [application](https://craftsmen.onrender.com/) on Render using its free features. (So it is a little bit slow, forgive me!)
+
 
 
 ### Project structure
@@ -24,11 +26,22 @@ The application includes user authentication and authorization, and allows admin
 - Framework: React 18.2
 - Key technologies: React Router, React Bootstrap
 
+#### Database
+
+- During development: MSSQL Server Docker Official Image
+- Deployed version: PostgreSQL 16 (by Render)
+
 #### Testing
 
 - Unit tests: NUnit, Moq
 - Integration tests: xUnit
 - CI: GitHub Actions Workflow
+
+#### Deployment
+
+- DockerHub
+- Render
+- CD: GitHub Actions Workflow
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -40,7 +53,7 @@ The application includes user authentication and authorization, and allows admin
 - Node.j (20.12 or later) and npm (10.5 or later)
 - SQL Server
 
-#### Backend setup
+#### Backend and database setup
 
 1.  Clone the repository: 
 
@@ -56,25 +69,26 @@ The application includes user authentication and authorization, and allows admin
    }
    ```
 
-3. Set environment variables for JWT and Admin settings:
+   Your settings may differ, depending on your database. This sample is configured for using MSSQL Server Docker Official Image.
+
+3. Set environment variables for JWT and Admin settings: 
 
    - Create a `.env` file in the project root: `touch .env`
-
    - Add the following variables to the `.env` file:
-
-     `JWT_ISSUER=http://localhost:5213
-     JWT_AUDIENCE=http://localhost:5213
-     JWT_SIGNINGKEY=your_jwt_signing_key
-     ADMIN_EMAIL=admin@admin.com
-     ADMIN_FIRSTNAME=CC
-     ADMIN_LASTNAME=Admin
-     ADMIN_PHONENUMBER=any_phone_number
-     ADMIN_PASSWORD=Admin123!`
+     - `JWT_ISSUER=http://localhost:5213`
+     - `JWT_AUDIENCE=http://localhost:5213`
+     - `JWT_SIGNINGKEY=your_jwt_signing_key`
+     - `ADMIN_EMAIL=admin@admin.com`
+     - `ADMIN_FIRSTNAME=CC`
+     - `ADMIN_LASTNAME=Admin`
+     - `ADMIN_PHONENUMBER=any_phone_number`
+     - `ADMIN_PASSWORD=Admin123!`
 
 4. Add and run database migrations to create schemas: 
 
-   - Add migration: `dotnet ef migrations add InitialCreate`
-   - Update database: `dotnet ef database update`
+   Add migration: `dotnet ef migrations add InitialCreate`
+
+   Update database: `dotnet ef database update`
 
 5. Run the application: `dotnet run`
 
