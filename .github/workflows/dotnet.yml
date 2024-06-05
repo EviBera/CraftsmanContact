@@ -89,7 +89,6 @@ jobs:
         push: true
         tags: evib/craftsmen-backend:latest
 
-
   docker_frontend:
     needs: build_frontend
     runs-on: ubuntu-latest
@@ -114,7 +113,6 @@ jobs:
         file: ./frontend/Dockerfile
         push: true
         tags: evib/craftsmen-frontend:latest
-
 
   deploy_backend:
     needs: docker_backend
